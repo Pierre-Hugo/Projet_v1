@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SalleAttente.unity
     guid: e57dd7af8ed62d84aab089ed4cac9f7a
+  - enabled: 1
+    path: Assets/Scenes/OptionMenu.unity
+    guid: 185de641d16a685488cbe6a7c320ee06
   m_configObjects: {}

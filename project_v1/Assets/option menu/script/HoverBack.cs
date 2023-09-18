@@ -3,29 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class hoverOption :MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class HoverBack : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-
-    private Animator option;
+    private Animator back;
 
     private void Start()
     {
-        option = this.GetComponent<Animator>();
-        option.Play("BaseOption");
+        back = this.GetComponent<Animator>();
+        back.Play("BaseBack");
     }
-    
+
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        option.Play("Option");
+        back.Play("BackAnimation");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        option.Play("BaseOption");
+        back.Play("BaseBack");
     }
-
-   
-
-
 }
