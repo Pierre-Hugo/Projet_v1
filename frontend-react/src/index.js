@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const ws = new WebSocket("ws://localhost:8080");
+
 ws.addEventListener("open", () => {
     console.log("We are connected");
 });
@@ -14,7 +15,7 @@ ws.addEventListener("open", () => {
 root.render(
   
   <React.StrictMode>
-    <App />
+    <App ws = {ws}/>
   </React.StrictMode>
 );
 
