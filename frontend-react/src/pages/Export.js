@@ -34,6 +34,7 @@ function Export({ws}) {
 
           await sendFileToWebSocket(image);
           await sendNameFiles(jsonData)
+          console.log()
 
         } else {
           setFileImage(null);
@@ -57,12 +58,51 @@ function Export({ws}) {
         ws.send(chunk);
         offset += chunkSize;
       }
-
+      
+      
     });
 
     ws.addEventListener('error', (error) => {
       console.error('Erreur WebSocket :', error);
     });
+
+    ws.addEventListener("message", data => {
+      console.log(data);
+  });
+
+  
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+
+    if (!mot) {
+      // Handle the case when "mot" is empty, if needed
+      return;
+    }
+
+    // Create a FormData object to collect form data
+    const formData = new FormData();
+    formData.append('mot', mot);
+    if (image) {
+      formData.append('image', image);
+    }
+
+    try {
+      // Send the FormData via WebSocket
+      const dataToSend = {
+        formData: formData,
+        mot: mot,
+      };
+
+      ws.send(JSON.stringify(dataToSend));
+
+      // Clear the form after sending
+      setInputMot('');
+      setFileImage(null);
+    } catch (error) {
+      console.error('Error sending data via WebSocket:', error);
+    }
   };
 
 
@@ -80,7 +120,7 @@ function Export({ws}) {
     return (
       <>
             <h1>Choissisez un média pour commencer la partie !</h1>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <label>
                     Mot:
                     <input type="text" value={mot} onChange={handleInputChange} />
