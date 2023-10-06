@@ -1773,7 +1773,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 717206390}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2534,6 +2534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db24815402264742b7fb0e07578d454, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  volumeMusique: {fileID: 24100000, guid: 85cd74f212254574b9632886c8264c91, type: 2}
 --- !u!4 &1002853960
 Transform:
   m_ObjectHideFlags: 0
@@ -3665,13 +3666,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 1292870670}
   m_HandleRect: {fileID: 1854527064}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -80
+  m_MaxValue: 20
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1002853959}
+        m_TargetAssemblyTypeName: LogicManager, Assembly-CSharp
+        m_MethodName: setVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1386439619
 GameObject:
   m_ObjectHideFlags: 0
@@ -4502,7 +4515,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1291666340}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
