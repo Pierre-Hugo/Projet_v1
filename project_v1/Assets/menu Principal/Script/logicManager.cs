@@ -4,15 +4,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 
+
 public class LogicManager : MonoBehaviour
 {
     public AudioMixer volumeMusique;
-
 
     private void Start()
     {
 
     }
+
     public void LoadScene(string nameScene)
     {
         SceneManager.LoadScene(nameScene);
@@ -20,7 +21,7 @@ public class LogicManager : MonoBehaviour
 
     public void askCreateRoom()
     {
-
+        Debug.Log("hello I want a room");
     }
 
     public void setVolume(float volume)
@@ -28,12 +29,10 @@ public class LogicManager : MonoBehaviour
         volumeMusique.SetFloat("Volume", volume);
     }
 
-
     public void closeGame()
     {
         Application.Quit();
     }
-
 
 }
 
