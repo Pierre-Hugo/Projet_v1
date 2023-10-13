@@ -2,20 +2,80 @@ using UnityEngine;
 using WebSocketSharp;
 using UnityEngine.UI;
 using System.Collections.Generic;
-//using static Player;
 
 
 public class webSocket : MonoBehaviour
 {
+    public class Player
+    {
+        public string pseudo;
+        public int points;
+        public string couleur;
+        public string id;
+
+        public Player(string _id, string _pseudo)
+        {
+            pseudo = _pseudo;
+            id = _id;
+        }
+        
+        public void setId(string _id) 
+        {
+            id = _id;
+        }
+
+        public string getId()
+        {
+            return id;
+        }
+        public void setCouleur(string _couleur)
+        {
+            couleur = _couleur;
+        }
+
+        public string getCouleur()
+        {
+            return couleur;
+        }
+        public void setPoints(int _points)
+        {
+            points = _points;
+        }
+        public int getPoints()
+        {
+            return points;
+        }
+
+        public string getPseudo()
+        {
+            return pseudo;
+        }
+        public void setPseudo(string _pseudo)
+        {
+            pseudo = _pseudo;
+        }
+
+        public void addPoints(int _points)
+        {
+            points += _points;
+        }
+
+
+
+
+    }
+
     private WebSocket ws;
-    public GameObject Player;
+   
     private int numberPlayerOnScene;
     private bool canJoin;
     public Text numberRoom;
     private string room;
+    public List<Player> listeJoueurs;
 
     void Start()
     {
+        listeJoueurs= new List<Player> ();
         canJoin = true;
   
         ws = new WebSocket("ws://localhost:8080");
@@ -40,33 +100,35 @@ public class webSocket : MonoBehaviour
     {
         if (room != numberRoom.text) numberRoom.text = room; //s'arranger pour que ca s'update seulement quand je recois l'id   
         
-        //  numberPlayerOnScene = listeJoueurs.Count;
-        //if(numberPlayerOnScene != listeJoueurs.Count&&canJoin)
-        //{
+        
+        if(numberPlayerOnScene != listeJoueurs.Count && canJoin)
+        {
         loadNextBackground();
-        //}
+        }
 
     }
 
     public void addOnePlayer()
     {
-        //if (listeJoueurs.Count < 6)
-        //{
-            // ne peut pas utiliser new Player, doit être changé
-        //    Player joueurConnecte = new Player("12345", "Funz");
-          //  listeJoueurs.Add(joueurConnecte);
-      //  }
+        numberPlayerOnScene = listeJoueurs.Count;
+        if (listeJoueurs.Count < 6)
+       {
+            
+            Player joueurConnecte = new Player("12345", "JF");
+            listeJoueurs.Add(joueurConnecte);
+        }
     }
 
     public void removeOnePlayer(string id)
     {
-        //foreach(Player joueur in listeJoueurs)
-       // {
-         //   if(joueur.getId() == id)
-           // {
-             //   listeJoueurs.Remove(joueur);
-            //}
-        //}
+        numberPlayerOnScene = listeJoueurs.Count;
+        foreach (Player joueur in listeJoueurs)
+        {
+            if(joueur.getId() == id)
+            {
+                listeJoueurs.Remove(joueur);
+            }
+        }
     }
 
     private void loadNextBackground()
