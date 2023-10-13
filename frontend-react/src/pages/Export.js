@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
+import CanvasComponent from '../components/Canvas';
 
 
 function Export({ws}) {
 
     const [mot, setInputMot] = useState('');
     const [image, setFileImage] = useState(null); 
+    const [video, setFileVideo] = useState(null); 
 
+
+    //INPUT
     const handleInputChange = (e) => {
       setInputMot(e.target.value);
 
@@ -32,7 +36,38 @@ function Export({ws}) {
 
         //ws.send(JSON.stringify({ data: jsonData }));
 
-          await sendFileToWebSocket(image);
+          //await sendFileToWebSocket(image);
+          await sendNameFiles(jsonData)
+          console.log()
+
+        } else {
+          setFileImage(null);
+        }
+  
+      };
+
+      const handleVideoChange = async (e) => {
+
+        const video = e.target.files[0];
+
+
+
+        if (video) {
+          setFileImage(video);
+
+                        // Créez un objet contenant les données que vous souhaitez envoyer
+        const dataToSend = {
+            fileName: video.name,
+            fileSize: video.size,
+            fileType: video.type,
+        };
+
+      // Convertissez l'objet en une chaîne JSON
+      const jsonData = JSON.stringify(dataToSend);
+
+        //ws.send(JSON.stringify({ data: jsonData }));
+
+          //await sendFileToWebSocket(video);
           await sendNameFiles(jsonData)
           console.log()
 
@@ -76,7 +111,7 @@ function Export({ws}) {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
 
-    if (!mot) {
+    if (!mot && !image && !video) {
       // Handle the case when "mot" is empty, if needed
       return;
     }
@@ -86,6 +121,12 @@ function Export({ws}) {
     formData.append('mot', mot);
     if (image) {
       formData.append('image', image);
+      await sendFileToWebSocket(image);
+    }
+
+    if (video) {
+      formData.append('video', video);
+      await sendFileToWebSocket(video);
     }
 
     try {
@@ -100,6 +141,7 @@ function Export({ws}) {
       // Clear the form after sending
       setInputMot('');
       setFileImage(null);
+      setFileVideo(null);
     } catch (error) {
       console.error('Error sending data via WebSocket:', error);
     }
@@ -129,19 +171,20 @@ function Export({ws}) {
                 <br />
                 <label>
                     Dessin:
-                    <input type="file" value="" />
+                    <CanvasComponent />
                 </label>
+                
                 <br />
                 <br />
                 <label>
                     Image:
-                    <input type="file" onChange={handleImageChange} />
+                    <input type="file" accept=".jpg, .png, .heic, .tiff" onChange={handleImageChange} />
                 </label>
                 <br />
                 <br />
                 <label>
                     Vidéo:
-                    <input type="file" value="" />
+                    <input type="file" accept=".mp4, .mv4, .mov" onChange={handleVideoChange}  />
                 </label>
                 <br />
                 <br />
