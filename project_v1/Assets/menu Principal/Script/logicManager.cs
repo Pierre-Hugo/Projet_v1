@@ -20,8 +20,6 @@ public class LogicManager : MonoBehaviour
         SceneManager.LoadScene(nameScene);
     }
 
-    
-
     public void setVolume(float volume)
     {
         volumeMusique.SetFloat("Volume", volume);
