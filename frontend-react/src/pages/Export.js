@@ -162,18 +162,15 @@ function Export({ws}) {
     return (
       <>
             <h1>Choissisez un média pour commencer la partie !</h1>
+            <label> Dessin:</label>
+            <CanvasComponent />
+            <br />
+            <br />
               <form onSubmit={handleSubmit}>
                 <label>
                     Mot:
                     <input type="text" value={mot} onChange={handleInputChange} />
                 </label>
-                <br />
-                <br />
-                <label>
-                    Dessin:
-                    <CanvasComponent />
-                </label>
-                
                 <br />
                 <br />
                 <label>

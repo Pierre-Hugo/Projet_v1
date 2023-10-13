@@ -7,7 +7,9 @@ class CanvasComponent extends Component {
     this.clearButtonRef = React.createRef();
     this.clearAllRef = React.createRef();
     this.path = [];
-    this.currentColor = '#000000';
+    this.state = {
+      currentColor: '#000000',
+    };
   }
 
   componentDidMount() {
@@ -19,7 +21,7 @@ class CanvasComponent extends Component {
     canvas.addEventListener('mousedown', (e) => {
       drawing = true;
       ctx.beginPath();
-      ctx.strokeStyle = this.currentColor;
+      ctx.strokeStyle = this.state.currentColor;
       ctx.moveTo(e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top);
     });
 
@@ -39,6 +41,15 @@ class CanvasComponent extends Component {
       drawing = false;
     });
 
+    // Ajout d'un événement click pour dessiner un point fixe
+    canvas.addEventListener('click', (e) => {
+      ctx.fillStyle = this.state.currentColor;
+      ctx.beginPath();
+      ctx.arc(e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top, 2, 0, Math.PI * 2);
+      ctx.fill();
+      this.path.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+    });
+
     this.clearButtonRef.current.addEventListener('click', () => {
       if (this.path.length > 0) {
         this.path.pop();
@@ -49,6 +60,7 @@ class CanvasComponent extends Component {
 
     this.clearAllRef.current.addEventListener('click', () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      this.path = [];
     });
 
     const colors = [
@@ -62,8 +74,9 @@ class CanvasComponent extends Component {
     colors.forEach((colorData) => {
       const button = document.getElementById(colorData.id);
       button.addEventListener('click', () => {
-        this.currentColor = colorData.color; // Mettez à jour la couleur actuelle
-        ctx.strokeStyle = this.currentColor;
+        this.setState({ currentColor: colorData.color });
+        ctx.strokeStyle = colorData.color;
+        ctx.fillStyle = colorData.color;
       });
     });
 
@@ -85,22 +98,43 @@ class CanvasComponent extends Component {
           height={400}
           style={{ border: '2px solid black' }}
         ></canvas>
-        <br/>
-        <input type="radio" id="black" name="color"></input>
-        <label for="color">Noir</label>
-        <br/>
-        <input type="radio" id="red" name="color"></input>
-        <label for="color">Rouge</label>
-        <br/>
-        <input type="radio" id="blue" name="color"></input>
-        <label for="color">Bleu</label>
-        <br/>
-        <input type="radio" id="green" name="color"></input>
-        <label for="color">Vert</label>
-        <br/>
-        <input type="radio" id="white" name="color"></input>
-        <label for="color">Blanc</label>
-        <br/>
+        <br />
+        <input
+          type="radio"
+          id="black"
+          name="color"
+          defaultChecked
+        />
+        <label htmlFor="black">Noir</label>
+        <br />
+        <input
+          type="radio"
+          id="red"
+          name="color"
+        />
+        <label htmlFor="red">Rouge</label>
+        <br />
+        <input
+          type="radio"
+          id="blue"
+          name="color"
+        />
+        <label htmlFor="blue">Bleu</label>
+        <br />
+        <input
+          type="radio"
+          id="green"
+          name="color"
+        />
+        <label htmlFor="green">Vert</label>
+        <br />
+        <input
+          type="radio"
+          id="white"
+          name="color"
+        />
+        <label htmlFor="white">Blanc</label>
+        <br />
         <button ref={this.clearButtonRef}>Retour en arrière</button>
         <button ref={this.clearAllRef}>Tout effacer</button>
       </div>
