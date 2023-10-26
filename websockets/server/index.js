@@ -8,13 +8,25 @@ wss.on("connection", (ws, request) => {
     ws.isFirstMessage = true;
 
     ws.on("message", data => {
+        const messageStr = data.toString();
+
         if (ws.isFirstMessage) {
-            ws.clientId = data;  // Le client envoie sont ID au premier message
+            ws.clientId = messageStr;  // Le client envoie son ID au premier message
+            console.log(`Client ${ws.clientId} sent us: ${data}`);
             ws.isFirstMessage = false;
+            return;
         }
 
-        console.log(`Client ${ws.clientId} has sent us: ${data}`);
-        ws.send(`Client ${ws.clientId}. Voici la réponse`);
+        const [targetClientId, messageContent] = messageStr.split(':', 2);
+
+        console.log(`${ws.clientId} sends to ${targetClientId}: ${messageContent}`);
+
+        // Trouver le client et envoyer le message (data)
+        wss.clients.forEach(client => {
+            if (client.clientId === targetClientId && client.readyState === WebSocket.OPEN) {
+                client.send(`${ws.clientId}:${messageContent}`);
+            }
+        });
     });
 
     ws.on("close", () => {
