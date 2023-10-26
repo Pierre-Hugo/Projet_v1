@@ -31,7 +31,8 @@ public class WebSocketController : MonoBehaviour
         };
         
 
-        ws.Send("bonjour de Unity");
+        ws.Send("UNITYadsl");
+        ws.Send("USER3B24:hello");
         
     }
 
