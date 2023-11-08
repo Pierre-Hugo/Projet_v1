@@ -2,6 +2,7 @@ using UnityEngine;
 using WebSocketSharp;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
 
 public class WebSocketController : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class WebSocketController : MonoBehaviour
     public List<Player> listeJoueurs;
     private bool newDataAvalid;
     private MessageEventArgs data;
+    private string characters;
+    private string id;
+
 
     void Start()
     {
@@ -20,6 +24,7 @@ public class WebSocketController : MonoBehaviour
         
         listeJoueurs = new List<Player>();
         canJoin = true;
+        characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         ws = new WebSocket("ws://localhost:8080");
         ws.Connect();
@@ -29,11 +34,13 @@ public class WebSocketController : MonoBehaviour
             data = e;
             newDataAvalid = true;
         };
-        
 
-        ws.Send("UNITYadsl");
-        ws.Send("USER3B24:hello");
-        
+
+
+
+        StartCoroutine(SendAndCheckId());
+
+
     }
 
     // Update is called once per frame
@@ -51,7 +58,32 @@ public class WebSocketController : MonoBehaviour
         }
     }
 
-    
+    IEnumerator SendAndCheckId()
+    {
+        id = GenerateRandomCode(4);
+        ws.Send("UNITY" + id);
+
+        while (!newDataAvalid)
+        {
+            yield return null; // Attendez que la réponse du serveur soit disponible
+        }
+
+        // Une fois que la réponse du serveur est reçue, traitez-la
+        string response = data.Data;
+
+        if (response == "ID valide")
+        {
+            numberRoom.text = id; // Affichez l'ID dans l'UI
+            // Continuez avec le reste de votre logique ici
+        }
+        else
+        {
+            // L'ID n'est pas valide, régénérez un nouvel ID
+            StartCoroutine(SendAndCheckId());
+        }
+    }
+
+
     public void addOnePlayer()
     {
         numberPlayerOnScene = listeJoueurs.Count;
@@ -78,6 +110,17 @@ public class WebSocketController : MonoBehaviour
     {
         // Votre logique de chargement d'arrière-plan ici.
     }
+    public string GenerateRandomCode(int length)
+    {
+        string code = "";
+        for (int i = 0; i < length; i++)
+        {
+            int randomIndex = Random.Range(0, characters.Length);
+            code += characters[randomIndex];
+        }
+        return code;
+    }
+
 
     private void OnDestroy()
     {
