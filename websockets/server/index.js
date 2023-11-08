@@ -35,11 +35,6 @@ wss.on("connection", (ws) => {
 
         // Traitement des messages suivants
         const [targetClientId, messageContent] = messageStr.split(':', 2);
-
-        if (!targetClientId || !messageContent) {
-            return;
-        }
-
         console.log(`${ws.clientId} sends to ${targetClientId}: ${messageContent}`);
 
         // Trouver le client cible et envoyer le message
