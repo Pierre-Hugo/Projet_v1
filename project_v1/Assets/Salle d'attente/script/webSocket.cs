@@ -35,11 +35,8 @@ public class WebSocketController : MonoBehaviour
             newDataAvalid = true;
         };
 
-
-
-
-        StartCoroutine(SendAndCheckId());
-
+        id = GenerateRandomCode(4);
+        ws.Send("UNITY" + id);
 
     }
 
@@ -48,38 +45,19 @@ public class WebSocketController : MonoBehaviour
     {
         if (newDataAvalid)
         {
-            //efectuer le code du OnMesssage ici
-            numberRoom.text = data.Data;
+            if (data.Data == "OK") numberRoom.text = id;
+            else if(data.Data== "ID already in use")
+            {
+                id = GenerateRandomCode(4);
+                ws.Send("UNITY" + id);
+            }
+            
             newDataAvalid=false;
         }
+
         if (numberPlayerOnScene != listeJoueurs.Count && canJoin)
         {
             loadNextBackground();
-        }
-    }
-
-    IEnumerator SendAndCheckId()
-    {
-        id = GenerateRandomCode(4);
-        ws.Send("UNITY" + id);
-
-        while (!newDataAvalid)
-        {
-            yield return null; // Attendez que la réponse du serveur soit disponible
-        }
-
-        // Une fois que la réponse du serveur est reçue, traitez-la
-        string response = data.Data;
-
-        if (response == "ID valide")
-        {
-            numberRoom.text = id; // Affichez l'ID dans l'UI
-            // Continuez avec le reste de votre logique ici
-        }
-        else
-        {
-            // L'ID n'est pas valide, régénérez un nouvel ID
-            StartCoroutine(SendAndCheckId());
         }
     }
 
