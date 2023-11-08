@@ -18,18 +18,19 @@ wss.on("connection", (ws) => {
             // Vérifier si l'ID est déjà utilisé
             if (clientIds.has(proposedId)) {
                 ws.send("ID already in use");
-                ws.close(); // Fermer la connexion si l'ID est déjà pris
                 console.log(`Connection refused, ID ${proposedId} already in use`);
                 return;
-            }
+            } 
             
             // Ajouter le nouvel ID au registre et au WebSocket client
+            else {
             clientIds.add(proposedId);
             ws.clientId = proposedId;
             ws.send("OK");
             console.log(`Client ${ws.clientId} connected with unique ID`);
             ws.isFirstMessage = false;
             return;
+            }
         }
 
         // Traitement des messages suivants
