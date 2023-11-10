@@ -6,8 +6,9 @@ function Export({ws}) {
 
     const [mot, setInputMot] = useState('');
     const [image, setFileImage] = useState(null); 
-    const [video, setFileVideo] = useState(null); 
+    const [video, setFileVideo] = useState(null);
     const userID = generateRandomCode(8);
+
 
 
     //INPUT
@@ -168,7 +169,7 @@ function Export({ws}) {
     
       return code;
     }
-    
+
     ws.send("USER" + userID);
     
 
