@@ -57,8 +57,12 @@ public class WebSocketController : MonoBehaviour
         removeOnePlayer("12345");
         listScript.AjouterListe("JF",Color.green );
         listScript.AjouterListe("CIMENT", Color.cyan);
-        listScript.AjouterListe("PEACH",Color.gray );
-        listScript.AjouterListe("FLEX", Color.yellow);
+        listScript.AjouterListe("CIMENT", Color.cyan);
+        listScript.AjouterListe("CIMENT", Color.cyan);
+        listScript.AjouterListe("CIMENT", Color.cyan);
+        listScript.AjouterListe("CIMENT", Color.cyan);
+
+        //listScript.retirerListe("PEACH");
 
     }
 

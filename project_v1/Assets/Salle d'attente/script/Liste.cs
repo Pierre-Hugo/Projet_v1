@@ -29,4 +29,18 @@ public class Liste : MonoBehaviour
         templateCree.transform.GetChild(0).GetComponent<Text>().color = couleur;
 
     }
+
+    public void retirerListe(string contenu)
+    {
+        foreach (Transform cadreTransform in transform)
+        {
+            GameObject cadre = cadreTransform.gameObject;
+
+            if (cadre.transform.GetChild(0).GetComponent<Text>().text == contenu)
+            {
+                Destroy(cadre);
+                break;
+            }
+        }
+    }
 }

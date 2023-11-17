@@ -345,7 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bdf8a5849ab23c4390ab9e10af69c5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  template: {fileID: 6918291990097657142, guid: a636c93544377b245af560d41113e246, type: 3}
+  template: {fileID: 2336724898350466534, guid: 3fff4649fe602b74cb34d1363945238f, type: 3}
 --- !u!114 &1128577340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,10 +399,10 @@ MonoBehaviour:
   m_Padding:
     m_Left: 10
     m_Right: 10
-    m_Top: 10
-    m_Bottom: 5
+    m_Top: 5
+    m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: -11.6
+  m_Spacing: -22.65
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
