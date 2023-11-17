@@ -1,59 +1,91 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
+import React, { useState} from 'react';
+import { Link } from 'react-router-dom';
 
-function Room({ws}) {
+function Room({ ws }) {
 
-  const [pseudo, setInputPseudo] = useState('');
+  const [pin, setPin] = useState('');
+  const [pseudo, setPseudo] = useState('');
+  //const userID = generateRandomCode(8);
 
-  const handleInputChange = (e) => {
-    setInputPseudo(e.target.value);
+  const handlePinChange = (e) => {
+    setPin(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
+  const handlePseudoChange = (e) => {
+    setPseudo(e.target.value);
+  };
 
-    if (!pseudo) {
-      // Handle the case when "mot" is empty, if needed
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!pin || !pseudo || !ws) {
+      console.error('PIN, pseudo ou connexion WebSocket manquants.');
       return;
     }
 
-    // Create a FormData object to collect form data
-    const formData = new FormData();
-    formData.append('pseudo', pseudo);
-
     try {
-      // Send the FormData via WebSocket
       const dataToSend = {
-        formData: formData,
+        pin: pin,
         pseudo: pseudo,
       };
 
       ws.send(JSON.stringify(dataToSend));
 
-      // Clear the form after sending
-      setInputPseudo('');
+      setPin('');
+      setPseudo('');
     } catch (error) {
-      console.error('Error sending data via WebSocket:', error);
+      console.error('Erreur lors de l\'envoi des données via WebSocket :', error);
     }
   };
 
-    return (
-      <>
-        <h1>Entrez le numéro de la room</h1>
-        <form>
-          <label>
-            PIN:
-            <input type="number" value=""/>
-            <br/>
-            Pseudo:
-            <input type="text" value={pseudo} onChange={handleInputChange}/>
-            <br/>
-          </label>
-          <Link to="/export" onSubmit={handleSubmit}>Connexion</Link>
-        </form>
-      </>
-        );
+ const send = () => {
+    if (pin && pseudo && ws) {
+      const dataToSend = {
+        pin: pin,
+        pseudo: pseudo,
+      };
+      ws.send(JSON.stringify(dataToSend));
+    }
+  };
+
+  /*useEffect(() => {
+    const userID = generateRandomCode(8);
+    if (ws && userID) {
+      ws.send("USER" + userID);
+    }
+  }, [ws]);
+
+  function generateRandomCode(length) {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let code = "";
   
-  }
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      code += characters.charAt(randomIndex);
+    }
   
-  export default Room;
+    return code;
+  }*/
+
+  //ws.send("USER" + userID);
+
+  return (
+    <>
+      <h1>Entrez le numéro de la room</h1>
+      <form onSubmit={handleSubmit}>
+        <label>
+          PIN:
+          <input type="number" value={pin} onChange={handlePinChange} />
+          <br />
+          Pseudo:
+          <input type="text" value={pseudo} onChange={handlePseudoChange} />
+          <br />
+        </label>
+        <Link to="/export" onClick={send}>Connexion</Link>
+      </form>
+    </>
+  );
+}
+
+export default Room;
+

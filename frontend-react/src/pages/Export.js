@@ -7,7 +7,7 @@ function Export({ws}) {
     const [mot, setInputMot] = useState('');
     const [image, setFileImage] = useState(null); 
     const [video, setFileVideo] = useState(null);
-    const userID = generateRandomCode(8);
+    //const userID = generateRandomCode(8);
 
 
 
@@ -26,7 +26,7 @@ function Export({ws}) {
         if (image) {
           setFileImage(image);
 
-                        // Créez un objet contenant les données que vous souhaitez envoyer
+      // Créez un objet contenant les données que vous souhaitez envoyer
         const dataToSend = {
             fileName: image.name,
             fileSize: image.size,
@@ -158,7 +158,7 @@ function Export({ws}) {
         ws.send(JSON.stringify({ data: jsonData }));
     }
 
-    function generateRandomCode(length) {
+    /*function generateRandomCode(length) {
       const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
       let code = "";
     
@@ -170,7 +170,7 @@ function Export({ws}) {
       return code;
     }
 
-    ws.send("USER" + userID);
+    ws.send("USER" + userID);*/
     
 
     return (
