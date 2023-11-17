@@ -17,12 +17,15 @@ public class WebSocketController : MonoBehaviour
     private MessageEventArgs dataRecu;
     private string characters;
     private string id;
+    private int nbMaxJoueurs;
+    private Liste listScript;
 
 
     void Start()
     {
+        listScript = FindObjectOfType<Liste>();
         newDataAvalid = false;
-        
+        nbMaxJoueurs = 6;
         listeJoueurs = new List<Player>();
         canJoin = true;
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -49,6 +52,13 @@ public class WebSocketController : MonoBehaviour
             }
         }
         numberRoom.text = id;
+        addOnePlayer("12345","jf",Color.red);
+        addOnePlayer("67890", "peach", Color.blue);
+        removeOnePlayer("12345");
+        listScript.AjouterListe("JF",Color.green );
+        listScript.AjouterListe("CIMENT", Color.cyan);
+        listScript.AjouterListe("PEACH",Color.gray );
+        listScript.AjouterListe("FLEX", Color.yellow);
 
     }
 
@@ -57,6 +67,7 @@ public class WebSocketController : MonoBehaviour
     {
         if (newDataAvalid)
         {
+            
             
             
             newDataAvalid=false;
@@ -69,26 +80,32 @@ public class WebSocketController : MonoBehaviour
     }
 
 
-    public void addOnePlayer()
+    public void addOnePlayer(string ID, string PSEUDO, Color COULEUR)
     {
         numberPlayerOnScene = listeJoueurs.Count;
-        if (listeJoueurs.Count < 6)
+        if (listeJoueurs.Count < nbMaxJoueurs)
         {
-            Player joueurConnecte = new Player("12345", "JF");
+            Player joueurConnecte = new Player(ID, PSEUDO, COULEUR);
             listeJoueurs.Add(joueurConnecte);
+        }
+        else
+        {
+            ws.Send("Coucou tu veut voir ma bite");
         }
     }
 
     public void removeOnePlayer(string id)
     {
-        for (int i = listeJoueurs.Count - 1; i >= 0; i--)
+        foreach (Player joueur in listeJoueurs)
         {
-            if (listeJoueurs[i].Id == id)
+            if (joueur.Id == id)
             {
-                listeJoueurs.RemoveAt(i);
+                listeJoueurs.Remove(joueur);
                 break;
             }
         }
+
+       
     }
 
     private void loadNextBackground()
