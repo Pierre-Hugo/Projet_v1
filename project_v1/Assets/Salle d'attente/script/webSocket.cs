@@ -3,6 +3,7 @@ using WebSocketSharp;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq.Expressions;
 
 public class WebSocketController : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class WebSocketController : MonoBehaviour
     private string room;
     public List<Player> listeJoueurs;
     private bool newDataAvalid;
-    private MessageEventArgs data;
+    private MessageEventArgs dataRecu;
     private string characters;
     private string id;
 
@@ -31,12 +32,23 @@ public class WebSocketController : MonoBehaviour
 
         ws.OnMessage += (sender, e) =>
         {
-            data = e;
+            dataRecu = e;
             newDataAvalid = true;
         };
 
         id = GenerateRandomCode(4);
         ws.Send("UNITY" + id);
+
+        while (!newDataAvalid) { }
+        while(dataRecu.Data != "OK")
+        {
+            if(dataRecu.Data == "ID already in use") 
+            {
+                id = GenerateRandomCode(4);
+                ws.Send("UNITY" + id);
+            }
+        }
+        numberRoom.text = id;
 
     }
 
@@ -45,12 +57,7 @@ public class WebSocketController : MonoBehaviour
     {
         if (newDataAvalid)
         {
-            if (data.Data == "OK") numberRoom.text = id;
-            else if(data.Data== "ID already in use")
-            {
-                id = GenerateRandomCode(4);
-                ws.Send("UNITY" + id);
-            }
+            
             
             newDataAvalid=false;
         }
