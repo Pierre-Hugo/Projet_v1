@@ -19,13 +19,25 @@ public class hoverPlay :MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        backgroundAnimator.Play("PlayBackground");
+        AnimatorStateInfo backgroundState = backgroundAnimator.GetCurrentAnimatorStateInfo(0);
+
+        // Calculer la proportion de progression pour commencer à la même frame que Background
+        float normalizedTime = (float)(backgroundState.normalizedTime) % 1;
+
+        // Lancer l'animation OptionBackground à partir de la même frame que Background
+        backgroundAnimator.Play("PlayBackground", 0, Mathf.Clamp01(normalizedTime));
         play.Play("PlayAnimation");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        backgroundAnimator.Play("Background");
+        AnimatorStateInfo backgroundState = backgroundAnimator.GetCurrentAnimatorStateInfo(0);
+
+        // Calculer la proportion de progression pour commencer à la même frame que Background
+        float normalizedTime = (float)(backgroundState.normalizedTime) % 1;
+
+        // Lancer l'animation OptionBackground à partir de la même frame que Background
+        backgroundAnimator.Play("Background", 0, Mathf.Clamp01(normalizedTime));
         play.Play("PlayBase");
     }
     

@@ -19,6 +19,7 @@ public class WebSocketController : MonoBehaviour
     private string id;
     private int nbMaxJoueurs;
     private Liste listScript;
+    private bool idConfirmer;
 
 
     void Start()
@@ -28,6 +29,7 @@ public class WebSocketController : MonoBehaviour
         nbMaxJoueurs = 6;
         listeJoueurs = new List<Player>();
         canJoin = true;
+        idConfirmer = false;
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         ws = new WebSocket("ws://localhost:8080");
@@ -42,16 +44,26 @@ public class WebSocketController : MonoBehaviour
         id = GenerateRandomCode(4);
         ws.Send("UNITY" + id);
 
-        while (!newDataAvalid) { }
-        while(dataRecu.Data != "OK")
+        
+        while (!idConfirmer)
         {
-            if(dataRecu.Data == "ID already in use") 
+            while (!newDataAvalid)
             {
-                id = GenerateRandomCode(4);
-                ws.Send("UNITY" + id);
+                if (dataRecu.Data == "ID already in use")
+                {
+                    id = GenerateRandomCode(4);
+                    ws.Send("UNITY" + id);
+                }
+                else if(dataRecu.Data == "OK")
+                {
+                    numberRoom.text = id;
+                    idConfirmer = true;
+                }
+                newDataAvalid = false;
+
             }
         }
-        numberRoom.text = id;
+        
         addOnePlayer("12345","jf",Color.red);
         addOnePlayer("67890", "peach", Color.blue);
         removeOnePlayer("12345");
@@ -79,7 +91,7 @@ public class WebSocketController : MonoBehaviour
 
         if (numberPlayerOnScene != listeJoueurs.Count && canJoin)
         {
-            loadNextBackground();
+            AddPlayerToScene();
         }
     }
 
@@ -94,7 +106,8 @@ public class WebSocketController : MonoBehaviour
         }
         else
         {
-            ws.Send("Coucou tu veut voir ma bite");
+            // enovyer un message pour dire que la salle est pleine
+
         }
     }
 
@@ -112,7 +125,7 @@ public class WebSocketController : MonoBehaviour
        
     }
 
-    private void loadNextBackground()
+    private void AddPlayerToScene()
     {
         // Votre logique de chargement d'arrière-plan ici.
     }
