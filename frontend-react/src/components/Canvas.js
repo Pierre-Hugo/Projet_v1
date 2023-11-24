@@ -12,6 +12,18 @@ class CanvasComponent extends Component {
     };
   }
 
+  exportCanvasAsJPEG = () => {
+    const canvas = this.canvasRef.current;
+    const imageData = canvas.toDataURL('image/jpeg', 0.9);
+
+    const { ws } = this.props;
+
+    if (ws && canvas && imageData) {
+      ws.send(JSON.stringify({ type: 'canvas_image', data: imageData }));
+      console.log('Exportation du canvas en JPEG effectuée avec succès !');
+    }
+  };
+
   componentDidMount() {
     const canvas = this.canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -41,7 +53,6 @@ class CanvasComponent extends Component {
       drawing = false;
     });
 
-    // Ajout d'un événement click pour dessiner un point fixe
     canvas.addEventListener('click', (e) => {
       ctx.fillStyle = this.state.currentColor;
       ctx.beginPath();
@@ -52,8 +63,8 @@ class CanvasComponent extends Component {
 
     this.clearButtonRef.current.addEventListener('click', () => {
       if (this.path.length > 0) {
-        this.path.pop();
         this.clearCanvas();
+        this.path.pop();
         this.path.forEach((pathData) => ctx.putImageData(pathData, 0, 0));
       }
     });
@@ -99,12 +110,7 @@ class CanvasComponent extends Component {
           style={{ border: '2px solid black' }}
         ></canvas>
         <br />
-        <input
-          type="radio"
-          id="black"
-          name="color"
-          defaultChecked
-        />
+        <input type="radio" id="black" name="color" defaultChecked />
         <label htmlFor="black">Noir</label>
         <br />
         <input
@@ -137,6 +143,7 @@ class CanvasComponent extends Component {
         <br />
         <button ref={this.clearButtonRef}>Retour en arrière</button>
         <button ref={this.clearAllRef}>Tout effacer</button>
+        <button onClick={this.exportCanvasAsJPEG}>Exporter en JPEG</button>
       </div>
     );
   }

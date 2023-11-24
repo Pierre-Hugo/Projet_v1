@@ -1,11 +1,10 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function Room({ ws }) {
 
   const [pin, setPin] = useState('');
   const [pseudo, setPseudo] = useState('');
-  //const userID = generateRandomCode(8);
 
   const handlePinChange = (e) => {
     setPin(e.target.value);
@@ -47,27 +46,6 @@ function Room({ ws }) {
       ws.send(JSON.stringify(dataToSend));
     }
   };
-
-  /*useEffect(() => {
-    const userID = generateRandomCode(8);
-    if (ws && userID) {
-      ws.send("USER" + userID);
-    }
-  }, [ws]);
-
-  function generateRandomCode(length) {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let code = "";
-  
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      code += characters.charAt(randomIndex);
-    }
-  
-    return code;
-  }*/
-
-  //ws.send("USER" + userID);
 
   return (
     <>
