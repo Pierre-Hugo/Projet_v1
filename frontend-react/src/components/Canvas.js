@@ -12,52 +12,39 @@ class CanvasComponent extends Component {
     };
   }
 
-  exportCanvasAsJPEG = () => {
-    const canvas = this.canvasRef.current;
-    const imageData = canvas.toDataURL('image/jpeg', 0.9);
-
-    const { ws } = this.props;
-
-    if (ws && canvas && imageData) {
-      ws.send(JSON.stringify({ type: 'canvas_image', data: imageData }));
-      console.log('Exportation du canvas en JPEG effectuée avec succès !');
-    }
-  };
-
   componentDidMount() {
     const canvas = this.canvasRef.current;
     const ctx = canvas.getContext('2d');
-
     let drawing = false;
 
-    canvas.addEventListener('mousedown', (e) => {
+    const getTouchPos = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: e.touches[0].clientX - rect.left,
+        y: e.touches[0].clientY - rect.top
+      };
+    };
+
+    canvas.addEventListener('touchstart', (e) => {
       drawing = true;
       ctx.beginPath();
       ctx.strokeStyle = this.state.currentColor;
-      ctx.moveTo(e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top);
+      const pos = getTouchPos(e);
+      ctx.moveTo(pos.x, pos.y);
+      e.preventDefault();
     });
 
-    canvas.addEventListener('mousemove', (e) => {
+    canvas.addEventListener('touchmove', (e) => {
       if (!drawing) return;
-      ctx.lineTo(e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top);
+      const pos = getTouchPos(e);
+      ctx.lineTo(pos.x, pos.y);
       ctx.stroke();
+      e.preventDefault();
     });
 
-    canvas.addEventListener('mouseup', () => {
+    canvas.addEventListener('touchend', () => {
       drawing = false;
       ctx.closePath();
-      this.path.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
-    });
-
-    canvas.addEventListener('mouseout', () => {
-      drawing = false;
-    });
-
-    canvas.addEventListener('click', (e) => {
-      ctx.fillStyle = this.state.currentColor;
-      ctx.beginPath();
-      ctx.arc(e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top, 2, 0, Math.PI * 2);
-      ctx.fill();
       this.path.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
     });
 
@@ -70,7 +57,7 @@ class CanvasComponent extends Component {
     });
 
     this.clearAllRef.current.addEventListener('click', () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      this.clearCanvas();
       this.path = [];
     });
 
@@ -100,6 +87,17 @@ class CanvasComponent extends Component {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
+  exportCanvasAsJPEG = () => {
+    const canvas = this.canvasRef.current;
+    const imageData = canvas.toDataURL('image/jpeg', 0.9);
+    const { ws } = this.props;
+
+    if (ws && canvas && imageData) {
+      ws.send(JSON.stringify({ type: 'canvas_image', data: imageData }));
+      console.log('Exportation du canvas en JPEG effectuée avec succès !');
+    }
+  };
+
   render() {
     return (
       <div>
@@ -113,32 +111,16 @@ class CanvasComponent extends Component {
         <input type="radio" id="black" name="color" defaultChecked />
         <label htmlFor="black">Noir</label>
         <br />
-        <input
-          type="radio"
-          id="red"
-          name="color"
-        />
+        <input type="radio" id="red" name="color" />
         <label htmlFor="red">Rouge</label>
         <br />
-        <input
-          type="radio"
-          id="blue"
-          name="color"
-        />
+        <input type="radio" id="blue" name="color" />
         <label htmlFor="blue">Bleu</label>
         <br />
-        <input
-          type="radio"
-          id="green"
-          name="color"
-        />
+        <input type="radio" id="green" name="color" />
         <label htmlFor="green">Vert</label>
         <br />
-        <input
-          type="radio"
-          id="white"
-          name="color"
-        />
+        <input type="radio" id="white" name="color" />
         <label htmlFor="white">Blanc</label>
         <br />
         <button ref={this.clearButtonRef}>Retour en arrière</button>
