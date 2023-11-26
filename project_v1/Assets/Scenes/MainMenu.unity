@@ -290,6 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a1d9490e85be14faf0169353aad0c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  background: {fileID: 1133679497}
 --- !u!1 &297303419
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,6 +606,7 @@ GameObject:
   - component: {fileID: 950824307}
   - component: {fileID: 950824309}
   - component: {fileID: 950824308}
+  - component: {fileID: 950824310}
   m_Layer: 5
   m_Name: Logo
   m_TagString: Untagged
@@ -669,6 +671,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 950824306}
   m_CullTransparentMesh: 1
+--- !u!95 &950824310
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950824306}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c07bf0891d98a6d42958798640627683, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1133679497
 GameObject:
   m_ObjectHideFlags: 0
