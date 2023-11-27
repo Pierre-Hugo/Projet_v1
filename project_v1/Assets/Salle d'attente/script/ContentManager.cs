@@ -205,7 +205,7 @@ public class ContentManager : MonoBehaviour
             case "GREEN":
                 color = Color.green;
                 break;
-            case "MANGENTA":
+            case "MAGENTA":
                 color = Color.magenta;
                 break;
             case "YELLOW":
