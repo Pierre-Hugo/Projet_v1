@@ -53,10 +53,10 @@ function Room({ ws }) {
       <form onSubmit={handleSubmit}>
         <label>
           PIN:
-          <input type="number" value={pin} onChange={handlePinChange} />
+          <input type="text" value={pin} maxLength="4" onChange={handlePinChange} />
           <br />
           Pseudo:
-          <input type="text" value={pseudo} onChange={handlePseudoChange} />
+          <input type="text" value={pseudo} maxLength="16" onChange={handlePseudoChange} />
           <br />
         </label>
         <Link to="/export" onClick={send}>Connexion</Link>

@@ -17,11 +17,17 @@ function App({ ws }) {
     ws.onclose = () => {
       setIsConnectionReady(false);
     };
+    
   }, [ws]);
 
   useEffect(() => {
     if (isConnectionReady && !userCreated) {
-      const userID = generateRandomCode(8);
+      let userID = localStorage.getItem('userID');
+
+      if (!userID) {
+        userID = generateRandomCode(8);
+        localStorage.setItem('userID', userID);
+      }
 
       if (ws && userID && !usersList.includes(userID)) {
         ws.send('USER' + userID);
