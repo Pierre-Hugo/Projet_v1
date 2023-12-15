@@ -103,7 +103,7 @@ public class ContentManager : MonoBehaviour
             string instruction = messageRecu[0];
 
             //exemple de message recu
-            //string[] messageRecu = "CLIENTABCD:NP:Xx_coolGuy_xX:BLUE"
+            //string[] messageRecu = "CLIENTABCD:NP,Xx_coolGuy_xX,BLUE"
 
             //NP pour New Player
             if (instruction == "NP")
@@ -121,6 +121,7 @@ public class ContentManager : MonoBehaviour
                         {
                             ws.Send(idRecu + ":Donne invalides");
                             donneValide = false;
+                            
                             break;
                         }
                         
@@ -135,6 +136,20 @@ public class ContentManager : MonoBehaviour
                 {
                     ws.Send(messageRecu[1] + ": Salle Pleine");
                 }
+            }
+            if(instruction == "DC")
+            {
+                foreach(Player joueur in listeJoueurs)
+                {
+                    if(joueur.Id == messageComplet[0]) // chercher l'id dans la liste qui correspond à celui recu
+                    {
+                        removeOnePlayer(joueur.Id);
+                        listScript.retirerListe(joueur.Pseudo);
+                        break;
+                    }
+                }
+                
+                
             }
 
 
