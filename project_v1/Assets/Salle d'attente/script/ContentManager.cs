@@ -2,25 +2,23 @@ using UnityEngine;
 using WebSocketSharp;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using System.Collections;
-using System.Linq.Expressions;
-using Unity.VisualScripting;
+
+
 
 public class ContentManager : MonoBehaviour
 {
     private WebSocket ws;
     private int numberPlayerOnScene;
-    private bool canJoin;
     public Text numberRoom;
     private string room;
     public List<Player> listeJoueurs;
-    private bool newDataAvalid;
-    private MessageEventArgs dataRecu;
+    private List<MessageEventArgs> listeDataRecu;
     private string characters;
     private string id;
     private int nbMaxJoueurs;
     private Liste listScript;
     private bool idConfirmer;
+    private object lockObject;
     public GameObject canvaError;
     public Button boutonRetour;
 
@@ -28,11 +26,11 @@ public class ContentManager : MonoBehaviour
     void Start()
     {
         listScript = FindObjectOfType<Liste>();
-        newDataAvalid = false;
         nbMaxJoueurs = 6;
         listeJoueurs = new List<Player>();
-        canJoin = true;
+        listeDataRecu = new List<MessageEventArgs>();
         idConfirmer = false;
+        lockObject = new object();
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 
@@ -45,9 +43,15 @@ public class ContentManager : MonoBehaviour
 
         ws.OnMessage += (sender, e) =>
         {
-            dataRecu = e;
-            newDataAvalid = true;
+            
+            lock (lockObject)
+            {
+                listeDataRecu.Add(e);
+                
+            }
         };
+
+        
 
         if (ws.IsAlive)
         {
@@ -57,20 +61,28 @@ public class ContentManager : MonoBehaviour
 
             while (!idConfirmer)
             {
-                if (newDataAvalid)
+                if (listeDataRecu.Count > 0)
                 {
-                    if (dataRecu.Data == "ID already in use")
-                    {
-                        id = GenerateRandomCode(4);
-                        ws.Send("UNITY" + id);
+                    lock (lockObject) {
+                        List<MessageEventArgs> listeDonne = new List<MessageEventArgs>(listeDataRecu);
+
+                        foreach (MessageEventArgs data in listeDonne)
+                        {
+                            if (data.Data == "ID already in use")
+                            {
+                                id = GenerateRandomCode(4);
+                                ws.Send("UNITY" + id);
+                            }
+                            else if (data.Data == "OK")
+                            {
+                                numberRoom.text = id;
+                                idConfirmer = true;
+                            }
+                            listeDataRecu.Remove(data);
+                        }
                     }
-                    else if (dataRecu.Data == "OK")
-                    {
-                        numberRoom.text = id;
-                        idConfirmer = true;
-                    }
-                    newDataAvalid = false;
                 }
+               
                
             }
         }
@@ -87,6 +99,7 @@ public class ContentManager : MonoBehaviour
         addOnePlayer("67890", "peach", Color.cyan);
         listScript.AjouterListe("JF", Color.red);
         listScript.AjouterListe("PEACH", Color.cyan);
+        
 
         //listScript.retirerListe("PEACH");
 
@@ -95,73 +108,112 @@ public class ContentManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (newDataAvalid)
+        if (listeDataRecu.Count>0)
         {
-            string[] messageComplet = dataRecu.Data.Split(":");
-            string[] messageRecu = messageComplet[1].Split(",");
-
-            string instruction = messageRecu[0];
-
-            //exemple de message recu
-            //string[] messageRecu = "CLIENTABCD:NP,Xx_coolGuy_xX,BLUE"
-
-            //NP pour New Player
-            if (instruction == "NP")
+            lock (lockObject)
             {
-                if (listeJoueurs.Count < nbMaxJoueurs)
+                List<MessageEventArgs> listeDonne = new List<MessageEventArgs>(listeDataRecu); ;
+
+                foreach (MessageEventArgs dataRecu in listeDonne)
                 {
-                    bool donneValide = true;
+
+
+                    string[] messageComplet = dataRecu.Data.Split(":");
                     string idRecu = messageComplet[0];
-                    string pseudoRecu = messageRecu[1];
-                    Color couleurRecu = conversionStringColor(messageRecu[2]);
+                    string[] messageRecu = messageComplet[1].Split(",");
 
-                    foreach (Player joueur in listeJoueurs)
+                    string instruction = messageRecu[0];
+
+
+                    //NP pour New Player
+                    //exemple de message recu
+                    //string[] messageRecu = "NP,Xx_coolGuy_xX,BLUE"
+                    if (instruction == "NP")
                     {
-                        if (joueur.Id == idRecu || joueur.Pseudo == pseudoRecu || joueur.Couleur == couleurRecu)
+                        if (listeJoueurs.Count < nbMaxJoueurs)
                         {
-                            ws.Send(idRecu + ":Donne invalides");
-                            donneValide = false;
+                            bool donneValide = true;
                             
-                            break;
+                            string pseudoRecu = messageRecu[1];
+                            Color couleurRecu = conversionStringColor(messageRecu[2]);
+
+                            foreach (Player joueur in listeJoueurs)
+                            {
+                                //vérifie si l'id, le pseudo ou la couleur est déjà utilisé
+                                if (joueur.Id == idRecu || joueur.Pseudo == pseudoRecu || joueur.Couleur == couleurRecu)
+                                {
+                                    ws.Send(idRecu + ":Donne invalides");
+                                    donneValide = false;
+
+                                    break;
+                                }
+
+                            }
+                            if (donneValide)
+                            {
+                                addOnePlayer(idRecu, pseudoRecu, couleurRecu);
+                                listScript.AjouterListe(pseudoRecu, couleurRecu);
+                            }
                         }
-                        
+                        else
+                        {
+                            ws.Send(messageRecu[1] + ": Salle Pleine");
+                        }
                     }
-                    if (donneValide)
+
+                    //DC pour Disconnected
+                    //exemple de message recu
+                    //string[] messageRecu = "DC"
+                    if (instruction == "DC")
                     {
-                        addOnePlayer(idRecu, pseudoRecu, couleurRecu);
-                        listScript.AjouterListe(pseudoRecu, couleurRecu);
+                        foreach (Player joueur in listeJoueurs)
+                        {
+                            if (joueur.Id == idRecu) // chercher l'id dans la liste qui correspond à celui recu
+                            {
+                                removeOnePlayer(joueur.Id);
+                                listScript.retirerListe(joueur.Pseudo);
+                                break;
+                            }
+                        }
+
+
                     }
-                }
-                else
-                {
-                    ws.Send(messageRecu[1] + ": Salle Pleine");
+                    //CC pour Change Color
+                    //exemple de message recu
+                    //string[] messageRecu = "CC,BLUE"
+                    if (instruction == "CC")
+                    {
+                        Color couleur = conversionStringColor(messageRecu[1]);
+                        string Pseudo = GetNameById(idRecu);
+                        bool couleurAlreadyUse = false;
+
+                        foreach (Player joueur in listeJoueurs)
+                        {
+                            if(joueur.Couleur == couleur)
+                            {
+                                couleurAlreadyUse = true;
+                            }
+                        }
+
+                        if (Pseudo != null && !couleurAlreadyUse) 
+                        {
+                           listScript.ChangerCouleur(Pseudo, couleur);
+                            foreach (Player joueur in listeJoueurs)
+                            {
+                                if (joueur.Pseudo == Pseudo)
+                                {
+                                    joueur.Couleur = couleur;
+                                }
+                            }
+                        }
+                    }
+
+                    listeDataRecu.Remove(dataRecu);
                 }
             }
-            if(instruction == "DC")
-            {
-                foreach(Player joueur in listeJoueurs)
-                {
-                    if(joueur.Id == messageComplet[0]) // chercher l'id dans la liste qui correspond à celui recu
-                    {
-                        removeOnePlayer(joueur.Id);
-                        listScript.retirerListe(joueur.Pseudo);
-                        break;
-                    }
-                }
-                
-                
-            }
-
-
-
-
-            newDataAvalid = false;
         }
 
-        if (numberPlayerOnScene != listeJoueurs.Count && canJoin)
-        {
-            AddPlayerToScene();
-        }
+        
     }
 
 
@@ -192,6 +244,18 @@ public class ContentManager : MonoBehaviour
         }
 
 
+    }
+
+    private string GetNameById(string id)
+    {
+        foreach (Player joueur in listeJoueurs)
+        {
+            if (joueur.Id == id)
+            {
+                return joueur.Pseudo;
+            }
+        }
+        return null;
     }
 
     private Color conversionStringColor(string colorRecu)
@@ -232,9 +296,9 @@ public class ContentManager : MonoBehaviour
         return color;
     }
 
-    private void AddPlayerToScene()
+    private void AddPlayerToScene(int numPlayer)
     {
-        // Votre logique de chargement d'arrière-plan ici.
+        
     }
     public string GenerateRandomCode(int length)
     {

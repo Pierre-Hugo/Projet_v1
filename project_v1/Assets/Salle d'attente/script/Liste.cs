@@ -43,4 +43,18 @@ public class Liste : MonoBehaviour
             }
         }
     }
+
+    public void ChangerCouleur(string Text, Color couleur)
+    {
+        foreach (Transform cadreTransform in transform)
+        {
+            GameObject cadre = cadreTransform.gameObject;
+
+            if (cadre.transform.GetChild(0).GetComponent<Text>().text == Text)
+            {
+                cadre.transform.GetChild(0).GetComponent<Text>().color =couleur;
+                break;
+            }
+        }
+    }
 }
