@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+//import { createCanvas, loadImage } from 'canvas';
 
 class CanvasComponent extends Component {
   constructor(props) {
@@ -87,16 +88,32 @@ class CanvasComponent extends Component {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
-  exportCanvasAsJPEG = () => {
+  exportCanvasAsJPEG = async () => {
     const canvas = this.canvasRef.current;
-    const imageData = canvas.toDataURL('image/jpeg', 0.9);
     const { ws } = this.props;
-
-    if (ws && canvas && imageData) {
-      ws.send(JSON.stringify({ type: 'canvas_image', data: imageData }));
-      console.log('Exportation du canvas en JPEG effectuée avec succès !');
+  
+    if (canvas && ws) {
+      const jpegQuality = 0.9;
+  
+      const jpegImageData = canvas.toDataURL('image/jpeg', jpegQuality);
+  
+      const blobData = await fetch(jpegImageData).then((res) => res.blob());
+  
+      const reader = new FileReader();
+      reader.onload = () => {
+        const arrayBuffer = reader.result;
+        ws.send("jf:" + arrayBuffer);
+        console.log('Exportation du canvas en JPEG et envoi réussi via WebSocket !');
+      };
+      reader.readAsArrayBuffer(blobData);
     }
+
+
+
+    
   };
+
+
 
   render() {
     return (

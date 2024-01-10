@@ -163,7 +163,7 @@ function Export({ws}) {
       <>
             <h1>Choissisez un média pour commencer la partie !</h1>
             <label> Dessin:</label>
-            <CanvasComponent />
+            <CanvasComponent ws = {ws} />
             <br />
             <br />
               <form onSubmit={handleSubmit}>
