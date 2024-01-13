@@ -21,6 +21,7 @@ public class ContentManager : MonoBehaviour
     private object lockObject;
     public GameObject canvaError;
     public Button boutonRetour;
+    public Button boutonPlay;
 
 
     void Start()
@@ -32,6 +33,7 @@ public class ContentManager : MonoBehaviour
         idConfirmer = false;
         lockObject = new object();
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        boutonPlay.interactable = false;
 
 
         ws = new WebSocket("ws://localhost:8080");
@@ -90,8 +92,8 @@ public class ContentManager : MonoBehaviour
         {
             //afficher message d'erreur impossible de se connecter
             canvaError.SetActive(true);
-            boutonRetour.GetComponent<MonoBehaviour>().enabled = false;
-            boutonRetour.interactable = false;
+            boutonRetour.gameObject.SetActive(false);
+
 
         }
 
@@ -153,6 +155,11 @@ public class ContentManager : MonoBehaviour
                             {
                                 addOnePlayer(idRecu, pseudoRecu, couleurRecu);
                                 listScript.AjouterListe(pseudoRecu, couleurRecu);
+                                if(listeJoueurs.Count > 2) 
+                                {
+                                boutonPlay.interactable = true;
+                                }
+                                
                             }
                         }
                         else
@@ -172,6 +179,10 @@ public class ContentManager : MonoBehaviour
                             {
                                 removeOnePlayer(joueur.Id);
                                 listScript.retirerListe(joueur.Pseudo);
+                                if (listeJoueurs.Count <= 2)
+                                {
+                                    boutonPlay.interactable = false;
+                                }
                                 break;
                             }
                         }
@@ -296,7 +307,7 @@ public class ContentManager : MonoBehaviour
         return color;
     }
 
-    private void AddPlayerToScene(int numPlayer)
+    private void AddPlayerToScene()
     {
         
     }
@@ -313,8 +324,7 @@ public class ContentManager : MonoBehaviour
 
     public void showBackBouton() 
     {
-        boutonRetour.GetComponent<MonoBehaviour>().enabled = true;
-        boutonRetour.interactable = true;
+        boutonRetour.gameObject.SetActive(true);
     }
 
     private void OnDestroy()

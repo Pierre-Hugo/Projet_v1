@@ -12,7 +12,7 @@ public class hoverPlay :MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private void Start()
     {
         backgroundAnimator = background.GetComponent<Animator>();
-        play = this.GetComponent<Animator>();
+        play = GetComponent<Animator>();
         play.Play("PlayBase");
 
     }
