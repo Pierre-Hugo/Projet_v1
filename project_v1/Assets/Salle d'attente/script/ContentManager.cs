@@ -2,15 +2,12 @@ using UnityEngine;
 using WebSocketSharp;
 using UnityEngine.UI;
 using System.Collections.Generic;
-
-
+using UnityEngine.Animations;
 
 public class ContentManager : MonoBehaviour
 {
     private WebSocket ws;
-    private int numberPlayerOnScene;
     public Text numberRoom;
-    private string room;
     public List<Player> listeJoueurs;
     private List<MessageEventArgs> listeDataRecu;
     private string characters;
@@ -21,7 +18,9 @@ public class ContentManager : MonoBehaviour
     private object lockObject;
     public GameObject canvaError;
     public Button boutonRetour;
-    public Button boutonPlay;
+    public Button boutonStart;
+    public GameObject background;
+    public GameObject test;
 
 
     void Start()
@@ -33,7 +32,8 @@ public class ContentManager : MonoBehaviour
         idConfirmer = false;
         lockObject = new object();
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        boutonPlay.interactable = false;
+        boutonStart.interactable = false;
+
 
 
         ws = new WebSocket("ws://localhost:8080");
@@ -103,7 +103,7 @@ public class ContentManager : MonoBehaviour
         listScript.AjouterListe("PEACH", Color.cyan);
         
 
-        //listScript.retirerListe("PEACH");
+        
 
     }
 
@@ -155,9 +155,14 @@ public class ContentManager : MonoBehaviour
                             {
                                 addOnePlayer(idRecu, pseudoRecu, couleurRecu);
                                 listScript.AjouterListe(pseudoRecu, couleurRecu);
-                                if(listeJoueurs.Count > 2) 
+                                if (messageRecu[4] == "IMG")
                                 {
-                                boutonPlay.interactable = true;
+                                    PlayerPicture joueur = new PlayerPicture(idRecu, pseudoRecu, couleurRecu, messageRecu[3], true);
+                                     test.GetComponent < Image >().sprite = Sprite.Create(joueur.imageTexture, new Rect(0, 0, joueur.imageTexture.width, joueur.imageTexture.height), Vector2.zero);
+                                }
+                                if (listeJoueurs.Count > 2) 
+                                {
+                                boutonStart.interactable = true;
                                 }
                                 
                             }
@@ -181,7 +186,7 @@ public class ContentManager : MonoBehaviour
                                 listScript.retirerListe(joueur.Pseudo);
                                 if (listeJoueurs.Count <= 2)
                                 {
-                                    boutonPlay.interactable = false;
+                                    boutonStart.interactable = false;
                                 }
                                 break;
                             }
@@ -230,7 +235,7 @@ public class ContentManager : MonoBehaviour
 
     public void addOnePlayer(string ID, string PSEUDO, Color COULEUR)
     {
-        numberPlayerOnScene = listeJoueurs.Count;
+        
         if (listeJoueurs.Count < nbMaxJoueurs)
         {
             Player joueurConnecte = new Player(ID, PSEUDO, COULEUR);

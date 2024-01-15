@@ -8,7 +8,7 @@ using Color = UnityEngine.Color;
 
 public class PlayerPicture : Player
 {
-    private Sprite imageSprite { get; set; }
+    public Texture2D imageTexture { get; set; }
     public bool isDraw { get; set; }
 
     public PlayerPicture(string id, string pseudo, Color couleur, string imageHexa, bool isDraw) : base(id, pseudo, couleur)
@@ -20,10 +20,10 @@ public class PlayerPicture : Player
         byte[] imageBytes = HexStringToByteArray(imageHexa);
 
         // Charger la texture à partir des bytes
-        Texture2D imageTexture = ByteArrayToTexture2D(imageBytes);
+        imageTexture = ByteArrayToTexture2D(imageBytes);
 
         // Créer un sprite à partir de la texture
-        imageSprite = Sprite.Create(imageTexture, new Rect(0, 0, imageTexture.width, imageTexture.height), new Vector2(0.5f, 0.5f));
+        //imageSprite = Sprite.Create(imageTexture, new Rect(0, 0, imageTexture.width, imageTexture.height), new Vector2(0.5f, 0.5f));
 
         
         
