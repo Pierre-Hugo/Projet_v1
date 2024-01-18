@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import sha256 from 'crypto-js/sha256';  // Assurez-vous d'avoir la bibliothèque crypto-js installée
 
 import Room from './pages/Room';
 import Export from './pages/Export';
@@ -17,7 +18,6 @@ function App({ ws }) {
     ws.onclose = () => {
       setIsConnectionReady(false);
     };
-    
   }, [ws]);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ function App({ ws }) {
 
       if (!userID) {
         userID = generateRandomCode(8);
-        localStorage.setItem('userID', userID);
+        localStorage.setItem('userID', hashUserID(userID));
       }
 
       if (ws && userID && !usersList.includes(userID)) {
@@ -47,6 +47,11 @@ function App({ ws }) {
     }
 
     return code;
+  }
+
+  function hashUserID(userID) {
+    // Utilisez la fonction de hachage SHA-256 sur l'identifiant utilisateur
+    return sha256(userID).toString();
   }
 
   return (

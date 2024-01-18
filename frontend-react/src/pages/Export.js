@@ -185,7 +185,7 @@ function Export({ws}) {
                 </label>
                 <br />
                 <br />
-                <button onClick={() => send(mot)}>Sousmettre</button>
+                <button onClick={() => send(mot)}>Soumettre</button>
             </form>
       </>
         );
