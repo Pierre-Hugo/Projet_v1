@@ -122,12 +122,12 @@ function Export({ws}) {
     formData.append('mot', mot);
     if (image) {
       formData.append('image', image);
-      await sendFileToWebSocket(image);
+      await sendFileToWebSocket("unityjf:" + image);
     }
 
     if (video) {
       formData.append('video', video);
-      await sendFileToWebSocket(video);
+      await sendFileToWebSocket("unityjf:" + video);
     }
 
     try {
@@ -137,7 +137,7 @@ function Export({ws}) {
         mot: mot,
       };
 
-      ws.send(JSON.stringify(dataToSend));
+      ws.send("unityjf:" + JSON.stringify(dataToSend));
 
       // Clear the form after sending
       setInputMot('');

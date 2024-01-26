@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import { createCanvas, loadImage } from 'canvas';
 
 class CanvasComponent extends Component {
   constructor(props) {
@@ -22,7 +21,7 @@ class CanvasComponent extends Component {
       const rect = canvas.getBoundingClientRect();
       return {
         x: e.touches[0].clientX - rect.left,
-        y: e.touches[0].clientY - rect.top
+        y: e.touches[0].clientY - rect.top,
       };
     };
 
@@ -79,6 +78,20 @@ class CanvasComponent extends Component {
       });
     });
 
+    const sizes = [
+      { id: 'small', size: 1 },
+      { id: 'medium', size: 3 },
+      { id: 'large', size: 7 },
+      { id: 'fill', size: 17},
+    ];
+
+    sizes.forEach((sizeData) => {
+      const button = document.getElementById(sizeData.id);
+      button.addEventListener('click', () => {
+        ctx.lineWidth = sizeData.size;
+      });
+    });
+
     ctx.lineWidth = 3;
   }
 
@@ -91,29 +104,23 @@ class CanvasComponent extends Component {
   exportCanvasAsJPEG = async () => {
     const canvas = this.canvasRef.current;
     const { ws } = this.props;
-  
+
     if (canvas && ws) {
       const jpegQuality = 0.9;
-  
+
       const jpegImageData = canvas.toDataURL('image/jpeg', jpegQuality);
-  
+
       const blobData = await fetch(jpegImageData).then((res) => res.blob());
-  
+
       const reader = new FileReader();
       reader.onload = () => {
         const arrayBuffer = reader.result;
-        ws.send("jf:" + arrayBuffer);
+        ws.send("unityjf:" + arrayBuffer);
         console.log('Exportation du canvas en JPEG et envoi réussi via WebSocket !');
       };
       reader.readAsArrayBuffer(blobData);
     }
-
-
-
-    
   };
-
-
 
   render() {
     return (
@@ -139,6 +146,20 @@ class CanvasComponent extends Component {
         <br />
         <input type="radio" id="white" name="color" />
         <label htmlFor="white">Blanc</label>
+        <br />
+        <br />
+        <input type="radio" id="small" name="size" />
+        <label htmlFor="small">Pointe Fine</label>
+        <br />
+        <input type="radio" id="medium" name="size" defaultChecked />
+        <label htmlFor="medium">Classique</label>
+        <br />
+        <input type="radio" id="large" name="size" />
+        <label htmlFor="large">Gras</label>
+        <br />
+        <input type="radio" id="fill" name="size" />
+        <label htmlFor="fill">Remplissage</label>
+        <br />
         <br />
         <button ref={this.clearButtonRef}>Retour en arrière</button>
         <button ref={this.clearAllRef}>Tout effacer</button>
