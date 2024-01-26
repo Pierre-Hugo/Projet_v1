@@ -152,18 +152,18 @@ public class ContentManager : MonoBehaviour
                                 string typePlayer = messageRecu[3];
                                 switch (typePlayer)//ajoute le bon type de Player
                                 {
-                                    case "PIC": // exemple de message:  messageRecu = "NP,Xx_coolGuy_xX,BLUE,(code de l'image), TRUE"
+                                    case "PIC": // exemple de message:  messageRecu = "NP,Xx_coolGuy_xX,BLUE,PIC,(code de l'image), TRUE"
                                         string img= messageRecu[4];
                                         bool isDraw = messageRecu[5]=="TRUE";
                                         addOnePlayerPicture(idRecu, pseudoRecu, couleurRecu,img,isDraw);
                                         break;
 
-                                    case "VID": //exemple de message:  messageRecu = "NP,Xx_coolGuy_xX,BLUE,(code de la video)"
+                                    case "VID": //exemple de message:  messageRecu = "NP,Xx_coolGuy_xX,BLUE,VID,(code de la video)"
                                         string vid = messageRecu[4];
                                         addOnePlayerVideo(idRecu, pseudoRecu, couleurRecu, vid);
                                         break;
 
-                                    case "WRD":
+                                    case "WRD": //exemple de message:  messageRecu = "NP,Xx_coolGuy_xX,WRD,BLUE,Coucou"
                                         string word = messageRecu[4];
                                         addOnePlayerWord(idRecu, pseudoRecu, couleurRecu, word);
                                         break;

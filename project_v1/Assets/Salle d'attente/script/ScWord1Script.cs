@@ -22,4 +22,9 @@ public class ScWord1Script : MonoBehaviour
     {
         textPlaque.text = motPlaque;
     }
+
+    private void OnDestroy()
+    {
+        //call new scénario
+    }
 }

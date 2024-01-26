@@ -70,14 +70,17 @@ public class PlayingScript : MonoBehaviour
         do
         {
             JoueurValide = true;
-            randomIndex = random.Next(0, listeJoueurs.Count);
+            do {
+                randomIndex = random.Next(0, listeJoueurs.Count);
+            } while(randomIndex !=2);
             int i = 0;
+            //listeJoueurs[randomIndex];
 
             foreach (Player joueur in listeJoueurs)
             {
                 if (i == randomIndex)//prend un joueur aléatoire dans la liste
                 {
-                    foreach (Player joueurDejaChoisi in listeJoueurs)
+                    foreach (Player joueurDejaChoisi in listeJoueursDejaJouer)
                     {
                         if (joueur == joueurDejaChoisi) // vérifie si le joueur à déja été choisi
                         {
@@ -90,6 +93,7 @@ public class PlayingScript : MonoBehaviour
                     {
                         joueurChoisi = joueur;
                         listeJoueursDejaJouer.Add(joueurChoisi);
+                        break;
                     }
                     else
                     {
@@ -101,13 +105,13 @@ public class PlayingScript : MonoBehaviour
                     i++;
                 }
             }
-        } while (JoueurValide == true); // recommence si le joueur choisi avait déjà été choisi
+        } while (!JoueurValide); // recommence si le joueur choisi avait déjà été choisi
 
         bool ScenarioValide = false;
 
         do
         {
-            randomIndex = 1;//random.Next(0, nbScenarioParType);
+            randomIndex = 0;//random.Next(0, nbScenarioParType);
 
             if (joueurChoisi is PlayerPicture)
             {
@@ -225,7 +229,7 @@ public class PlayingScript : MonoBehaviour
                     }
                 }
             }
-        } while (ScenarioValide);
+        } while (!ScenarioValide);
     }
     public Player getPlayerChoisi()
     {
