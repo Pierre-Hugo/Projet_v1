@@ -8,7 +8,7 @@ public class ContentManager : MonoBehaviour
 {
     private WebSocket ws;
     public Text numberRoom;
-    public List<Player> listeJoueurs;
+    private List<Player> listeJoueurs;
     private List<MessageEventArgs> listeDataRecu;
     private string characters;
     private string id;
@@ -97,14 +97,11 @@ public class ContentManager : MonoBehaviour
 
         }
 
-        addOnePlayer("12345", "jf", Color.red);
-        addOnePlayer("67890", "peach", Color.cyan);
+        addOnePlayerWord("12345", "jf", Color.red,"Salut");
+        addOnePlayerWord("67890", "peach", Color.cyan,"anticonstitutionnellement");
         listScript.AjouterListe("JF", Color.red);
         listScript.AjouterListe("PEACH", Color.cyan);
         
-
-        
-
     }
 
     // Update is called once per frame
@@ -118,18 +115,16 @@ public class ContentManager : MonoBehaviour
 
                 foreach (MessageEventArgs dataRecu in listeDonne)
                 {
-
-
+                    
                     string[] messageComplet = dataRecu.Data.Split(":");
                     string idRecu = messageComplet[0];
                     string[] messageRecu = messageComplet[1].Split(",");
 
                     string instruction = messageRecu[0];
 
-
                     //NP pour New Player
                     //exemple de message recu
-                    //string[] messageRecu = "NP,Xx_coolGuy_xX,BLUE"
+                    //string[] messageRecu = "NP,Xx_coolGuy_xX,BLUE,[...]"
                     if (instruction == "NP")
                     {
                         if (listeJoueurs.Count < nbMaxJoueurs)
@@ -153,18 +148,34 @@ public class ContentManager : MonoBehaviour
                             }
                             if (donneValide)
                             {
-                                addOnePlayer(idRecu, pseudoRecu, couleurRecu);
                                 listScript.AjouterListe(pseudoRecu, couleurRecu);
-                                if (messageRecu[4] == "IMG")
+                                string typePlayer = messageRecu[3];
+                                switch (typePlayer)//ajoute le bon type de Player
                                 {
-                                    PlayerPicture joueur = new PlayerPicture(idRecu, pseudoRecu, couleurRecu, messageRecu[3], true);
-                                     test.GetComponent < Image >().sprite = Sprite.Create(joueur.imageTexture, new Rect(0, 0, joueur.imageTexture.width, joueur.imageTexture.height), Vector2.zero);
+                                    case "PIC": // exemple de message:  messageRecu = "NP,Xx_coolGuy_xX,BLUE,(code de l'image), TRUE"
+                                        string img= messageRecu[4];
+                                        bool isDraw = messageRecu[5]=="TRUE";
+                                        addOnePlayerPicture(idRecu, pseudoRecu, couleurRecu,img,isDraw);
+                                        break;
+
+                                    case "VID": //exemple de message:  messageRecu = "NP,Xx_coolGuy_xX,BLUE,(code de la video)"
+                                        string vid = messageRecu[4];
+                                        addOnePlayerVideo(idRecu, pseudoRecu, couleurRecu, vid);
+                                        break;
+
+                                    case "WRD":
+                                        string word = messageRecu[4];
+                                        addOnePlayerWord(idRecu, pseudoRecu, couleurRecu, word);
+                                        break;
                                 }
+
+
+                                   //  test.GetComponent < Image >().sprite = Sprite.Create(joueur.imageTexture, new Rect(0, 0, joueur.imageTexture.width, joueur.imageTexture.height), Vector2.zero);
+                                
                                 if (listeJoueurs.Count > 2) 
                                 {
                                 boutonStart.interactable = true;
-                                }
-                                
+                                } 
                             }
                         }
                         else
@@ -233,19 +244,20 @@ public class ContentManager : MonoBehaviour
     }
 
 
-    public void addOnePlayer(string ID, string PSEUDO, Color COULEUR)
+    public void addOnePlayerWord(string ID, string PSEUDO, Color COULEUR,string MOTS)
     {
-        
-        if (listeJoueurs.Count < nbMaxJoueurs)
-        {
-            Player joueurConnecte = new Player(ID, PSEUDO, COULEUR);
+            PlayerWord joueurConnecte = new PlayerWord(ID, PSEUDO, COULEUR,MOTS);
             listeJoueurs.Add(joueurConnecte);
-        }
-        else
-        {
-            // enovyer un message pour dire que la salle est pleine
-
-        }
+    }
+    public void addOnePlayerPicture(string ID, string PSEUDO, Color COULEUR, string IMGHEXA, bool isDraw)
+    {
+        PlayerPicture joueurConnecte = new PlayerPicture(ID, PSEUDO, COULEUR,IMGHEXA,isDraw);
+        listeJoueurs.Add(joueurConnecte);
+    }
+    public void addOnePlayerVideo(string ID, string PSEUDO, Color COULEUR,string VIDEO)
+    {
+        PlayerVideo joueurConnecte = new PlayerVideo(ID, PSEUDO, COULEUR,VIDEO);
+        listeJoueurs.Add(joueurConnecte);
     }
 
     public void removeOnePlayer(string id)
@@ -312,10 +324,7 @@ public class ContentManager : MonoBehaviour
         return color;
     }
 
-    private void AddPlayerToScene()
-    {
-        
-    }
+   
     public string GenerateRandomCode(int length)
     {
         string code = "";
@@ -341,5 +350,10 @@ public class ContentManager : MonoBehaviour
         }
     }
 
-    
+    public List<Player> getListeJoueurs()
+    {
+        return listeJoueurs;
+    }
+
+
 }

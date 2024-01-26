@@ -14,7 +14,7 @@ public class PlayerPicture : Player
     public PlayerPicture(string id, string pseudo, Color couleur, string imageHexa, bool isDraw) : base(id, pseudo, couleur)
     {
         this.isDraw = isDraw;
-
+        
 
         // Convertir la chaîne hexadécimale en tableau de bytes
         byte[] imageBytes = HexStringToByteArray(imageHexa);

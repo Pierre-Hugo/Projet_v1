@@ -25,9 +25,14 @@ public class LogicManager : MonoBehaviour
         volumeMusique.SetFloat("Volume", volume);
     }
 
-    public void hideCanva(GameObject canva)
+    public void hideGameObject(GameObject objet)
     {
-        canva.SetActive(false);
+        objet.SetActive(false);
+    }
+
+    public void showGameObject(GameObject objet)
+    {
+        objet.SetActive(true);
     }
 
     public void closeGame()

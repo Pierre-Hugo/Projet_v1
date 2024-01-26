@@ -8,19 +8,7 @@ public class Liste : MonoBehaviour
 
     private GameObject templateCree;
     public GameObject template;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-        
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
     public void AjouterListe(string contenu, Color couleur)
     {
