@@ -70,9 +70,9 @@ public class PlayingScript : MonoBehaviour
         do
         {
             JoueurValide = true;
-            do {
+            
                 randomIndex = random.Next(0, listeJoueurs.Count);
-            } while(randomIndex !=2);
+            
             int i = 0;
             //listeJoueurs[randomIndex];
 
@@ -206,13 +206,14 @@ public class PlayingScript : MonoBehaviour
                     GameObject scenario;
                     ScenarioValide = true;
                     PlayerWord joueurChoisiMot = (PlayerWord)joueurChoisi;
+                    ScWord1Script scriptScenario = null;
                     ScenarioDejaJouer[(int)TypeScenario.Word, randomIndex] = true;
                     switch (randomIndex)
                     {
                         case 0:
                             scenario = Instantiate(ScenarioWord1, transform);
-                            ScWord1Script scriptScenario = scenario.GetComponent<ScWord1Script>();
-                            scriptScenario.initialisation(joueurChoisiMot.word);
+                            scriptScenario = scenario.GetComponent<ScWord1Script>();
+                            
                             break;
                         case 1:
                             //Instantiate(ScenarioWord2, transform);
@@ -227,6 +228,7 @@ public class PlayingScript : MonoBehaviour
                             //Instantiate(ScenarioWord5, transform);
                             break;
                     }
+                    scriptScenario.initialisation(joueurChoisiMot.word,listeJoueurs);
                 }
             }
         } while (!ScenarioValide);
