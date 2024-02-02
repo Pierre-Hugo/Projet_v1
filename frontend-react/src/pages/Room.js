@@ -59,7 +59,7 @@ function Room({ ws }) {
           <input type="text" value={pseudo} maxLength="16" onChange={handlePseudoChange} />
           <br />
         </label>
-        <Link to="/export" onClick={send}>Connexion</Link>
+        <Link to="/mediaSelect" onClick={send}>Connexion</Link>
       </form>
     </>
   );

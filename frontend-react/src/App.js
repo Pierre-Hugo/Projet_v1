@@ -4,6 +4,11 @@ import sha256 from 'crypto-js/sha256';
 
 import Room from './pages/Room';
 import Export from './pages/Export';
+import MediaSelect from './pages/MediaSelect';
+import ExportImage from './pages/ExportImage';
+import ExportMot from './pages/ExportMot';
+import ExportVideo from './pages/ExportVideo';
+import ExportDessin from './pages/ExportDessin';
 
 function App({ ws }) {
   const [userCreated, setUserCreated] = useState(false);
@@ -59,6 +64,11 @@ function App({ ws }) {
         <Routes>
           <Route path="/" element={<Room ws={ws} />} />
           <Route path="/export" element={<Export ws={ws} />} />
+          <Route path="/mediaSelect" element={<MediaSelect ws={ws} />} />
+          <Route path="/exportImage" element={<ExportImage ws={ws} />} />
+          <Route path="/exportMot" element={<ExportMot ws={ws} />} />
+          <Route path="/exportVideo" element={<ExportVideo ws={ws} />} />
+          <Route path="/exportDessin" element={<ExportDessin ws={ws} />} />
         </Routes>
       </BrowserRouter>
     </div>

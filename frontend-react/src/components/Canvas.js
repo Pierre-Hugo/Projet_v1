@@ -82,7 +82,7 @@ class CanvasComponent extends Component {
       { id: 'small', size: 1 },
       { id: 'medium', size: 3 },
       { id: 'large', size: 7 },
-      { id: 'fill', size: 17},
+      { id: 'fill', size: 17 },
     ];
 
     sizes.forEach((sizeData) => {
@@ -101,25 +101,14 @@ class CanvasComponent extends Component {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
-  exportCanvasAsJPEG = async () => {
+  exportCanvasAsJPEG = () => {
     const canvas = this.canvasRef.current;
-    const { ws } = this.props;
 
-    if (canvas && ws) {
-      const jpegQuality = 0.9;
+    // Obtenez les données de l'image en format base64
+    const imageDataURL = canvas.toDataURL('image/jpeg', 0.9);
 
-      const jpegImageData = canvas.toDataURL('image/jpeg', jpegQuality);
-
-      const blobData = await fetch(jpegImageData).then((res) => res.blob());
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        const arrayBuffer = reader.result;
-        ws.send("unityjf:" + arrayBuffer);
-        console.log('Exportation du canvas en JPEG et envoi réussi via WebSocket !');
-      };
-      reader.readAsArrayBuffer(blobData);
-    }
+    // Affichez l'URL des données dans la console
+    console.log('Image Data URL:', imageDataURL);
   };
 
   render() {

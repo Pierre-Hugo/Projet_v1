@@ -1,92 +1,60 @@
 import React, { useState } from 'react';
 import CanvasComponent from '../components/Canvas';
 
+function Export({ ws }) {
+  const [mot, setInputMot] = useState('');
+  const [image, setFileImage] = useState(null);
+  const [video, setFileVideo] = useState(null);
 
-function Export({ws}) {
+  const handleInputChange = (e) => {
+    setInputMot(e.target.value);
+  };
 
-    const [mot, setInputMot] = useState('');
-    const [image, setFileImage] = useState(null); 
-    const [video, setFileVideo] = useState(null);
+  const handleImageChange = async (e) => {
+    const image = e.target.files[0];
 
+    if (image) {
+      setFileImage(image);
 
-
-    //INPUT
-    const handleInputChange = (e) => {
-      setInputMot(e.target.value);
-
-    };
-
-    const handleImageChange = async (e) => {
-
-        const image = e.target.files[0];
-
-
-
-        if (image) {
-          setFileImage(image);
-
-      // Créez un objet contenant les données que vous souhaitez envoyer
-        const dataToSend = {
-            fileName: image.name,
-            fileSize: image.size,
-            fileType: image.type,
-        };
-
-      // Convertissez l'objet en une chaîne JSON
-      const jsonData = JSON.stringify(dataToSend);
-
-        //ws.send(JSON.stringify({ data: jsonData }));
-
-          //await sendFileToWebSocket(image);
-          await sendNameFiles(jsonData)
-          console.log()
-
-        } else {
-          setFileImage(null);
-        }
-  
+      const dataToSend = {
+        fileName: image.name,
+        fileSize: image.size,
+        fileType: image.type,
       };
 
-      const handleVideoChange = async (e) => {
-
-        const video = e.target.files[0];
-
-
-
-        if (video) {
-          setFileImage(video);
-
-                        // Créez un objet contenant les données que vous souhaitez envoyer
-        const dataToSend = {
-            fileName: video.name,
-            fileSize: video.size,
-            fileType: video.type,
-        };
-
-      // Convertissez l'objet en une chaîne JSON
       const jsonData = JSON.stringify(dataToSend);
 
-        //ws.send(JSON.stringify({ data: jsonData }));
+      await sendNameFiles(jsonData);
+    } else {
+      setFileImage(null);
+    }
+  };
 
-          //await sendFileToWebSocket(video);
-          await sendNameFiles(jsonData)
-          console.log()
+  const handleVideoChange = async (e) => {
+    const video = e.target.files[0];
 
-        } else {
-          setFileImage(null);
-        }
-  
+    if (video) {
+      setFileVideo(video);
+
+      const dataToSend = {
+        fileName: video.name,
+        fileSize: video.size,
+        fileType: video.type,
       };
 
-        // Fonction pour envoyer le fichier via WebSocket
+      const jsonData = JSON.stringify(dataToSend);
+
+      await sendNameFiles(jsonData);
+    } else {
+      setFileVideo(null);
+    }
+  };
+
   const sendFileToWebSocket = async (file) => {
-
     ws.addEventListener('open', async () => {
-      // Envoyez le nom du fichier en premier
       ws.send(file.name);
 
-      // Ensuite, envoyez le contenu du fichier en morceaux
-      const chunkSize = 1024; // Taille des morceaux en octets
+      const chunkSize = 1024;
       let offset = 0;
 
       while (offset < file.size) {
@@ -94,44 +62,42 @@ function Export({ws}) {
         ws.send(chunk);
         offset += chunkSize;
       }
-      
-      
     });
 
     ws.addEventListener('error', (error) => {
       console.error('Erreur WebSocket :', error);
     });
 
-    ws.addEventListener("message", data => {
+    ws.addEventListener('message', (data) => {
       console.log(data);
-  });
+    });
+  };
 
-  
+  const sendNameFiles = async (jsonData) => {
+    ws.send(JSON.stringify({ data: jsonData }));
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
+    e.preventDefault();
 
     if (!mot && !image && !video) {
-      // Handle the case when "mot" is empty, if needed
       return;
     }
 
-    // Create a FormData object to collect form data
     const formData = new FormData();
     formData.append('mot', mot);
+
     if (image) {
       formData.append('image', image);
-      await sendFileToWebSocket("unityjf:" + image);
+      await sendFileToWebSocket("USERd5c4bcf9e9bf170b2210d6cccb3025972607c20aff670678496167c68ef6165d:" + image);
     }
 
     if (video) {
       formData.append('video', video);
-      await sendFileToWebSocket("unityjf:" + video);
+      await sendFileToWebSocket("USERd5c4bcf9e9bf170b2210d6cccb3025972607c20aff670678496167c68ef6165d:" + video);
     }
 
     try {
-      // Send the FormData via WebSocket
       const dataToSend = {
         formData: formData,
         mot: mot,
@@ -139,7 +105,11 @@ function Export({ws}) {
 
       ws.send("unityjf:" + JSON.stringify(dataToSend));
 
-      // Clear the form after sending
+      const downloadLink = document.createElement('a');
+      downloadLink.href = URL.createObjectURL(image || video);
+      downloadLink.download = image ? image.name : video.name;
+      downloadLink.click();
+
       setInputMot('');
       setFileImage(null);
       setFileVideo(null);
@@ -148,48 +118,40 @@ function Export({ws}) {
     }
   };
 
+  const send = async (mot) => {
+    ws.send(JSON.stringify({ data: mot }));
+  };
 
-    const send = async (mot) =>{
-        ws.send(JSON.stringify({ data: mot }));
-    }
+  return (
+    <>
+      
+      <label>Dessin:</label>
+      <CanvasComponent ws={ws} />
+      <br />
+      <br />
+      <form onSubmit={handleSubmit}>
+        <label>
+          Mot:
+          <input type="text" value={mot} onChange={handleInputChange} />
+        </label>
+        <br />
+        <br />
+        <label>
+          Image:
+          <input type="file" accept=".jpg, .png, .heic, .tiff" onChange={handleImageChange} />
+        </label>
+        <br />
+        <br />
+        <label>
+          Vidéo:
+          <input type="file" accept=".mp4, .mv4, .mov" onChange={handleVideoChange} />
+        </label>
+        <br />
+        <br />
+        <button onClick={() => send(mot)}>Soumettre</button>
+      </form>
+    </>
+  );
+}
 
-    const sendNameFiles = async (jsonData) =>{
-        ws.send(JSON.stringify({ data: jsonData }));
-    }
-
-    
-
-    return (
-      <>
-            <h1>Choissisez un média pour commencer la partie !</h1>
-            <label> Dessin:</label>
-            <CanvasComponent ws = {ws} />
-            <br />
-            <br />
-              <form onSubmit={handleSubmit}>
-                <label>
-                    Mot:
-                    <input type="text" value={mot} onChange={handleInputChange} />
-                </label>
-                <br />
-                <br />
-                <label>
-                    Image:
-                    <input type="file" accept=".jpg, .png, .heic, .tiff" onChange={handleImageChange} />
-                </label>
-                <br />
-                <br />
-                <label>
-                    Vidéo:
-                    <input type="file" accept=".mp4, .mv4, .mov" onChange={handleVideoChange}  />
-                </label>
-                <br />
-                <br />
-                <button onClick={() => send(mot)}>Soumettre</button>
-            </form>
-      </>
-        );
-  
-  }
-  
-  export default Export;
+export default Export;
