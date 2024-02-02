@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textPlaque: {fileID: 2118545452468567627}
+  modeleReponse: {fileID: 5738628036731972725, guid: c38c6a391cbf69d429d6647aceec756e, type: 3}
 --- !u!1 &3108463969158060227
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +321,7 @@ GameObject:
   - component: {fileID: 1091792011775578539}
   - component: {fileID: 3082826961269678057}
   m_Layer: 0
-  m_Name: Background
+  m_Name: Background-Question
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -367,7 +368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3207547, g: 0.31591314, b: 0.31591314, a: 0.7019608}
+  m_Color: {r: 0.31764707, g: 0.31591314, b: 0.31591314, a: 0.7019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

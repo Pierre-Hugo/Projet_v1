@@ -12,6 +12,8 @@ public class ScWord1Script : MonoBehaviour
     private float tempsAttente;
     private bool questionAsk;
     private int playerShow;
+    private List<Player> listeJoueursDejaAfficher;
+    public GameObject modeleReponse;
     
 
     void Start()
@@ -21,6 +23,7 @@ public class ScWord1Script : MonoBehaviour
         scriptPrincipal = parentOfParent.GetComponent<ContentManager>();
         questionAsk = false;
         playerShow = 0;
+        listeJoueursDejaAfficher = new List<Player>();
 
         tempsAttente = 10f;
         timer = 0f;   
@@ -47,20 +50,62 @@ public class ScWord1Script : MonoBehaviour
                 Destroy(textPlaque);
                 }
 
-                if(listeJoueurs.Count == playerShow) 
+                if(listeJoueurs.Count == playerShow) //affiche tout les réponse et demande au joueurs de voter pour une réponse
                 {
                     //show all anwser
                     tempsAttente = 10f;
                 }
-                else if(listeJoueurs.Count <= playerShow)
+                else if(listeJoueurs.Count <= playerShow) //ajoute les points et met fin au scénario
                 {
                     //ajouter les points selon les votes
                     Destroy(this);
                 }
-                else
+                else //affiche la réponse d'un joueur
                 {
-                    //show next answer
-                    tempsAttente = 7f;
+                    System.Random random = new System.Random();
+                    int randomIndex;
+                    bool JoueurValide;
+                    do
+                    {
+                        JoueurValide = true;
+
+                        randomIndex = random.Next(0, listeJoueurs.Count);
+
+                        int i = 0;
+
+
+                        foreach (Player joueur in listeJoueurs)
+                        {
+                            if (i == randomIndex)//prend un joueur aléatoire dans la liste
+                            {
+                                foreach (Player joueurDejaChoisi in listeJoueursDejaAfficher)
+                                {
+                                    if (joueur == joueurDejaChoisi) // vérifie si le joueur à déja été choisi
+                                    {
+                                        JoueurValide = false;
+                                        break;
+                                    }
+                                }
+
+                                if (JoueurValide)
+                                {
+                                    listeJoueursDejaAfficher.Add(joueur);
+                                    afficherReponse(joueur.answer);
+                                    break;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                i++;
+                            }
+                        }
+                    } while (!JoueurValide); // recommence si le joueur choisi avait déjà été choisi
+
+                     tempsAttente = 7f;
                 }
 
                 playerShow++;
@@ -73,8 +118,24 @@ public class ScWord1Script : MonoBehaviour
     {
         textPlaque.text = motPlaque;
         listeJoueurs = Joueurs;
+    }
 
+    public void afficherReponse(string reponse)
+    {
+        GameObject cadreReponseExistant = GameObject.Find("Background-Reponse");
+        GameObject cadreReponse;
 
+        if (cadreReponseExistant == null)
+        {
+            cadreReponse = Instantiate(modeleReponse, transform);
+            cadreReponse.transform.position = new Vector3(370f, 0f, 0f);
+        }
+        else
+        {
+            cadreReponse = cadreReponseExistant;
+        }
+
+        cadreReponse.transform.Find("Reponse").GetComponent<Text>().text = reponse;
     }
 
     private void OnDestroy()
@@ -82,7 +143,7 @@ public class ScWord1Script : MonoBehaviour
         PlayingScript scriptJeu = GetComponentInParent<PlayingScript>();
         if (scriptJeu != null)
         {
-            //scriptJeu.callNewScenario();        Enlever le commentaires SEULEMENT quand les scénarios ne vont pas être hardcode
+            //scriptJeu.callNewScenario();        Enlever le commentaires SEULEMENT quand la sélection du scénario ne va pas être hardcode sinon il va boucler à l'infini
         }
     }
 }

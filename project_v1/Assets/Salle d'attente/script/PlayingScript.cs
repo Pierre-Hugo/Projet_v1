@@ -74,7 +74,7 @@ public class PlayingScript : MonoBehaviour
                 randomIndex = random.Next(0, listeJoueurs.Count);
             
             int i = 0;
-            //listeJoueurs[randomIndex];
+          
 
             foreach (Player joueur in listeJoueurs)
             {
