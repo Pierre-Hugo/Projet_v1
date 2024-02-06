@@ -23,7 +23,6 @@ public class ContentManager : MonoBehaviour
     public Button boutonRetour;
     public Button boutonStart;
     public GameObject background;
-    public GameObject test;
     private bool isGamePlaying;
     
     
@@ -69,6 +68,7 @@ public class ContentManager : MonoBehaviour
         if (ws.IsAlive)
         {
             id = GenerateRandomCode(4);
+            id = "28EP";
             ws.Send("UNITY" + id);
             
 
@@ -108,8 +108,8 @@ public class ContentManager : MonoBehaviour
 
         }
 
-        addOnePlayerWord("12345", "jf", Color.red,"Salut");
-        addOnePlayerWord("67890", "peach", Color.cyan,"Coucou");
+        addOnePlayerWord("USER1234", "jf", Color.red,"Salut");
+        addOnePlayerWord("USERABCD", "peach", Color.cyan,"Coucou");
         listScript.AjouterListe("JF", Color.red);
         listScript.AjouterListe("PEACH", Color.cyan);
         
@@ -269,6 +269,14 @@ public class ContentManager : MonoBehaviour
                         }
                     }
 
+                    //VO pour Vote
+                    //exemple de message recu
+                    //string[] messageRecu = "VO,Chien"
+                    else if (instruction == "VO" && isGamePlaying)
+                    {
+
+                    }
+
                     else
                     {
                         ws.Send(idRecu + ": Impossibe de traiter la demande");
@@ -424,14 +432,23 @@ public class ContentManager : MonoBehaviour
     {
         foreach (Player joueur in listeJoueurs)
         {
-            ws.Send(joueur.Id + ":Answer");
+            ws.Send(joueur.Id + ":ANSWER");
         }
         
     }
 
+    public void askVoteToPlayer()
+    {
+        foreach (Player joueur in listeJoueurs)
+        {
+            ws.Send(joueur.Id + ":VOTE");
+        }
+
+    }
 
 
-    
+
+
 
 
 }

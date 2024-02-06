@@ -3,31 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScWord1Script : MonoBehaviour
+public class ScWord1Script : BaseScenarioWord
 {
-    public Text textPlaque;
-    private List<Player> listeJoueurs;
-    ContentManager scriptPrincipal;
-    private float timer;
-    private float tempsAttente;
-    private bool questionAsk;
-    private int playerShow;
-    private List<Player> listeJoueursDejaAfficher;
-    public GameObject modeleReponse;
+   
+
+
     
-
-    void Start()
-    {
-        Transform parent = transform.parent;
-        Transform parentOfParent = parent.parent;
-        scriptPrincipal = parentOfParent.GetComponent<ContentManager>();
-        questionAsk = false;
-        playerShow = 0;
-        listeJoueursDejaAfficher = new List<Player>();
-
-        tempsAttente = 10f;
-        timer = 0f;   
-    }
 
     // Update is called once per frame
     void Update()
@@ -43,25 +24,26 @@ public class ScWord1Script : MonoBehaviour
                 tempsAttente = 15f;
                 timer = 0f;
             }
-            if (questionAsk)
+            else
             {
-                if (textPlaque !=null)  
+                if (Question !=null)  
                 {
-                Destroy(textPlaque);
+                Destroy(Question);
                 }
 
                 if(listeJoueurs.Count == playerShow) //affiche tout les réponse et demande au joueurs de voter pour une réponse
                 {
-                    //show all anwser
+                    afficherReponses();
                     tempsAttente = 10f;
                 }
                 else if(listeJoueurs.Count <= playerShow) //ajoute les points et met fin au scénario
                 {
-                    //ajouter les points selon les votes
+                    givePoints();
                     Destroy(this);
                 }
                 else //affiche la réponse d'un joueur
                 {
+                    timer = 0f;
                     System.Random random = new System.Random();
                     int randomIndex;
                     bool JoueurValide;
@@ -90,7 +72,7 @@ public class ScWord1Script : MonoBehaviour
                                 if (JoueurValide)
                                 {
                                     listeJoueursDejaAfficher.Add(joueur);
-                                    afficherReponse(joueur.answer);
+                                    afficherReponse(joueur.answer, new Vector2(0f, 360f), new Vector2(700f,80f));
                                     break;
                                 }
                                 else
@@ -114,36 +96,8 @@ public class ScWord1Script : MonoBehaviour
         }
     }
 
-    public void initialisation(string motPlaque, List<Player> Joueurs) 
-    {
-        textPlaque.text = motPlaque;
-        listeJoueurs = Joueurs;
-    }
+    
+    
 
-    public void afficherReponse(string reponse)
-    {
-        GameObject cadreReponseExistant = GameObject.Find("Background-Reponse");
-        GameObject cadreReponse;
-
-        if (cadreReponseExistant == null)
-        {
-            cadreReponse = Instantiate(modeleReponse, transform);
-            cadreReponse.transform.position = new Vector3(370f, 0f, 0f);
-        }
-        else
-        {
-            cadreReponse = cadreReponseExistant;
-        }
-
-        cadreReponse.transform.Find("Reponse").GetComponent<Text>().text = reponse;
-    }
-
-    private void OnDestroy()
-    {
-        PlayingScript scriptJeu = GetComponentInParent<PlayingScript>();
-        if (scriptJeu != null)
-        {
-            //scriptJeu.callNewScenario();        Enlever le commentaires SEULEMENT quand la sélection du scénario ne va pas être hardcode sinon il va boucler à l'infini
-        }
-    }
+   
 }

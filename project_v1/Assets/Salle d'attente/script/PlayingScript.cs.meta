@@ -3,7 +3,27 @@ guid: 3a30f1b19c84ee445a258aa0b40e6bdb
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - ScenarioWord1: {fileID: 1713363591550436574, guid: ff8db447e96860343a6ce914214de6cf, type: 3}
+  - ScenarioWord2: {instanceID: 0}
+  - ScenarioWord3: {instanceID: 0}
+  - ScenarioWord4: {instanceID: 0}
+  - ScenarioWord5: {instanceID: 0}
+  - ScenarioPicture1: {instanceID: 0}
+  - ScenarioPicture2: {instanceID: 0}
+  - ScenarioPicture3: {instanceID: 0}
+  - ScenarioPicture4: {instanceID: 0}
+  - ScenarioPicture5: {instanceID: 0}
+  - ScenarioDraw1: {instanceID: 0}
+  - ScenarioDraw2: {instanceID: 0}
+  - ScenarioDraw3: {instanceID: 0}
+  - ScenarioDraw4: {instanceID: 0}
+  - ScenarioDraw5: {instanceID: 0}
+  - ScenarioVideo1: {instanceID: 0}
+  - ScenarioVideo2: {instanceID: 0}
+  - ScenarioVideo3: {instanceID: 0}
+  - ScenarioVideo4: {instanceID: 0}
+  - ScenarioVideo5: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
