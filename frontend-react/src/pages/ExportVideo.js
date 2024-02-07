@@ -1,18 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function ExportVideo({ ws }) {
+  const [videoChunks, setVideoChunks] = useState([]);
+
   const handleVideoChange = async (e) => {
     const video = e.target.files[0];
 
     if (video) {
-      displayVideoInConsole(video); // Affiche la vidéo dans la console
+      setVideoChunks([]);
+      const chunkSize = 400 * 1024; // 400 KB
+      let offset = 0;
+
+      while (offset < video.size) {
+        const chunk = video.slice(offset, offset + chunkSize);
+        setVideoChunks((prevChunks) => [...prevChunks, chunk]);
+        offset += chunkSize;
+      }
+
       const dataToSend = {
         fileName: video.name,
         fileSize: video.size,
         fileType: video.type,
       };
       const jsonData = JSON.stringify(dataToSend);
-      await sendNameFiles(jsonData);
+      displayVideoInConsole(video);
+      await sendVideoChunks(jsonData);
     }
   };
 
@@ -25,8 +37,18 @@ function ExportVideo({ ws }) {
     reader.readAsDataURL(file);
   };
 
-  const sendNameFiles = async (jsonData) => {
+  const sendVideoChunks = async (jsonData) => {
     ws.send(JSON.stringify({ data: jsonData }));
+
+    // Send each video chunk
+    for (const chunk of videoChunks) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const arrayBuffer = reader.result;
+        ws.send(arrayBuffer);
+      };
+      reader.readAsArrayBuffer(chunk);
+    }
   };
 
   return (
