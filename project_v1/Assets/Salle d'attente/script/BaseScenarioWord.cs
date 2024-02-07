@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BaseScenarioWord : MonoBehaviour
 {
-    public Text textRceu;
+    public Text textRecu;
     protected List<Player> listeJoueurs;
     protected ContentManager scriptPrincipal;
     protected float timer;
@@ -15,6 +16,7 @@ public class BaseScenarioWord : MonoBehaviour
     protected List<Player> listeJoueursDejaAfficher;
     public GameObject modeleReponse;
     public GameObject Question;
+    private Liste listScript;
 
     void Start()
     {
@@ -26,13 +28,14 @@ public class BaseScenarioWord : MonoBehaviour
         listeJoueursDejaAfficher = new List<Player>();
         tempsAttente = 10f;
         timer = 0f;
+        listScript = FindObjectOfType<Liste>();
     }
 
     
 
     public void initialisation(string motPlaque, List<Player> Joueurs)
     {
-        textRceu.text = motPlaque;
+        textRecu.text = motPlaque;
         listeJoueurs = Joueurs;
     }
     public void afficherReponse(string reponse, Vector2 position, Vector2 dimension)
@@ -40,13 +43,11 @@ public class BaseScenarioWord : MonoBehaviour
         GameObject cadreReponse = GameObject.Find("Background-Reponse(Clone)");
 
 
-
-
         if (cadreReponse == null)//vérifie si une réponse est déja afficher
         {
             cadreReponse = Instantiate(modeleReponse, transform);
             cadreReponse.GetComponent<RectTransform>().anchoredPosition = position;
-            cadreReponse.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(500f, cadreReponse.GetComponent<RectTransform>().sizeDelta.y);
+            cadreReponse.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta = dimension;
         }
 
 
@@ -56,6 +57,54 @@ public class BaseScenarioWord : MonoBehaviour
     protected void afficherReponses() 
     {
         GameObject cadreReponse = GameObject.Find("Background-Reponse(Clone)");
+
+        Destroy(cadreReponse);
+
+        listeJoueursDejaAfficher = new List<Player>();
+        System.Random random = new System.Random();
+        int randomIndex;
+        bool JoueurValide;
+        do
+        {
+            JoueurValide = true;
+
+            randomIndex = random.Next(0, listeJoueurs.Count);
+
+            int i = 0;
+
+
+            foreach (Player joueur in listeJoueurs)
+            {
+                if (i == randomIndex)//prend un joueur aléatoire dans la liste
+                {
+                    foreach (Player joueurDejaChoisi in listeJoueursDejaAfficher)
+                    {
+                        if (joueur == joueurDejaChoisi) // vérifie si le joueur à déja été choisi
+                        {
+                            JoueurValide = false;
+                            break;
+                        }
+                    }
+
+                    if (JoueurValide)
+                    {
+                        listeJoueursDejaAfficher.Add(joueur);
+                        listScript.AjouterListe(joueur.answer, Color.white);
+                        break;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    i++;
+                }
+            }
+        } while (listeJoueurs.Count != listeJoueursDejaAfficher.Count); // recommence si le joueur choisi avait déjà été choisi
+
+        scriptPrincipal.askPlayerToVote();
     }
 
     protected void givePoints() 

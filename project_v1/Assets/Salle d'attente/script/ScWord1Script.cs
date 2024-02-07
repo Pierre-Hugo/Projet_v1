@@ -19,7 +19,7 @@ public class ScWord1Script : BaseScenarioWord
         {
             if (!questionAsk)
             {
-                scriptPrincipal.askAnswerToPlayer();
+                scriptPrincipal.askPlayerToAnswer();
                 questionAsk = true;
                 tempsAttente = 15f;
                 timer = 0f;
@@ -39,7 +39,7 @@ public class ScWord1Script : BaseScenarioWord
                 else if(listeJoueurs.Count <= playerShow) //ajoute les points et met fin au scénario
                 {
                     givePoints();
-                    Destroy(this);
+                  //  Destroy(this);
                 }
                 else //affiche la réponse d'un joueur
                 {
@@ -69,10 +69,10 @@ public class ScWord1Script : BaseScenarioWord
                                     }
                                 }
 
-                                if (JoueurValide)
+                                if (JoueurValide) //affiche la réponse du joueur chosi aléatoirement
                                 {
                                     listeJoueursDejaAfficher.Add(joueur);
-                                    afficherReponse(joueur.answer, new Vector2(0f, 360f), new Vector2(700f,80f));
+                                    afficherReponse(joueur.answer, new Vector2(0f, 360f), new Vector2(1200f,80f));
                                     break;
                                 }
                                 else

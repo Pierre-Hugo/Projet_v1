@@ -751,6 +751,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   template: {fileID: 2336724898350466534, guid: 3fff4649fe602b74cb34d1363945238f, type: 3}
+  width: 450
 --- !u!114 &1128577340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -964,7 +965,6 @@ MonoBehaviour:
   boutonRetour: {fileID: 2037643647}
   boutonStart: {fileID: 306037278}
   background: {fileID: 1130614961}
-  test: {fileID: 0}
 --- !u!1 &1399365202
 GameObject:
   m_ObjectHideFlags: 0

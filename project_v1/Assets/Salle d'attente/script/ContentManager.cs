@@ -110,6 +110,10 @@ public class ContentManager : MonoBehaviour
 
         addOnePlayerWord("USER1234", "jf", Color.red,"Salut");
         addOnePlayerWord("USERABCD", "peach", Color.cyan,"Coucou");
+        addOnePlayerWord("USER5678", "Simone", Color.blue, "Allo");
+        addOnePlayerWord("USEREFGH", "Flex", Color.green, "Bonjour");
+        listScript.AjouterListe("Flex", Color.green);
+        listScript.AjouterListe("Simone", Color.blue);
         listScript.AjouterListe("JF", Color.red);
         listScript.AjouterListe("PEACH", Color.cyan);
         
@@ -428,7 +432,7 @@ public class ContentManager : MonoBehaviour
         isGamePlaying = true;
     }
 
-    public void askAnswerToPlayer()
+    public void askPlayerToAnswer()
     {
         foreach (Player joueur in listeJoueurs)
         {
@@ -437,7 +441,7 @@ public class ContentManager : MonoBehaviour
         
     }
 
-    public void askVoteToPlayer()
+    public void askPlayerToVote()
     {
         foreach (Player joueur in listeJoueurs)
         {
