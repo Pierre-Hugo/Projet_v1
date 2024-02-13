@@ -36,6 +36,7 @@ public class PlayingScript : MonoBehaviour
     public GameObject ScenarioVideo4;
     public GameObject ScenarioVideo5;
 
+    public GameObject ScoreBoard;
     private bool[,] ScenarioDejaJouer;
     private List<Player> listeJoueurs;
     private List<Player> listeJoueursDejaJouer;
@@ -233,9 +234,11 @@ public class PlayingScript : MonoBehaviour
             }
         } while (!ScenarioValide);
     }
-    public Player getPlayerChoisi()
+
+    public void callScoreBoard()
     {
-        return joueurChoisi;
+
     }
+    
 
 }

@@ -492,7 +492,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &960791180
 RectTransform:
   m_ObjectHideFlags: 0
@@ -607,6 +607,7 @@ MonoBehaviour:
   ScenarioVideo3: {fileID: 1512164781}
   ScenarioVideo4: {fileID: 1512164781}
   ScenarioVideo5: {fileID: 1512164781}
+  ScoreBoard: {fileID: 3592749117260672813, guid: 9bc865348e0b20b4d9288b5f1016f0a7, type: 3}
 --- !u!1 &1125087806
 GameObject:
   m_ObjectHideFlags: 0
@@ -1666,7 +1667,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2127114973
 MonoBehaviour:
   m_ObjectHideFlags: 0

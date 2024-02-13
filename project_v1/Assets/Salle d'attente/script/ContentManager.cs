@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine.Animations;
 using System.Collections;
 using UnityEngine.Networking;
+using System.Linq;
 
 public class ContentManager : MonoBehaviour
 {
@@ -24,8 +25,10 @@ public class ContentManager : MonoBehaviour
     public Button boutonStart;
     public GameObject background;
     private bool isGamePlaying;
-    
-    
+    private bool isPlayerAnswering;
+    private bool isPlayerVoting;
+
+
 
 
     void Start()
@@ -39,9 +42,11 @@ public class ContentManager : MonoBehaviour
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         boutonStart.interactable = true;
         isGamePlaying = false;
-       
+        isPlayerAnswering = false;
+        isPlayerVoting = false;
 
-       
+
+
 
 
 
@@ -55,28 +60,29 @@ public class ContentManager : MonoBehaviour
 
         ws.OnMessage += (sender, e) =>
         {
-            
+
             lock (lockObject)
             {
                 listeDataRecu.Add(e);
-                
+
             }
         };
 
-        
+
 
         if (ws.IsAlive)
         {
             id = GenerateRandomCode(4);
             id = "28EP";
             ws.Send("UNITY" + id);
-            
+
 
             while (!idConfirmer)
             {
                 if (listeDataRecu.Count > 0)
                 {
-                    lock (lockObject) {
+                    lock (lockObject)
+                    {
                         List<MessageEventArgs> listeDonne = new List<MessageEventArgs>(listeDataRecu);
 
                         foreach (MessageEventArgs data in listeDonne)
@@ -95,8 +101,8 @@ public class ContentManager : MonoBehaviour
                         }
                     }
                 }
-               
-               
+
+
             }
         }
         else
@@ -108,21 +114,21 @@ public class ContentManager : MonoBehaviour
 
         }
 
-        addOnePlayerWord("USER1234", "jf", Color.red,"Salut");
-        addOnePlayerWord("USERABCD", "peach", Color.cyan,"Coucou");
+        addOnePlayerWord("USER1234", "jf", Color.red, "Salut");
+        addOnePlayerWord("USERABCD", "peach", Color.cyan, "Coucou");
         addOnePlayerWord("USER5678", "Simone", Color.blue, "Allo");
         addOnePlayerWord("USEREFGH", "Flex", Color.green, "Bonjour");
         listScript.AjouterListe("Flex", Color.green);
         listScript.AjouterListe("Simone", Color.blue);
         listScript.AjouterListe("JF", Color.red);
         listScript.AjouterListe("PEACH", Color.cyan);
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (listeDataRecu.Count>0)
+        if (listeDataRecu.Count > 0)
         {
             lock (lockObject)
             {
@@ -130,7 +136,7 @@ public class ContentManager : MonoBehaviour
 
                 foreach (MessageEventArgs dataRecu in listeDonne)
                 {
-                    
+
                     string[] messageComplet = dataRecu.Data.Split(":");
                     string idRecu = messageComplet[0];
                     string[] messageRecu = messageComplet[1].Split(",");
@@ -140,92 +146,105 @@ public class ContentManager : MonoBehaviour
                     //NP pour New Player
                     //exemple de message recu
                     //string[] messageRecu = "NP,Xx_coolGuy_xX,BLUE,[...]"
-                    if (instruction == "NP" && !isGamePlaying)
+                    if (instruction == "NP")
                     {
-                        if (listeJoueurs.Count < nbMaxJoueurs && messageRecu.Length>4)
+                        if (!isGamePlaying)
                         {
-                            bool donneValide = true;
-                            
-                            string pseudoRecu = messageRecu[1];
-                            Color couleurRecu = conversionStringColor(messageRecu[2]);
-
-                            foreach (Player joueur in listeJoueurs)
+                            if (listeJoueurs.Count < nbMaxJoueurs && messageRecu.Length > 4)
                             {
-                                //vérifie si l'id, le pseudo ou la couleur est déjà utilisé
-                                if (joueur.Id == idRecu || joueur.Pseudo == pseudoRecu || joueur.Couleur == couleurRecu)
-                                {
-                                    ws.Send(idRecu + ":Donne invalides");
-                                    donneValide = false;
+                                bool donneValide = true;
 
-                                    break;
+                                string pseudoRecu = messageRecu[1];
+                                Color couleurRecu = conversionStringColor(messageRecu[2]);
+
+                                foreach (Player joueur in listeJoueurs)
+                                {
+                                    //vérifie si l'id, le pseudo ou la couleur est déjà utilisé
+                                    if (joueur.Id == idRecu || joueur.Pseudo == pseudoRecu || joueur.Couleur == couleurRecu)
+                                    {
+                                        ws.Send(idRecu + ":Donne invalides");
+                                        donneValide = false;
+
+                                        break;
+                                    }
+
                                 }
-
-                            }
-                            if (donneValide)
-                            {
-                                
-                                string typePlayer = messageRecu[3];
-                                switch (typePlayer)//ajoute le bon type de Player
+                                if (donneValide)
                                 {
-                                    case "PIC": // exemple de message:  messageRecu = "NP,Xx_coolGuy_xX,BLUE,PIC,(code de l'image), TRUE"
-                                        if (messageRecu.Length > 5)
-                                        {
+
+                                    string typePlayer = messageRecu[3];
+                                    switch (typePlayer)//ajoute le bon type de Player
+                                    {
+                                        case "PIC": // exemple de message:  messageRecu = "NP,Xx_coolGuy_xX,BLUE,PIC,(code de l'image), TRUE"
+                                            if (messageRecu.Length > 5)
+                                            {
+                                                break;
+                                            }
+                                            string img = messageRecu[4];
+                                            bool isDraw = messageRecu[5] == "TRUE";
+                                            addOnePlayerPicture(idRecu, pseudoRecu, couleurRecu, img, isDraw);
+                                            listScript.AjouterListe(pseudoRecu, couleurRecu);
                                             break;
-                                        }
-                                        string img= messageRecu[4];
-                                        bool isDraw = messageRecu[5]=="TRUE";
-                                        addOnePlayerPicture(idRecu, pseudoRecu, couleurRecu,img,isDraw);
-                                        listScript.AjouterListe(pseudoRecu, couleurRecu);
-                                        break;
 
-                                    case "VID": //exemple de message:  messageRecu = "NP,Xx_coolGuy_xX,BLUE,VID,(code de la video)"
-                                        string vid = messageRecu[4];
-                                        addOnePlayerVideo(idRecu, pseudoRecu, couleurRecu, vid);
-                                        listScript.AjouterListe(pseudoRecu, couleurRecu);
-                                        break;
+                                        case "VID": //exemple de message:  messageRecu = "NP,Xx_coolGuy_xX,BLUE,VID,(code de la video)"
+                                            string vid = messageRecu[4];
+                                            addOnePlayerVideo(idRecu, pseudoRecu, couleurRecu, vid);
+                                            listScript.AjouterListe(pseudoRecu, couleurRecu);
+                                            break;
 
-                                    case "WRD": //exemple de message:  messageRecu = "NP,Xx_coolGuy_xX,BLUE,WRD,Coucou"
-                                        string word = messageRecu[4];
-                                        addOnePlayerWord(idRecu, pseudoRecu, couleurRecu, word);
-                                        listScript.AjouterListe(pseudoRecu, couleurRecu);
-                                        break;
+                                        case "WRD": //exemple de message:  messageRecu = "NP,Xx_coolGuy_xX,BLUE,WRD,Coucou"
+                                            string word = messageRecu[4];
+                                            addOnePlayerWord(idRecu, pseudoRecu, couleurRecu, word);
+                                            listScript.AjouterListe(pseudoRecu, couleurRecu);
+                                            break;
+                                    }
+
+
+
+                                    //  test.GetComponent < Image >().sprite = Sprite.Create(joueur.imageTexture, new Rect(0, 0, joueur.imageTexture.width, joueur.imageTexture.height), Vector2.zero);
+
+                                    if (listeJoueurs.Count > 2)
+                                    {
+                                        boutonStart.interactable = true;
+                                    }
                                 }
-
-
-
-                                //  test.GetComponent < Image >().sprite = Sprite.Create(joueur.imageTexture, new Rect(0, 0, joueur.imageTexture.width, joueur.imageTexture.height), Vector2.zero);
-
-                                if (listeJoueurs.Count > 2) 
-                                {
-                                boutonStart.interactable = true;
-                                } 
+                            }
+                            else
+                            {
+                                ws.Send(idRecu + ":Salle Pleine");
                             }
                         }
                         else
                         {
-                            ws.Send(idRecu + ": Salle Pleine");
+                            //Si la partie est déjà commencer, je vais mettre le joueur comme connecter
+                            Player joueur = GetPlayerById(idRecu);
+                            if (joueur != null)
+                            {
+                                joueur.PlayerConnected(true);
+                            }
+                            else
+                            {
+                                ws.Send(idRecu + ":Game already started");
+                            }
+
                         }
                     }
 
                     //DC pour Disconnected
                     //exemple de message recu
                     //string[] messageRecu = "DC"
-                    else if (instruction == "DC")
+                    else if (instruction == "DC" && !isGamePlaying)
                     {
-                        foreach (Player joueur in listeJoueurs)
+                        Player joueur = GetPlayerById(idRecu);
+                        if (joueur != null)
                         {
-                            if (joueur.Id == idRecu) // chercher l'id dans la liste qui correspond à celui recu
+                            removeOnePlayer(joueur.Id);
+                            listScript.retirerListe(joueur.Pseudo);
+                            if (listeJoueurs.Count <= 2)
                             {
-                                removeOnePlayer(joueur.Id);
-                                listScript.retirerListe(joueur.Pseudo);
-                                if (listeJoueurs.Count <= 2)
-                                {
-                                    boutonStart.interactable = false;
-                                }
-                                break;
+                                boutonStart.interactable = false;
                             }
                         }
-
 
                     }
                     //CC pour Change Color
@@ -239,20 +258,22 @@ public class ContentManager : MonoBehaviour
 
                         foreach (Player joueur in listeJoueurs)
                         {
-                            if(joueur.Couleur == couleur)
+                            if (joueur.Couleur == couleur)
                             {
                                 couleurAlreadyUse = true;
+                                break;
                             }
                         }
 
-                        if (Pseudo != null && !couleurAlreadyUse) 
+                        if (Pseudo != null && !couleurAlreadyUse)
                         {
-                           listScript.ChangerCouleur(Pseudo, couleur);
+                            listScript.ChangerCouleur(Pseudo, couleur);
                             foreach (Player joueur in listeJoueurs)
                             {
                                 if (joueur.Pseudo == Pseudo)
                                 {
                                     joueur.Couleur = couleur;
+                                    break;
                                 }
                             }
                         }
@@ -261,37 +282,61 @@ public class ContentManager : MonoBehaviour
                     //AN pour Change Answer
                     //exemple de message recu
                     //string[] messageRecu = "AN,Chien"
-                    else if (instruction == "AN" && isGamePlaying)
+                    else if (instruction == "AN" && isGamePlaying && isPlayerAnswering)
                     {
                         string reponse = messageRecu[1];
-                        foreach (Player joueur in listeJoueurs)
+                        Player joueur = GetPlayerById(idRecu);
+                        if (joueur != null)
                         {
-                            if (joueur.Id == idRecu)
-                            {
-                                joueur.answer = reponse;
-                            }
+                            joueur.answer = reponse;
                         }
+                        else
+                        {
+                            ws.Send(idRecu + ":user unknown");
+                        }
+
                     }
 
                     //VO pour Vote
                     //exemple de message recu
-                    //string[] messageRecu = "VO,Chien"
-                    else if (instruction == "VO" && isGamePlaying)
+                    //string[] messageRecu = "VO,USERABCD"
+                    else if (instruction == "VO" && isGamePlaying && isPlayerVoting)
                     {
+                        string vote = messageRecu[1];
+                        Player joueur = GetPlayerById(idRecu);
+                        if (joueur != null)
+                        {
+                            joueur.vote = vote;
+                        }
+                    }
+
+                    //message envoyer par le serveur
+                    //exemple de message recu
+                    //string[] messageRecu = "Client ID not found"
+                    else if (instruction == "Client ID not found")
+                    {
+                        //ce message va etre recu si on envoye un message à un id qui est introuvable, donc quelqu'un de déconnecté, mais qui l'a déjà été
+                        //Je met donc son état isConnected à false pour le moment et il peux se reconnecter plus tard
+                        //normalement, cela ne peux arriver que quand la partie est commencé
+                        Player joueur = GetPlayerById(idRecu);
+                        if (joueur != null)
+                        {
+                            joueur.PlayerConnected(false);
+                        }
 
                     }
 
                     else
                     {
-                        ws.Send(idRecu + ": Impossibe de traiter la demande");
+                        ws.Send(idRecu + ":Impossibe de traiter la demande");
                     }
-                    
+
                     listeDataRecu.Remove(dataRecu);
                 }
             }
         }
 
-        
+
     }
 
 
@@ -316,43 +361,52 @@ public class ContentManager : MonoBehaviour
         image.sprite = sprite;
     }
 
-    private void addOnePlayerWord(string ID, string PSEUDO, Color COULEUR,string MOTS)
+    private void addOnePlayerWord(string ID, string PSEUDO, Color COULEUR, string MOTS)
     {
-            PlayerWord joueurConnecte = new PlayerWord(ID, PSEUDO, COULEUR,MOTS);
-            listeJoueurs.Add(joueurConnecte);
+        PlayerWord joueurConnecte = new PlayerWord(ID, PSEUDO, COULEUR, MOTS);
+        listeJoueurs.Add(joueurConnecte);
     }
     private void addOnePlayerPicture(string ID, string PSEUDO, Color COULEUR, string IMGHEXA, bool isDraw)
     {
-        PlayerPicture joueurConnecte = new PlayerPicture(ID, PSEUDO, COULEUR,IMGHEXA,isDraw);
+        PlayerPicture joueurConnecte = new PlayerPicture(ID, PSEUDO, COULEUR, IMGHEXA, isDraw);
         listeJoueurs.Add(joueurConnecte);
     }
-    private void addOnePlayerVideo(string ID, string PSEUDO, Color COULEUR,string VIDEO)
+    private void addOnePlayerVideo(string ID, string PSEUDO, Color COULEUR, string VIDEO)
     {
-        PlayerVideo joueurConnecte = new PlayerVideo(ID, PSEUDO, COULEUR,VIDEO);
+        PlayerVideo joueurConnecte = new PlayerVideo(ID, PSEUDO, COULEUR, VIDEO);
         listeJoueurs.Add(joueurConnecte);
     }
 
     private void removeOnePlayer(string id)
     {
-        foreach (Player joueur in listeJoueurs)
+        Player joueur = GetPlayerById(id);
+        if (joueur != null)
         {
-            if (joueur.Id == id)
-            {
-                listeJoueurs.Remove(joueur);
-                break;
-            }
+            listeJoueurs.Remove(joueur);
         }
+
 
 
     }
 
     private string GetNameById(string id)
     {
+        Player joueur = GetPlayerById(id);
+        if (joueur != null)
+        {
+            return joueur.Pseudo;
+        }
+
+        return null;
+    }
+
+    private Player GetPlayerById(string id)
+    {
         foreach (Player joueur in listeJoueurs)
         {
             if (joueur.Id == id)
             {
-                return joueur.Pseudo;
+                return joueur;
             }
         }
         return null;
@@ -396,7 +450,7 @@ public class ContentManager : MonoBehaviour
         return color;
     }
 
-   
+
     public string GenerateRandomCode(int length)
     {
         string code = "";
@@ -408,7 +462,7 @@ public class ContentManager : MonoBehaviour
         return code;
     }
 
-    public void showBackBouton() 
+    public void showBackBouton()
     {
         boutonRetour.gameObject.SetActive(true);
     }
@@ -430,22 +484,47 @@ public class ContentManager : MonoBehaviour
     public void gameStarted()
     {
         isGamePlaying = true;
+        foreach (Player joueur in listeJoueurs)
+        {
+            ws.Send(joueur.Id + ":GAME START");
+
+        }
+
     }
 
     public void askPlayerToAnswer()
     {
+        isPlayerAnswering = true;
         foreach (Player joueur in listeJoueurs)
         {
             ws.Send(joueur.Id + ":ANSWER");
+
+
         }
-        
+
     }
 
     public void askPlayerToVote()
     {
+        isPlayerAnswering = false;
+        isPlayerVoting = true; ;
+        string message = "";
+        System.Random rand = new System.Random();
+        List<Player> listeAleatoire = listeJoueurs.OrderBy(joueur => rand.Next()).ToList();
+
+        foreach (Player joueur in listeAleatoire)
+        {
+           
+            message += ","; 
+            message += joueur.Id;
+            message += ",";
+            message += joueur.answer; //si fais en un message, il y a des problèmes de dll fuck up qui sont lier a des problèmes de virus donc laisser ca comme ca pour le moment
+        }
+
         foreach (Player joueur in listeJoueurs)
         {
-            ws.Send(joueur.Id + ":VOTE");
+            ws.Send(joueur.Id + ":VOTE," + joueur.answer + message);
+
         }
 
     }

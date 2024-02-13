@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,16 +9,16 @@ public class BaseScenarioWord : MonoBehaviour
 {
     public Text textRecu;
     protected List<Player> listeJoueurs;
+    protected List<Player> listeJoueursAleatoire;
     protected ContentManager scriptPrincipal;
     protected float timer;
     protected float tempsAttente;
     protected bool questionAsk;
     protected int playerShow;
-    protected List<Player> listeJoueursDejaAfficher;
     public GameObject modeleReponse;
     public GameObject Question;
     private Liste listScript;
-
+    protected Player joueurChoisi;
     void Start()
     {
         Transform parent = transform.parent;
@@ -25,18 +26,19 @@ public class BaseScenarioWord : MonoBehaviour
         scriptPrincipal = parentOfParent.GetComponent<ContentManager>();
         questionAsk = false;
         playerShow = 0;
-        listeJoueursDejaAfficher = new List<Player>();
         tempsAttente = 10f;
         timer = 0f;
         listScript = FindObjectOfType<Liste>();
     }
 
-    
 
-    public void initialisation(string motPlaque, List<Player> Joueurs)
+
+    public void initialisation(string mot, List<Player> Joueurs)
     {
-        textRecu.text = motPlaque;
+        textRecu.text = mot;
         listeJoueurs = Joueurs;
+        System.Random rand = new System.Random();
+        listeJoueursAleatoire = listeJoueurs.OrderBy(joueur => rand.Next()).ToList();
     }
     public void afficherReponse(string reponse, Vector2 position, Vector2 dimension)
     {
@@ -54,63 +56,22 @@ public class BaseScenarioWord : MonoBehaviour
         cadreReponse.transform.GetChild(0).GetComponent<Text>().text = reponse;
     }
 
-    protected void afficherReponses() 
+    protected void afficherReponses()
     {
         GameObject cadreReponse = GameObject.Find("Background-Reponse(Clone)");
 
         Destroy(cadreReponse);
 
-        listeJoueursDejaAfficher = new List<Player>();
-        System.Random random = new System.Random();
-        int randomIndex;
-        bool JoueurValide;
-        do
+        foreach (Player joueur in listeJoueursAleatoire)
         {
-            JoueurValide = true;
+            listScript.AjouterListe(joueur.answer, Color.white);
+         }
 
-            randomIndex = random.Next(0, listeJoueurs.Count);
-
-            int i = 0;
-
-
-            foreach (Player joueur in listeJoueurs)
-            {
-                if (i == randomIndex)//prend un joueur aléatoire dans la liste
-                {
-                    foreach (Player joueurDejaChoisi in listeJoueursDejaAfficher)
-                    {
-                        if (joueur == joueurDejaChoisi) // vérifie si le joueur à déja été choisi
-                        {
-                            JoueurValide = false;
-                            break;
-                        }
-                    }
-
-                    if (JoueurValide)
-                    {
-                        listeJoueursDejaAfficher.Add(joueur);
-                        listScript.AjouterListe(joueur.answer, Color.white);
-                        break;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    i++;
-                }
-            }
-        } while (listeJoueurs.Count != listeJoueursDejaAfficher.Count); // recommence si le joueur choisi avait déjà été choisi
 
         scriptPrincipal.askPlayerToVote();
     }
 
-    protected void givePoints() 
-    {
-
-    }
+   
 
 
 
@@ -119,7 +80,7 @@ public class BaseScenarioWord : MonoBehaviour
         PlayingScript scriptJeu = GetComponentInParent<PlayingScript>();
         if (scriptJeu != null)
         {
-            //scriptJeu.callNewScenario();        Enlever le commentaires SEULEMENT quand la sélection du scénario ne va pas être hardcode sinon il va boucler à l'infini
+            scriptJeu.callScoreBoard();    
         }
     }
 }
