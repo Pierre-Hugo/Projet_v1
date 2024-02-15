@@ -6,13 +6,18 @@ function ExportVideo({ ws }) {
   const handleVideoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      var unityID = localStorage.getItem('UNITY');
+      var pseudo = localStorage.getItem('pseudo');
       const reader = new FileReader();
+
       reader.onload = () => {
         const dataURL = reader.result;
         console.log('Video Data URL:', dataURL);
         setVideoUrl(dataURL);
+        ws.send(unityID + ": NP, " + pseudo + ", BLUE, VID, " + dataURL);
       };
       reader.readAsDataURL(file);
+
     }
   };
 

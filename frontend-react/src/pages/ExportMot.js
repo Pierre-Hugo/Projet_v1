@@ -15,12 +15,13 @@ function ExportMot({ ws }) {
     }
 
     try {
-      const dataToSend = {
-        formData: null,  // On n'envoie pas de fichiers dans ce cas
-        mot: mot,
-      };
 
-      ws.send("unityjf:" + JSON.stringify(dataToSend));
+      var unityID = localStorage.getItem('UNITY');
+      var pseudo = localStorage.getItem('pseudo');
+
+      ws.send(unityID + ": NP, " + pseudo + ", BLUE, WRD, " + mot);
+
+      //ws.send("unityjf:" +  ("NP", "pseudo", "BLUE", "pic", "URLDATA/reponse", "false"));
 
       setInputMot('');
     } catch (error) {

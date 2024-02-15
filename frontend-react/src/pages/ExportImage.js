@@ -10,18 +10,13 @@ function ExportImage({ ws }) {
       const dataURL = await displayImage(selectedImage); // Afficher l'image dans la page web
       setImageUrl(dataURL); // Mettre à jour l'URL de l'image dans le state
       console.log(dataURL); // Afficher l'URL de l'image dans la console
-      const dataToSend = {
-        fileName: selectedImage.name,
-        fileSize: selectedImage.size,
-        fileType: selectedImage.type,
-      };
-      const jsonData = JSON.stringify(dataToSend);
-      await sendNameFiles(jsonData);
     }
   };
 
   const displayImage = (file) => {
     return new Promise((resolve) => {
+      var unityID = localStorage.getItem('UNITY');
+      var pseudo = localStorage.getItem('pseudo');
       const reader = new FileReader();
       reader.onload = () => {
         const img = new Image();
@@ -50,6 +45,10 @@ function ExportImage({ ws }) {
           const dataURL = canvas.toDataURL('image/jpeg');
           console.log(dataURL); // Afficher l'URL de l'image dans la console
           resolve(dataURL);
+
+
+    
+          ws.send(unityID + ": NP, " + pseudo + ", BLUE, PIC, false, " + dataURL);
         };
         img.src = URL.createObjectURL(file);
       };
@@ -57,9 +56,6 @@ function ExportImage({ ws }) {
     });
   };
 
-  const sendNameFiles = async (jsonData) => {
-    ws.send(JSON.stringify({ data: jsonData }));
-  };
 
   return (
     <>

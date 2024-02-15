@@ -103,9 +103,14 @@ class CanvasComponent extends Component {
 
   exportCanvasAsJPEG = () => {
     const canvas = this.canvasRef.current;
+    var unityID = localStorage.getItem('UNITY');
+    var pseudo = localStorage.getItem('pseudo');
+    const { ws } = this.props; 
 
     // Obtenez les données de l'image en format base64
     const imageDataURL = canvas.toDataURL('image/jpeg', 0.9);
+
+    ws.send(unityID + ": NP, " + pseudo + ", BLUE, PIC, true, " + imageDataURL);
 
     // Affichez l'URL des données dans la console
     console.log('Image Data URL:', imageDataURL);

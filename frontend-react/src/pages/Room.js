@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function Room({ ws }) {
-
   const [pin, setPin] = useState('');
   const [pseudo, setPseudo] = useState('');
 
@@ -15,7 +14,11 @@ function Room({ ws }) {
   };
 
   const handleSubmit = (e) => {
+    
     e.preventDefault();
+
+    localStorage.setItem('pseudo', pseudo);
+    
 
     if (!pin || !pseudo || !ws) {
       console.error('PIN, pseudo ou connexion WebSocket manquants.');
@@ -23,12 +26,18 @@ function Room({ ws }) {
     }
 
     try {
-      const dataToSend = {
-        pin: pin,
-        pseudo: pseudo,
-      };
+      var ROOM = "UNITY" + pin
+      //var pseu = localStorage.getItem('pseudo');
 
-      ws.send(JSON.stringify(dataToSend));
+      ws.send(ROOM + ":CHECK")
+
+      if(true){
+        localStorage.setItem('UNITY', ROOM);
+      }
+
+      //ws.send(ROOM + ":" + pseu)
+
+      //ws.send("unityjf:" +  ("NP", "pseudo", "BLUE", "pic", "URLDATA/reponse", "false"));
 
       setPin('');
       setPseudo('');
@@ -37,14 +46,8 @@ function Room({ ws }) {
     }
   };
 
- const send = () => {
-    if (pin && pseudo && ws) {
-      const dataToSend = {
-        pin: pin,
-        pseudo: pseudo,
-      };
-      ws.send(JSON.stringify(dataToSend));
-    }
+  const send = () => {
+    handleSubmit({ preventDefault: () => {} }); // Appel à la fonction handleSubmit pour envoyer les données au WebSocket
   };
 
   return (
@@ -66,4 +69,3 @@ function Room({ ws }) {
 }
 
 export default Room;
-
