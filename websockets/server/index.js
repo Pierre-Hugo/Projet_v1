@@ -50,7 +50,7 @@ wss.on("connection", (ws) => {
         });
 
         if (!targetClientFound) {
-            ws.send(`Client ID ${targetClientId} not found`);
+            ws.send(`${targetClientId}:Client ID not found`);
         }
     });
 
