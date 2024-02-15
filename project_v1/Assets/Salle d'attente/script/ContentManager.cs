@@ -30,7 +30,6 @@ public class ContentManager : MonoBehaviour
 
 
 
-
     void Start()
     {
         listScript = FindObjectOfType<Liste>();
@@ -45,18 +44,9 @@ public class ContentManager : MonoBehaviour
         isPlayerAnswering = false;
         isPlayerVoting = false;
 
-
-
-
-
-
-
         ws = new WebSocket("ws://localhost:8080");
 
-
         ws.Connect();
-
-
 
         ws.OnMessage += (sender, e) =>
         {
@@ -67,8 +57,6 @@ public class ContentManager : MonoBehaviour
 
             }
         };
-
-
 
         if (ws.IsAlive)
         {
@@ -136,10 +124,9 @@ public class ContentManager : MonoBehaviour
 
                 foreach (MessageEventArgs dataRecu in listeDonne)
                 {
-
-                    string[] messageComplet = dataRecu.Data.Split(":");
-                    string idRecu = messageComplet[0];
-                    string[] messageRecu = messageComplet[1].Split(",");
+                    int firstColounIndex = dataRecu.Data.IndexOf(':');
+                    string idRecu = dataRecu.Data.Substring(0,firstColounIndex);
+                    string[] messageRecu = dataRecu.Data.Substring(firstColounIndex + 1).Split(",");
 
                     string instruction = messageRecu[0];
 
@@ -175,13 +162,10 @@ public class ContentManager : MonoBehaviour
                                     string typePlayer = messageRecu[3];
                                     switch (typePlayer)//ajoute le bon type de Player
                                     {
-                                        case "PIC": // exemple de message:  messageRecu = "NP,Xx_coolGuy_xX,BLUE,PIC,(code de l'image), TRUE"
-                                            if (messageRecu.Length > 5)
-                                            {
-                                                break;
-                                            }
-                                            string img = messageRecu[4];
-                                            bool isDraw = messageRecu[5] == "TRUE";
+                                        case "PIC": // exemple de message:  messageRecu = "NP,Xx_coolGuy_xX,BLUE,PIC,TRUE,(code de l'image)"
+                                           
+                                            string img = messageRecu[5] + "," + messageRecu[6];
+                                            bool isDraw = messageRecu[4] == "TRUE";
                                             addOnePlayerPicture(idRecu, pseudoRecu, couleurRecu, img, isDraw);
                                             listScript.AjouterListe(pseudoRecu, couleurRecu);
                                             break;
@@ -199,9 +183,6 @@ public class ContentManager : MonoBehaviour
                                             break;
                                     }
 
-
-
-                                    //  test.GetComponent < Image >().sprite = Sprite.Create(joueur.imageTexture, new Rect(0, 0, joueur.imageTexture.width, joueur.imageTexture.height), Vector2.zero);
 
                                     if (listeJoueurs.Count > 2)
                                     {
@@ -304,7 +285,7 @@ public class ContentManager : MonoBehaviour
                     {
                         string vote = messageRecu[1];
                         Player joueur = GetPlayerById(idRecu);
-                        if (joueur != null)
+                        if (joueur != null && idRecu !=vote)
                         {
                             joueur.vote = vote;
                         }
@@ -326,6 +307,19 @@ public class ContentManager : MonoBehaviour
 
                     }
 
+                    else if(instruction == "CHECK")
+                    {
+                        if(listeJoueurs.Count >= nbMaxJoueurs)
+                        {
+                            ws.Send(idRecu + ":NO");
+                        }
+                        else
+                        {
+                            ws.Send(idRecu + ":YES");
+                        }
+
+                    }
+
                     else
                     {
                         ws.Send(idRecu + ":Impossibe de traiter la demande");
@@ -335,7 +329,6 @@ public class ContentManager : MonoBehaviour
                 }
             }
         }
-
 
     }
 
@@ -366,9 +359,9 @@ public class ContentManager : MonoBehaviour
         PlayerWord joueurConnecte = new PlayerWord(ID, PSEUDO, COULEUR, MOTS);
         listeJoueurs.Add(joueurConnecte);
     }
-    private void addOnePlayerPicture(string ID, string PSEUDO, Color COULEUR, string IMGHEXA, bool isDraw)
+    private void addOnePlayerPicture(string ID, string PSEUDO, Color COULEUR, string IMG, bool isDraw)
     {
-        PlayerPicture joueurConnecte = new PlayerPicture(ID, PSEUDO, COULEUR, IMGHEXA, isDraw);
+        PlayerPicture joueurConnecte = new PlayerPicture(ID, PSEUDO, COULEUR, IMG, isDraw);
         listeJoueurs.Add(joueurConnecte);
     }
     private void addOnePlayerVideo(string ID, string PSEUDO, Color COULEUR, string VIDEO)
@@ -384,9 +377,6 @@ public class ContentManager : MonoBehaviour
         {
             listeJoueurs.Remove(joueur);
         }
-
-
-
     }
 
     private string GetNameById(string id)
@@ -400,7 +390,7 @@ public class ContentManager : MonoBehaviour
         return null;
     }
 
-    private Player GetPlayerById(string id)
+    public Player GetPlayerById(string id)
     {
         foreach (Player joueur in listeJoueurs)
         {
@@ -487,9 +477,7 @@ public class ContentManager : MonoBehaviour
         foreach (Player joueur in listeJoueurs)
         {
             ws.Send(joueur.Id + ":GAME START");
-
         }
-
     }
 
     public void askPlayerToAnswer()
@@ -498,9 +486,7 @@ public class ContentManager : MonoBehaviour
         foreach (Player joueur in listeJoueurs)
         {
             ws.Send(joueur.Id + ":ANSWER");
-
-
-        }
+                }
 
     }
 
@@ -524,14 +510,8 @@ public class ContentManager : MonoBehaviour
         foreach (Player joueur in listeJoueurs)
         {
             ws.Send(joueur.Id + ":VOTE," + joueur.answer + message);
-
         }
-
     }
-
-
-
-
 
 
 }

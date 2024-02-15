@@ -237,8 +237,52 @@ public class PlayingScript : MonoBehaviour
 
     public void callScoreBoard()
     {
+        GivePlayersPoints();
+        Instantiate(ScoreBoard, transform);
+    }
+
+    private void GivePlayersPoints()
+    {
+        foreach (Player player in listeJoueurs) // reset les vote
+        {
+            player.nbVote = 0;
+
+        }
+        ContentManager contentManager = FindObjectOfType<ContentManager>();
+        
+        foreach (Player player in listeJoueurs)
+        {
+            if (player.vote != "")//vérifie que le joueur a voté
+            {
+                contentManager.GetPlayerById(player.vote).nbVote++; // donne un vote au joueurs
+                player.vote = "";
+            }
+        }
+
+        foreach (Player player in listeJoueurs)
+        {
+            switch (player.nbVote)
+            {
+                case 1:
+                    player.AddPoints(100);
+                    break;
+                case 2:
+                    player.AddPoints(225);
+                    break;
+                case 3:
+                    player.AddPoints(360);
+                    break;
+                case 4:
+                    player.AddPoints(500);
+                    break;
+                case 5:
+                    player.AddPoints(575);
+                    break;
+
+            }
+        }
+
 
     }
-    
 
 }
