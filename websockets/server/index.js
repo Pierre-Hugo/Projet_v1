@@ -51,6 +51,7 @@ wss.on("connection", (ws) => {
 
         if (!targetClientFound) {
             ws.send(`${targetClientId}:Client ID not found`);
+            console.log(`${targetClientId}:Client ID not found`);
         }
     });
 
