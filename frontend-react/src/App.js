@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import sha256 from 'crypto-js/sha256';
 
 import Room from './pages/Room';
 import Export from './pages/Export';
@@ -27,11 +26,12 @@ function App({ ws }) {
 
   useEffect(() => {
     if (isConnectionReady && !userCreated) {
+
       let userID = localStorage.getItem('userID');
 
       if (!userID) {
         userID = generateRandomCode(8);
-        localStorage.setItem('userID', hashUserID(userID));
+        localStorage.setItem('userID', userID);
       }
 
       if (ws && userID && !usersList.includes(userID)) {
@@ -54,9 +54,6 @@ function App({ ws }) {
     return code;
   }
 
-  function hashUserID(userID) {
-    return sha256(userID).toString();
-  }
 
   return (
     <div className="App">

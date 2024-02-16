@@ -21,14 +21,6 @@ function ExportVideo({ ws }) {
     }
   };
 
-  const handleVideoUrlChange = (e) => {
-    setVideoUrl(e.target.value);
-  };
-
-  const handleLoadVideo = () => {
-    console.log('Sending video URL:', videoUrl);
-  };
-
   return (
     <>
       <h1>Choisissez une vidéo depuis votre appareil ou entrez une URL de vidéo:</h1>

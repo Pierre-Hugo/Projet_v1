@@ -21,8 +21,6 @@ function ExportMot({ ws }) {
 
       ws.send(unityID + ": NP, " + pseudo + ", BLUE, WRD, " + mot);
 
-      //ws.send("unityjf:" +  ("NP", "pseudo", "BLUE", "pic", "URLDATA/reponse", "false"));
-
       setInputMot('');
     } catch (error) {
       console.error('Error sending data via WebSocket:', error);

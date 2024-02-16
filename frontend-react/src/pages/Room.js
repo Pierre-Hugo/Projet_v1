@@ -1,43 +1,59 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Room({ ws }) {
   const [pin, setPin] = useState('');
   const [pseudo, setPseudo] = useState('');
+  const [pinError, setPinError] = useState('');
+  const [pseudoError, setPseudoError] = useState('');
+  const navigate = useNavigate();
 
   const handlePinChange = (e) => {
-    setPin(e.target.value);
+    const value = e.target.value.toUpperCase(); // Convertir en majuscules
+    const alphanumericRegex = /^[a-zA-Z0-9]*$/; // Expression régulière pour vérifier l'alphanumérique
+
+    if (!alphanumericRegex.test(value)) {
+      setPinError('Le PIN doit contenir uniquement des lettres et des chiffres.');
+    } else if (value.length !== 4) {
+      setPinError('Le PIN doit contenir exactement 4 caractères.');
+    } else {
+      setPinError('');
+    }
+    setPin(value);
   };
 
   const handlePseudoChange = (e) => {
-    setPseudo(e.target.value);
+    const value = e.target.value;
+    const lettersRegex = /^[a-zA-Z]*$/; // Expression régulière pour vérifier les lettres uniquement
+
+    if (!lettersRegex.test(value)) {
+      setPseudoError('Le pseudo doit contenir uniquement des lettres.');
+    } else if (!value.trim()) {
+      setPseudoError('Veuillez entrer un pseudo.');
+    } else {
+      setPseudoError('');
+    }
+    setPseudo(value);
   };
 
   const handleSubmit = (e) => {
-    
     e.preventDefault();
 
     localStorage.setItem('pseudo', pseudo);
-    
 
-    if (!pin || !pseudo || !ws) {
+    if (!pin || !pseudo || !ws || pin.length !== 4 || !pseudo.trim()) {
       console.error('PIN, pseudo ou connexion WebSocket manquants.');
       return;
     }
 
     try {
-      var ROOM = "UNITY" + pin
-      //var pseu = localStorage.getItem('pseudo');
+      const ROOM = "UNITY" + pin;
+      ws.send(ROOM + ":CHECK");
 
-      ws.send(ROOM + ":CHECK")
-
-      if(true){
+      if (true) {
         localStorage.setItem('UNITY', ROOM);
+        navigate("/mediaSelect"); // Naviguer vers la nouvelle route après validation
       }
-
-      //ws.send(ROOM + ":" + pseu)
-
-      //ws.send("unityjf:" +  ("NP", "pseudo", "BLUE", "pic", "URLDATA/reponse", "false"));
 
       setPin('');
       setPseudo('');
@@ -46,9 +62,7 @@ function Room({ ws }) {
     }
   };
 
-  const send = () => {
-    handleSubmit({ preventDefault: () => {} }); // Appel à la fonction handleSubmit pour envoyer les données au WebSocket
-  };
+  const isButtonDisabled = !pin || !pseudo || pin.length !== 4 || !pseudo.trim();
 
   return (
     <>
@@ -56,13 +70,17 @@ function Room({ ws }) {
       <form onSubmit={handleSubmit}>
         <label>
           PIN:
-          <input type="text" value={pin} maxLength="4" onChange={handlePinChange} />
+          <input type="text" value={pin} maxLength="4" onChange={handlePinChange} required />
+          <br />
+          {pinError && <span style={{ color: 'red' }}>{pinError}</span>}
           <br />
           Pseudo:
-          <input type="text" value={pseudo} maxLength="16" onChange={handlePseudoChange} />
+          <input type="text" value={pseudo} maxLength="16" onChange={handlePseudoChange} required />
+          <br />
+          {pseudoError && <span style={{ color: 'red' }}>{pseudoError}</span>}
           <br />
         </label>
-        <Link to="/mediaSelect" onClick={send}>Connexion</Link>
+        <button type="submit" disabled={isButtonDisabled}>Connexion</button>
       </form>
     </>
   );
