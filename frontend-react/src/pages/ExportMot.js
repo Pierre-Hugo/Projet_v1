@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function ExportMot({ ws }) {
   const [mot, setInputMot] = useState('');
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     setInputMot(e.target.value);
@@ -20,6 +22,8 @@ function ExportMot({ ws }) {
       var pseudo = localStorage.getItem('pseudo');
 
       ws.send(unityID + ": NP, " + pseudo + ", BLUE, WRD, " + mot);
+      navigate('/WaitingState');
+
 
       setInputMot('');
     } catch (error) {

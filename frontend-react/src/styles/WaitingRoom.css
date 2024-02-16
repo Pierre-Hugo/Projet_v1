@@ -1,0 +1,56 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.loader {
+  width: 250px;
+  height: 250px;
+  margin-top: 20px;
+  background-image: url('/src/img/Title.png');
+  background-size: contain; 
+  background-repeat: no-repeat; 
+  border-radius: 0%; 
+  position: relative;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px); 
+  }
+}
+
+@keyframes ellipsis {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+}
+
+.dots::after {
+  content: "";
+  animation: ellipsis 2s infinite;
+  position: absolute;
+}

@@ -8,6 +8,7 @@ import ExportImage from './pages/ExportImage';
 import ExportMot from './pages/ExportMot';
 import ExportVideo from './pages/ExportVideo';
 import ExportDessin from './pages/ExportDessin';
+import WaitingState from './pages/WaitingState';
 
 function App({ ws }) {
   const [userCreated, setUserCreated] = useState(false);
@@ -66,6 +67,7 @@ function App({ ws }) {
           <Route path="/exportMot" element={<ExportMot ws={ws} />} />
           <Route path="/exportVideo" element={<ExportVideo ws={ws} />} />
           <Route path="/exportDessin" element={<ExportDessin ws={ws} />} />
+          <Route path="/waitingstate" element={<WaitingState ws={ws} />} />
         </Routes>
       </BrowserRouter>
     </div>
