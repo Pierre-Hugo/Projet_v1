@@ -1,13 +1,18 @@
-//import React, { useState } from 'react';
-//import { Link } from 'react-router-dom';
 import CanvasComponent from '../components/Canvas';
+import { useNavigate } from 'react-router-dom';
 
 function ExportDessin({ ws }) {
-    return(
-      <>
-        <h1>Dessinez ce qu'il vous plaît!</h1>
-        <CanvasComponent ws={ws} />
-      </>
+    const navigate = useNavigate();
+
+    const handleExportSuccess = () => {
+        navigate('/WaitingState');
+    };
+
+    return (
+        <>
+            <h1>Dessinez ce qu'il vous plaît!</h1>
+            <CanvasComponent ws={ws} onExportSuccess={handleExportSuccess} />
+        </>
     );
 }
 

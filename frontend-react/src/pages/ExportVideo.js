@@ -1,24 +1,27 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function ExportVideo({ ws }) {
   const [videoUrl, setVideoUrl] = useState('');
+  const navigate = useNavigate();
 
   const handleVideoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       var unityID = localStorage.getItem('UNITY');
       var pseudo = localStorage.getItem('pseudo');
+      var pseudoColor = localStorage.getItem('pseudoColor');
       const reader = new FileReader();
 
       reader.onload = () => {
         const dataURL = reader.result;
-        console.log('Video Data URL:', dataURL);
         setVideoUrl(dataURL);
-        ws.send(unityID + ": NP, " + pseudo + ", BLUE, VID, " + dataURL);
+        ws.send(unityID + ": NP," + pseudo + "," + pseudoColor + ",VID," + dataURL);
       };
       reader.readAsDataURL(file);
 
     }
+    navigate('/WaitingState');
   };
 
   return (

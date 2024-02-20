@@ -6,6 +6,7 @@ function Room({ ws }) {
   const [pseudo, setPseudo] = useState('');
   const [pinError, setPinError] = useState('');
   const [pseudoError, setPseudoError] = useState('');
+  const [selectedColor, setSelectedColor] = useState('');
   const navigate = useNavigate();
 
   const handlePinChange = (e) => {
@@ -36,6 +37,10 @@ function Room({ ws }) {
     setPseudo(value);
   };
 
+  const handleColorChange = (e) => {
+    setSelectedColor(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -49,20 +54,26 @@ function Room({ ws }) {
     try {
       const ROOM = "UNITY" + pin;
       ws.send(ROOM + ":CHECK");
+    
+      ws.onmessage = function(event) {
+        var message = event.data;
+        console.log(message)
+        if (message === ROOM + ":YES") {
+          localStorage.setItem('UNITY', ROOM);
+          localStorage.setItem('pseudoColor', selectedColor);
+          navigate("/mediaSelect");
+        }else{
+          navigate('/WaitingState');
+        }
+      };
 
-      if (true) {
-        localStorage.setItem('UNITY', ROOM);
-        navigate("/mediaSelect"); // Naviguer vers la nouvelle route après validation
-      }
-
-      setPin('');
-      setPseudo('');
     } catch (error) {
       console.error('Erreur lors de l\'envoi des données via WebSocket :', error);
     }
+    
   };
 
-  const isButtonDisabled = !pin || !pseudo || pin.length !== 4 || !pseudo.trim();
+  const isButtonDisabled = !pin || !pseudo || pin.length !== 4 || !pseudo.trim() || !selectedColor;
 
   return (
     <>
@@ -78,6 +89,54 @@ function Room({ ws }) {
           <input type="text" value={pseudo} maxLength="16" onChange={handlePseudoChange} required />
           <br />
           {pseudoError && <span style={{ color: 'red' }}>{pseudoError}</span>}
+          <br />
+          Couleur du pseudo:
+          <div>
+            <label>
+              <input type="radio" name="color" value="BLUE" checked={selectedColor === 'BLUE'} onChange={handleColorChange} />
+              Bleu
+            </label>
+            <br />
+            <label>
+              <input type="radio" name="color" value="RED" checked={selectedColor === 'RED'} onChange={handleColorChange} />
+              Rouge
+            </label>
+            <br />
+            <label>
+              <input type="radio" name="color" value="WHITE" checked={selectedColor === 'WHITE'} onChange={handleColorChange} />
+              Blanc
+            </label>
+            <br />
+            <label>
+              <input type="radio" name="color" value="BLACK" checked={selectedColor === 'BLACK'} onChange={handleColorChange} />
+              Noir
+            </label>
+            <br />
+            <label>
+              <input type="radio" name="color" value="CYAN" checked={selectedColor === 'CYAN'} onChange={handleColorChange} />
+              Cyan
+            </label>
+            <br />
+            <label>
+              <input type="radio" name="color" value="GRAY" checked={selectedColor === 'GRAY'} onChange={handleColorChange} />
+              Gris
+            </label>
+            <br />
+            <label>
+              <input type="radio" name="color" value="GREEN" checked={selectedColor === 'GREEN'} onChange={handleColorChange} />
+              Vert
+            </label>
+            <br />
+            <label>
+              <input type="radio" name="color" value="MAGENTA" checked={selectedColor === 'MAGENTA'} onChange={handleColorChange} />
+              Magenta
+            </label>
+            <br />
+            <label>
+              <input type="radio" name="color" value="YELLOW" checked={selectedColor === 'YELLOW'} onChange={handleColorChange} />
+              Jaune
+            </label>
+          </div>
           <br />
         </label>
         <button type="submit" disabled={isButtonDisabled}>Connexion</button>

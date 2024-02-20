@@ -20,8 +20,9 @@ function ExportMot({ ws }) {
 
       var unityID = localStorage.getItem('UNITY');
       var pseudo = localStorage.getItem('pseudo');
+      var pseudoColor = localStorage.getItem('pseudoColor');
 
-      ws.send(unityID + ": NP, " + pseudo + ", BLUE, WRD, " + mot);
+      ws.send(unityID + ": NP," + pseudo + "," + pseudoColor + ",WRD," + mot);
       navigate('/WaitingState');
 
 

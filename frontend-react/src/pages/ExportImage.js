@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function ExportImage({ ws }) {
   const [imageUrl, setImageUrl] = useState(null);
+  const navigate = useNavigate();
 
   const handleImageChange = async (e) => {
     const selectedImage = e.target.files[0];
@@ -17,6 +19,7 @@ function ExportImage({ ws }) {
     return new Promise((resolve) => {
       var unityID = localStorage.getItem('UNITY');
       var pseudo = localStorage.getItem('pseudo');
+      var pseudoColor = localStorage.getItem('pseudoColor');
       const reader = new FileReader();
       reader.onload = () => {
         const img = new Image();
@@ -43,17 +46,18 @@ function ExportImage({ ws }) {
 
           // Convertir le canevas en URL de données
           const dataURL = canvas.toDataURL('image/jpeg');
-          console.log(dataURL); // Afficher l'URL de l'image dans la console
           resolve(dataURL);
 
 
     
-          ws.send(unityID + ": NP, " + pseudo + ", BLUE, PIC, false, " + dataURL);
+          ws.send(unityID + ": NP," + pseudo + "," + pseudoColor + ",PIC,false," + dataURL);
         };
         img.src = URL.createObjectURL(file);
       };
       reader.readAsDataURL(file);
+      navigate('/WaitingState');
     });
+    
   };
 
 

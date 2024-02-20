@@ -11,7 +11,6 @@ class CanvasComponent extends Component {
       currentColor: '#000000',
     };
   }
-
   componentDidMount() {
     const canvas = this.canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -105,15 +104,14 @@ class CanvasComponent extends Component {
     const canvas = this.canvasRef.current;
     var unityID = localStorage.getItem('UNITY');
     var pseudo = localStorage.getItem('pseudo');
-    const { ws } = this.props; 
+    var pseudoColor = localStorage.getItem('pseudoColor');
+    const { ws, onExportSuccess } = this.props; 
 
     // Obtenez les données de l'image en format base64
     const imageDataURL = canvas.toDataURL('image/jpeg', 0.9);
 
-    ws.send(unityID + ": NP, " + pseudo + ", BLUE, PIC, true, " + imageDataURL);
-
-    // Affichez l'URL des données dans la console
-    console.log('Image Data URL:', imageDataURL);
+    ws.send(unityID + ": NP," + pseudo + "," + pseudoColor + ",PIC,true," + imageDataURL);
+    onExportSuccess();
   };
 
   render() {
@@ -152,7 +150,7 @@ class CanvasComponent extends Component {
         <label htmlFor="large">Gras</label>
         <br />
         <input type="radio" id="fill" name="size" />
-        <label htmlFor="fill">Remplissage</label>
+        <label htmlFor="fill">Marqueur</label>
         <br />
         <br />
         <button ref={this.clearButtonRef}>Retour en arrière</button>
