@@ -592,7 +592,7 @@ MonoBehaviour:
   ScenarioWord3: {fileID: 1512164781}
   ScenarioWord4: {fileID: 1512164781}
   ScenarioWord5: {fileID: 1512164781}
-  ScenarioPicture1: {fileID: 1512164781}
+  ScenarioPicture1: {fileID: 4807293766289442686, guid: 6dacd686c8ade304583f5ea8ef155835, type: 3}
   ScenarioPicture2: {fileID: 1512164781}
   ScenarioPicture3: {fileID: 1512164781}
   ScenarioPicture4: {fileID: 1512164781}

@@ -39,7 +39,7 @@ public class ContentManager : MonoBehaviour
         idConfirmer = false;
         lockObject = new object();
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        boutonStart.interactable = true;
+        boutonStart.interactable = true; // devrais être a flase en temps normale
         isGamePlaying = false;
         isPlayerAnswering = false;
         isPlayerVoting = false;
@@ -102,14 +102,14 @@ public class ContentManager : MonoBehaviour
 
         }
 
-        addOnePlayerWord("USER1234", "jf", Color.red, "Salut");
-        addOnePlayerWord("USERABCD", "peach", Color.cyan, "Coucou");
-        addOnePlayerWord("USER5678", "Simone", Color.blue, "Allo");
-        addOnePlayerWord("USEREFGH", "Flex", Color.green, "Bonjour");
-        listScript.AjouterListe("Flex", Color.green);
-        listScript.AjouterListe("Simone", Color.blue);
-        listScript.AjouterListe("JF", Color.red);
-        listScript.AjouterListe("PEACH", Color.cyan);
+        //addOnePlayerWord("USER1234", "jf", Color.red, "Salut");
+        //addOnePlayerWord("USERABCD", "peach", Color.cyan, "Coucou");
+        //addOnePlayerWord("USER5678", "Simone", Color.blue, "Allo");
+        //addOnePlayerWord("USEREFGH", "Flex", Color.green, "Bonjour");
+        //listScript.AjouterListe("Flex", Color.green);
+        //listScript.AjouterListe("Simone", Color.blue);
+        //listScript.AjouterListe("JF", Color.red);
+        //listScript.AjouterListe("PEACH", Color.cyan);
 
     }
 
@@ -333,26 +333,7 @@ public class ContentManager : MonoBehaviour
     }
 
 
-    void LoadSpriteFromDataUrl(string dataUrl, Image image)
-    {
-        // Divisez l'URL en parties pour extraire le type de média et les données base64
-        string[] parts = dataUrl.Split(',');
-        string mediaType = parts[0].Split(':')[1].Split(';')[0];
-        string base64Data = parts[1];
-
-        // Convertissez les données base64 en tableau d'octets
-        byte[] imageData = System.Convert.FromBase64String(base64Data);
-
-        // Créez une texture à partir des octets
-        Texture2D texture = new Texture2D(2, 2);
-        texture.LoadImage(imageData);
-
-        // Créez un sprite à partir de la texture
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-
-        // Utilisez le sprite comme vous le souhaitez, par exemple, affectez-le à un objet SpriteRenderer
-        image.sprite = sprite;
-    }
+   
 
     private void addOnePlayerWord(string ID, string PSEUDO, Color COULEUR, string MOTS)
     {

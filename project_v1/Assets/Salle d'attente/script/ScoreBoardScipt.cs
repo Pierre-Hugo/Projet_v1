@@ -9,8 +9,12 @@ public class ScoreBoardScipt : MonoBehaviour
     public GameObject row;
     public Transform rowParent;
     private List<Player> listeJoueurs;
+    private float timeToLive;
+    private float compteurs;
     void Start()
     {
+        timeToLive = 10f;
+        compteurs = 0f;
         ContentManager contentManager = FindObjectOfType<ContentManager>();
         listeJoueurs = contentManager.getListeJoueurs();
         listeJoueurs = listeJoueurs.OrderByDescending(joueur => joueur.Points).ToList();
@@ -30,6 +34,19 @@ public class ScoreBoardScipt : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        compteurs+= Time.deltaTime;
+        if (timeToLive < compteurs)
+        {
+            Destroy(this);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        PlayingScript scriptJeu = GetComponentInParent<PlayingScript>();
+        if (scriptJeu != null)
+        {
+            //scriptJeu.callNewScenario();
+        }
     }
 }

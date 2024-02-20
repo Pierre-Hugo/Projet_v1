@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class ScWord1Script : BaseScenarioWord
+public class ScPicture1Script : BaseScenarioPicture
 {
 
 
@@ -53,7 +52,7 @@ public class ScWord1Script : BaseScenarioWord
                         {
                             joueurChoisi = joueur;
                             JoueurValide = false;
-                            afficherReponse(joueur.answer, new Vector2(0f, 360f), new Vector2(1200f, 80f));
+                            afficherReponse(joueur.answer, new Vector2(0f, 360f), new Vector2(1200f, 80f)); //modifier l'emplacement des réponses
                             break;
                         }
                         else if (joueurChoisi == joueur)
@@ -76,7 +75,5 @@ public class ScWord1Script : BaseScenarioWord
         }
 
     }
-
-
 
 }

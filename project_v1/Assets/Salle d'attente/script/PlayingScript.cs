@@ -149,13 +149,17 @@ public class PlayingScript : MonoBehaviour
                 {
                     if (!ScenarioDejaJouer[(int)TypeScenario.Picture, randomIndex])
                     {
+                        GameObject scenario;
                         ScenarioValide = true;
-                        ScenarioDejaJouer[(int)TypeScenario.Picture, randomIndex] = true;
+                        PlayerPicture joueurChoisiPicture = (PlayerPicture)joueurChoisi;
+                        BaseScenarioPicture scriptScenario = null;
+                        ScenarioDejaJouer[(int)TypeScenario.Word, randomIndex] = true;
 
                         switch (randomIndex)
                         {
                             case 0:
-                                //Instantiate(ScenarioPicture1, transform);
+                                scenario=Instantiate(ScenarioPicture1, transform);
+                                scriptScenario = scenario.GetComponent<ScPicture1Script>();
                                 break;
                             case 1:
                                 //Instantiate(ScenarioPicture2, transform);
@@ -170,6 +174,7 @@ public class PlayingScript : MonoBehaviour
                                 //Instantiate(ScenarioPicture5, transform);
                                 break;
                         }
+                        scriptScenario.initialisation(joueurChoisiPicture.img, listeJoueurs);
                     }
                 }
             }
@@ -207,7 +212,7 @@ public class PlayingScript : MonoBehaviour
                     GameObject scenario;
                     ScenarioValide = true;
                     PlayerWord joueurChoisiMot = (PlayerWord)joueurChoisi;
-                    ScWord1Script scriptScenario = null;
+                    BaseScenarioWord scriptScenario = null;
                     ScenarioDejaJouer[(int)TypeScenario.Word, randomIndex] = true;
                     switch (randomIndex)
                     {
