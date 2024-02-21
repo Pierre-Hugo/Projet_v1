@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 
 
@@ -65,6 +67,11 @@ public class PlayingScript : MonoBehaviour
     }
     public void callNewScenario()
     { 
+        if(listeJoueursDejaJouer.Count == listeJoueurs.Count)
+        {
+            SceneManager.LoadScene("SalleAttente");
+        }
+
         System.Random random = new System.Random();
         int randomIndex;
         bool JoueurValide;
@@ -122,12 +129,17 @@ public class PlayingScript : MonoBehaviour
                 {
                     if (!ScenarioDejaJouer[(int)TypeScenario.Draw, randomIndex])
                     {
+                        GameObject scenario;
                         ScenarioValide = true;
+                        PlayerPicture joueurChoisiPicture = (PlayerPicture)joueurChoisi;
+                        BaseScenarioPicture scriptScenario = null;
                         ScenarioDejaJouer[(int)TypeScenario.Draw, randomIndex] = true;
+
                         switch (randomIndex)
                         {
                             case 0:
-                                //Instantiate(ScenarioDraw1, transform);
+                                scenario = Instantiate(ScenarioDraw1, transform);
+                                scriptScenario = scenario.GetComponent<ScDraw1Script>();
                                 break;
                             case 1:
                                 //Instantiate(ScenarioDraw2, transform);
@@ -142,6 +154,7 @@ public class PlayingScript : MonoBehaviour
                                 //Instantiate(ScenarioDraw5, transform);
                                 break;
                         }
+                        scriptScenario.initialisation(joueurChoisiPicture.img, listeJoueurs);
                     }
 
                 }
@@ -153,7 +166,7 @@ public class PlayingScript : MonoBehaviour
                         ScenarioValide = true;
                         PlayerPicture joueurChoisiPicture = (PlayerPicture)joueurChoisi;
                         BaseScenarioPicture scriptScenario = null;
-                        ScenarioDejaJouer[(int)TypeScenario.Word, randomIndex] = true;
+                        ScenarioDejaJouer[(int)TypeScenario.Picture, randomIndex] = true;
 
                         switch (randomIndex)
                         {

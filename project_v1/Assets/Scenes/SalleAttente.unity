@@ -597,7 +597,7 @@ MonoBehaviour:
   ScenarioPicture3: {fileID: 1512164781}
   ScenarioPicture4: {fileID: 1512164781}
   ScenarioPicture5: {fileID: 1512164781}
-  ScenarioDraw1: {fileID: 1512164781}
+  ScenarioDraw1: {fileID: 5690017791359164225, guid: 884c555381ad29446a6a6de8f7ff63cb, type: 3}
   ScenarioDraw2: {fileID: 1512164781}
   ScenarioDraw3: {fileID: 1512164781}
   ScenarioDraw4: {fileID: 1512164781}

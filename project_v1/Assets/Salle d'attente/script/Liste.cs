@@ -16,6 +16,7 @@ public class Liste : MonoBehaviour
         templateCree = Instantiate(template, transform);
         templateCree.transform.GetChild(0).GetComponent<Text>().text = contenu;
         templateCree.transform.GetChild(0).GetComponent<Text>().color = couleur;
+        templateCree.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(width, templateCree.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta.y);
         templateCree.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(width, templateCree.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta.y);
 
     }
