@@ -10,8 +10,13 @@ function Room({ ws }) {
   const navigate = useNavigate();
 
   const handlePinChange = (e) => {
-    const value = e.target.value.toUpperCase(); // Convertir en majuscules
+    let value = e.target.value.toUpperCase(); // Convertir en majuscules
     const alphanumericRegex = /^[a-zA-Z0-9]*$/; // Expression régulière pour vérifier l'alphanumérique
+
+    // Limiter la longueur du PIN à 4 caractères
+    if (value.length > 4) {
+      value = value.slice(0, 4);
+    }
 
     if (!alphanumericRegex.test(value)) {
       setPinError('Le PIN doit contenir uniquement des lettres et des chiffres.');
