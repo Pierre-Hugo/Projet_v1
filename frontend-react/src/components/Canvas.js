@@ -100,7 +100,7 @@ class CanvasComponent extends Component {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
-  exportCanvasAsJPEG = () => {
+  exportCanvasAsPNG = () => {
     const canvas = this.canvasRef.current;
     var unityID = localStorage.getItem('UNITY');
     var pseudo = localStorage.getItem('pseudo');
@@ -108,7 +108,7 @@ class CanvasComponent extends Component {
     const { ws, onExportSuccess } = this.props; 
 
     // Obtenez les données de l'image en format base64
-    const imageDataURL = canvas.toDataURL('image/jpeg', 0.9);
+    const imageDataURL = canvas.toDataURL('image/png', 0.9);
 
     ws.send(unityID + ": NP," + pseudo + "," + pseudoColor + ",PIC,true," + imageDataURL);
     onExportSuccess();
@@ -155,7 +155,7 @@ class CanvasComponent extends Component {
         <br />
         <button ref={this.clearButtonRef}>Retour en arrière</button>
         <button ref={this.clearAllRef}>Tout effacer</button>
-        <button onClick={this.exportCanvasAsJPEG}>Exporter en JPEG</button>
+        <button onClick={this.exportCanvasAsPNG}>Exporter en PNG</button>
       </div>
     );
   }
