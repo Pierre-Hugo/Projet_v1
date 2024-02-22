@@ -9,10 +9,11 @@ function ExportDessin({ ws }) {
     };
 
     return (
-        <>
-            <h1>Dessinez ce qu'il vous plaît!</h1>
-            <CanvasComponent ws={ws} onExportSuccess={handleExportSuccess} />
-        </>
+        <div className="container"> 
+            <div className="canvas-container"> 
+                <CanvasComponent ws={ws} onExportSuccess={handleExportSuccess} />
+            </div>
+        </div>
     );
 }
 

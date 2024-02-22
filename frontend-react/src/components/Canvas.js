@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../styles/canvas.css';
 
 class CanvasComponent extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class CanvasComponent extends Component {
       currentColor: '#000000',
     };
   }
+
   componentDidMount() {
     const canvas = this.canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -28,6 +30,7 @@ class CanvasComponent extends Component {
       drawing = true;
       ctx.beginPath();
       ctx.strokeStyle = this.state.currentColor;
+      ctx.lineCap = 'round';
       const pos = getTouchPos(e);
       ctx.moveTo(pos.x, pos.y);
       e.preventDefault();
@@ -105,57 +108,73 @@ class CanvasComponent extends Component {
     var unityID = localStorage.getItem('UNITY');
     var pseudo = localStorage.getItem('pseudo');
     var pseudoColor = localStorage.getItem('pseudoColor');
-    const { ws, onExportSuccess } = this.props; 
+    const { ws, onExportSuccess } = this.props;
 
     // Obtenez les données de l'image en format base64
     const imageDataURL = canvas.toDataURL('image/png', 0.9);
 
-    ws.send(unityID + ": NP," + pseudo + "," + pseudoColor + ",PIC,true," + imageDataURL);
+    ws.send(unityID + ': NP,' + pseudo + ',' + pseudoColor + ',PIC,true,' + imageDataURL);
     onExportSuccess();
   };
 
   render() {
     return (
-      <div>
+      <div className="canvas-container">
+        <h1>À vos crayons !</h1>
         <canvas
           ref={this.canvasRef}
-          width={400}
-          height={400}
-          style={{ border: '2px solid black' }}
+          width={350}
+          height={350}
+          style={{ backgroundColor: 'white' }} 
         ></canvas>
+        <div className="radio-groups-container">
+          <div className="radio-group">
+            <label htmlFor="black">
+              <input type="radio" id="black" name="color" defaultChecked />
+              Noir
+            </label>
+            <label htmlFor="red">
+              <input type="radio" id="red" name="color" />
+              Rouge
+            </label>
+            <label htmlFor="blue">
+              <input type="radio" id="blue" name="color" />
+              Bleu
+            </label>
+            <label htmlFor="green">
+              <input type="radio" id="green" name="color" />
+              Vert
+            </label>
+            <label htmlFor="white">
+              <input type="radio" id="white" name="color" />
+              Blanc
+            </label>
+          </div>
+          <div className="radio-group">
+            <label htmlFor="small">
+              <input type="radio" id="small" name="size" />
+              Petit
+            </label>
+            <label htmlFor="medium">
+              <input type="radio" id="medium" name="size" defaultChecked />
+              Moyen
+            </label>
+            <label htmlFor="large">
+              <input type="radio" id="large" name="size" />
+              Gros
+            </label>
+            <label htmlFor="fill">
+              <input type="radio" id="fill" name="size" />
+              Très Gros
+            </label>
+          </div>
+        </div>
         <br />
-        <input type="radio" id="black" name="color" defaultChecked />
-        <label htmlFor="black">Noir</label>
-        <br />
-        <input type="radio" id="red" name="color" />
-        <label htmlFor="red">Rouge</label>
-        <br />
-        <input type="radio" id="blue" name="color" />
-        <label htmlFor="blue">Bleu</label>
-        <br />
-        <input type="radio" id="green" name="color" />
-        <label htmlFor="green">Vert</label>
-        <br />
-        <input type="radio" id="white" name="color" />
-        <label htmlFor="white">Blanc</label>
-        <br />
-        <br />
-        <input type="radio" id="small" name="size" />
-        <label htmlFor="small">Pointe Fine</label>
-        <br />
-        <input type="radio" id="medium" name="size" defaultChecked />
-        <label htmlFor="medium">Classique</label>
-        <br />
-        <input type="radio" id="large" name="size" />
-        <label htmlFor="large">Gras</label>
-        <br />
-        <input type="radio" id="fill" name="size" />
-        <label htmlFor="fill">Marqueur</label>
-        <br />
-        <br />
-        <button ref={this.clearButtonRef}>Retour en arrière</button>
-        <button ref={this.clearAllRef}>Tout effacer</button>
-        <button onClick={this.exportCanvasAsPNG}>Exporter en PNG</button>
+        <div className="buttons-container">
+          <button ref={this.clearButtonRef}>Retour en arrière</button>
+          <button ref={this.clearAllRef}>Tout effacer</button>
+          <button onClick={this.exportCanvasAsPNG}>Exporter en PNG</button>
+        </div>
       </div>
     );
   }
