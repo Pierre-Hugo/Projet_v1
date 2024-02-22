@@ -66,6 +66,7 @@ function Room({ ws }) {
         if (message === ROOM + ":YES") {
           localStorage.setItem('UNITY', ROOM);
           localStorage.setItem('pseudoColor', selectedColor);
+          ws.onmessage = null;
           navigate("/mediaSelect");
         }else{
           navigate('/WaitingState');

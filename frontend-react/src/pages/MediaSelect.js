@@ -29,6 +29,9 @@ function MediaSelect() {
         <Link to="/exportDessin" style={buttonStyle}>
           Dessin
         </Link>
+        <Link to="/exportVote" style={buttonStyle}>
+          Vote
+        </Link>
       </div>
     </>
   );

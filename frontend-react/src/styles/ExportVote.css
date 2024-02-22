@@ -1,0 +1,35 @@
+.export-vote-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: 20px;
+    max-width: 600px; /* Largeur maximale du conteneur */
+    margin-left: auto; /* Centrage horizontal */
+    margin-right: auto; /* Centrage horizontal */
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.players-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.player-group {
+    display: flex;
+    margin-bottom: 20px; /* Espacement entre les groupes de joueurs */
+}
+
+label {
+    margin-right: 20px; /* Espacement entre les cases à cocher et les textes */
+}
+
+button {
+    margin-top: 20px;
+}
