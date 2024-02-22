@@ -68,8 +68,6 @@ function Room({ ws }) {
           localStorage.setItem('pseudoColor', selectedColor);
           ws.onmessage = null;
           navigate("/mediaSelect");
-        }else{
-          navigate('/WaitingState');
         }
       };
 

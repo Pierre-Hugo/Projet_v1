@@ -16,7 +16,7 @@ function ExportVideo({ ws }) {
       reader.onload = () => {
         const dataURL = reader.result;
         setVideoUrl(dataURL);
-        ws.send(unityID + ": NP," + pseudo + "," + pseudoColor + ",VID," + dataURL);
+        ws.send(unityID + ":NP," + pseudo + "," + pseudoColor + ",VID," + dataURL);
       };
       reader.readAsDataURL(file);
 

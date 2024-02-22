@@ -22,7 +22,7 @@ function ExportMot({ ws }) {
       var pseudo = localStorage.getItem('pseudo');
       var pseudoColor = localStorage.getItem('pseudoColor');
 
-      ws.send(unityID + ": NP," + pseudo + "," + pseudoColor + ",WRD," + mot);
+      ws.send(unityID + ":NP," + pseudo + "," + pseudoColor + ",WRD," + mot);
       navigate('/WaitingState');
 
 

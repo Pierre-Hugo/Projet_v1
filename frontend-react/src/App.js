@@ -9,6 +9,8 @@ import ExportMot from './pages/ExportMot';
 import ExportVideo from './pages/ExportVideo';
 import ExportDessin from './pages/ExportDessin';
 import WaitingState from './pages/WaitingState';
+import OnTv from './pages/OnTV';
+import Answer from './pages/Answer';
 import ExportVote from './pages/ExportVote';
 
 function App({ ws }) {
@@ -70,6 +72,8 @@ function App({ ws }) {
           <Route path="/exportDessin" element={<ExportDessin ws={ws} />} />
           <Route path="/waitingstate" element={<WaitingState ws={ws} />} />
           <Route path="/exportVote" element={<ExportVote ws={ws} />} />
+          <Route path="/onTV" element={<OnTv ws={ws} />} />
+          <Route path="/answer" element={<Answer ws={ws} />} />
         </Routes>
       </BrowserRouter>
     </div>

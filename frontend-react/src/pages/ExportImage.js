@@ -50,7 +50,7 @@ function ExportImage({ ws }) {
 
 
     
-          ws.send(unityID + ": NP," + pseudo + "," + pseudoColor + ",PIC,false," + dataURL);
+          ws.send(unityID + ":NP," + pseudo + "," + pseudoColor + ",PIC,FALSE," + dataURL);
         };
         img.src = URL.createObjectURL(file);
       };

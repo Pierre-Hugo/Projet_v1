@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importer useNavigate
+import { useNavigate } from 'react-router-dom'; // Ajout de l'import manquant
 import '../styles/WaitingRoom.css';
 import image1 from '../img/prop1.png';
 import image2 from '../img/prop2.png';
@@ -20,22 +20,10 @@ import image16 from '../img/prop16.png';
 import image17 from '../img/prop17.png';
 import image18 from '../img/prop18.png';
 
-function WaitingRoom({ ws }) {
-  const navigate = useNavigate();
+function OnTv({ ws }) { // Correction : Utilisation des parenthèses pour les arguments de fonction
+  const navigate = useNavigate(); // Ajout de la déclaration de navigate
 
   useEffect(() => {
-    const handleWebSocketMessage = (event) => {
-      const message = event.data;
-      const ROOM = localStorage.getItem('UNITY');
-
-      if (message === ROOM + ":START") {
-        ws.onmessage = null;
-        navigate("/onTV");
-      }
-    };
-
-    // WebSocket initialisation, assurez-vous que `ws` est correctement initialisé
-
     const generateImages = () => {
       const numberOfImages = 5;
       const container = document.querySelector('.container');
@@ -70,33 +58,46 @@ function WaitingRoom({ ws }) {
       container.addEventListener('transitionend', handleTransitionEnd);
     };
 
-    const handleTransitionEnd = (event) => {
-      const container = document.querySelector('.container');
-      const image = event.target;
+    const handleWebSocketMessage = (event) => {
+      const message = event.data;
+      const ROOM = localStorage.getItem('UNITY');
 
-      if (container.contains(image)) {
-        container.removeChild(image);
+      if (message === ROOM + ":ANSWER") {
+        ws.onmessage = null;
+        navigate("/answer");
+      }
+      if (message === ROOM + ":VOTE") {
+        ws.onmessage = null;
+        navigate("/exportVote");
+      }
+      if (message === ROOM + ":CLOSE") {
+        ws.onmessage = null;
+        navigate("/");
       }
     };
 
-    // Mettre en place l'écouteur d'événements WebSocket
     ws.onmessage = handleWebSocketMessage;
 
     generateImages();
     const interval = setInterval(generateImages, 2500);
-    return () => {
-      clearInterval(interval);
-      // Nettoyer l'écouteur d'événements WebSocket lors du démontage du composant
-      ws.onmessage = null;
-    };
-  }, [ws, navigate]); // Ajouter navigate comme dépendance
+    return () => clearInterval(interval);
+  }, [ws, navigate]);
+
+  const handleTransitionEnd = (event) => {
+    const container = document.querySelector('.container');
+    const image = event.target;
+
+    if (container.contains(image)) {
+      container.removeChild(image);
+    }
+  };
 
   return (
     <div className="container">
-      <h1 className="title">En attente des joueurs<span className="dots"></span></h1>
+      <h1 className="title">Regardez sur la télé</h1>
       <div className="loader"></div>
     </div>
   );
 }
 
-export default WaitingRoom;
+export default OnTv;

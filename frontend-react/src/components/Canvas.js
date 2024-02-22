@@ -113,7 +113,7 @@ class CanvasComponent extends Component {
     // Obtenez les données de l'image en format base64
     const imageDataURL = canvas.toDataURL('image/png', 0.9);
 
-    ws.send(unityID + ': NP,' + pseudo + ',' + pseudoColor + ',PIC,true,' + imageDataURL);
+    ws.send(unityID + ':NP,' + pseudo + ',' + pseudoColor + ',PIC,TRUE,' + imageDataURL);
     onExportSuccess();
   };
 
