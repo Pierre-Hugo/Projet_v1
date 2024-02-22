@@ -602,7 +602,7 @@ MonoBehaviour:
   ScenarioDraw3: {fileID: 1512164781}
   ScenarioDraw4: {fileID: 1512164781}
   ScenarioDraw5: {fileID: 1512164781}
-  ScenarioVideo1: {fileID: 1512164781}
+  ScenarioVideo1: {fileID: 9197212111918497353, guid: cc4cf7fc12f23a04a9e68e67613b14da, type: 3}
   ScenarioVideo2: {fileID: 1512164781}
   ScenarioVideo3: {fileID: 1512164781}
   ScenarioVideo4: {fileID: 1512164781}
@@ -924,6 +924,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1298542898}
   - component: {fileID: 1298542899}
+  - component: {fileID: 1298542900}
   m_Layer: 0
   m_Name: "Sc\xE8ne"
   m_TagString: Untagged
@@ -966,6 +967,42 @@ MonoBehaviour:
   boutonRetour: {fileID: 2037643647}
   boutonStart: {fileID: 306037278}
   background: {fileID: 1130614961}
+--- !u!328 &1298542900
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298542897}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 0}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 0}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: <noninit>
+  m_RenderMode: 2
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_TimeUpdateMode: 2
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 2
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
+  m_Url: 
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
+  m_PlayOnAwake: 1
+  m_SkipOnDrop: 1
+  m_Looping: 0
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
+  m_VideoShaders: []
 --- !u!1 &1399365202
 GameObject:
   m_ObjectHideFlags: 0

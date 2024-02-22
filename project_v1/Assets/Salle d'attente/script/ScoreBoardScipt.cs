@@ -46,7 +46,7 @@ public class ScoreBoardScipt : MonoBehaviour
         PlayingScript scriptJeu = GetComponentInParent<PlayingScript>();
         if (scriptJeu != null)
         {
-            //scriptJeu.callNewScenario();
+            scriptJeu.callNewScenario();
         }
     }
 }

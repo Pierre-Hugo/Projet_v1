@@ -31,10 +31,11 @@ public class ScPicture1Script : BaseScenarioPicture
                 {
                     afficherReponses();
                     tempsAttente = 15f;
+                    timer = 0f;
                 }
                 else if (listeJoueurs.Count <= playerShow) //ajoute les points et met fin au scénario
                 {
-                    Destroy(this);
+                    Destroy(gameObject);
                 }
                 else //affiche la réponse d'un joueur
                 {

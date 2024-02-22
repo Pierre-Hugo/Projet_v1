@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerVideo : Player
 {
-   // variable pour stocker la video
-
+    // variable pour stocker la video
+    public string vid { get; set; }
     public PlayerVideo(string id, string pseudo, Color couleur, string Video) : base(id, pseudo, couleur)
     {
-      //  enregistrer la video
+        this.vid = Video;
     }
 }

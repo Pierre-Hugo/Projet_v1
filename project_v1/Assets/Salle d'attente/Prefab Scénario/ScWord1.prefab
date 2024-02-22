@@ -52,9 +52,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13f5994a5b6d77488b392180ff5579f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textRecu: {fileID: 2118545452468567627}
   modeleReponse: {fileID: 5738628036731972725, guid: c38c6a391cbf69d429d6647aceec756e, type: 3}
   Question: {fileID: 6050982904677829066}
+  textRecu: {fileID: 2118545452468567627}
 --- !u!1 &2091130896928229092
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,7 +236,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: a6a46f37bbdec3448b31c22e21ae0577, type: 3}
     m_FontSize: 73
     m_FontStyle: 0
     m_BestFit: 0

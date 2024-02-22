@@ -67,9 +67,11 @@ public class PlayingScript : MonoBehaviour
     }
     public void callNewScenario()
     { 
-        if(listeJoueursDejaJouer.Count == listeJoueurs.Count)
+        if(listeJoueursDejaJouer.Count >= listeJoueurs.Count)
         {
-            SceneManager.LoadScene("SalleAttente");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+            return;
         }
 
         System.Random random = new System.Random();
@@ -127,8 +129,8 @@ public class PlayingScript : MonoBehaviour
                 PlayerPicture player = joueurChoisi as PlayerPicture;
                 if (player.isDraw)
                 {
-                    if (!ScenarioDejaJouer[(int)TypeScenario.Draw, randomIndex])
-                    {
+                   // if (!ScenarioDejaJouer[(int)TypeScenario.Draw, randomIndex])
+                  //  {
                         GameObject scenario;
                         ScenarioValide = true;
                         PlayerPicture joueurChoisiPicture = (PlayerPicture)joueurChoisi;
@@ -155,13 +157,13 @@ public class PlayingScript : MonoBehaviour
                                 break;
                         }
                         scriptScenario.initialisation(joueurChoisiPicture.img, listeJoueurs);
-                    }
+                  //  }
 
                 }
                 else
                 {
-                    if (!ScenarioDejaJouer[(int)TypeScenario.Picture, randomIndex])
-                    {
+                    //if (!ScenarioDejaJouer[(int)TypeScenario.Picture, randomIndex])
+                   // {
                         GameObject scenario;
                         ScenarioValide = true;
                         PlayerPicture joueurChoisiPicture = (PlayerPicture)joueurChoisi;
@@ -188,20 +190,24 @@ public class PlayingScript : MonoBehaviour
                                 break;
                         }
                         scriptScenario.initialisation(joueurChoisiPicture.img, listeJoueurs);
-                    }
+                   // }
                 }
             }
             else if (joueurChoisi is PlayerVideo)
             {
-                if (!ScenarioDejaJouer[(int)TypeScenario.Video, randomIndex])
-                {
+              //  if (!ScenarioDejaJouer[(int)TypeScenario.Video, randomIndex])
+              //  {
+                    GameObject scenario;
                     ScenarioValide = true;
+                    PlayerVideo joueurChoisiVideo = (PlayerVideo)joueurChoisi;
+                    BaseScenarioVideo scriptScenario = null;
                     ScenarioDejaJouer[(int)TypeScenario.Video, randomIndex] = true;
 
                     switch (randomIndex)
                     {
                         case 0:
-                            //Instantiate(ScenarioVideo1, transform);
+                            scenario= Instantiate(ScenarioVideo1, transform);
+                            scriptScenario = scenario.GetComponent<BaseScenarioVideo>();
                             break;
                         case 1:
                             //Instantiate(ScenarioVideo2, transform);
@@ -216,12 +222,13 @@ public class PlayingScript : MonoBehaviour
                             //Instantiate(ScenarioVideo5, transform);
                             break;
                     }
-                }
+                    scriptScenario.initialisation(joueurChoisiVideo.vid, listeJoueurs);
+             //   }
             }
             else if (joueurChoisi is PlayerWord)
             {
-                if (!ScenarioDejaJouer[(int)TypeScenario.Word, randomIndex])
-                {
+              //  if (!ScenarioDejaJouer[(int)TypeScenario.Word, randomIndex])
+                //{
                     GameObject scenario;
                     ScenarioValide = true;
                     PlayerWord joueurChoisiMot = (PlayerWord)joueurChoisi;
@@ -248,7 +255,7 @@ public class PlayingScript : MonoBehaviour
                             break;
                     }
                     scriptScenario.initialisation(joueurChoisiMot.word,listeJoueurs);
-                }
+            //    }
             }
         } while (!ScenarioValide);
     }
@@ -261,11 +268,7 @@ public class PlayingScript : MonoBehaviour
 
     private void GivePlayersPoints()
     {
-        foreach (Player player in listeJoueurs) // reset les vote
-        {
-            player.nbVote = 0;
-
-        }
+        
         ContentManager contentManager = FindObjectOfType<ContentManager>();
         
         foreach (Player player in listeJoueurs)
@@ -298,6 +301,8 @@ public class PlayingScript : MonoBehaviour
                     break;
 
             }
+
+            player.nbVote = 0;
         }
 
 
