@@ -31,7 +31,8 @@ function App({ ws }) {
   useEffect(() => {
     if (isConnectionReady && !userCreated) {
 
-      let userID = localStorage.getItem('userID');
+      let userID = "";
+      userID = localStorage.getItem('userID');
 
       if (!userID) {
         userID = generateRandomCode(8);
