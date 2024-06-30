@@ -12,7 +12,13 @@ public class LogicManager : MonoBehaviour
     
     private void Start()
     {
-        
+        initializeOptions();
+    }
+
+    private void initializeOptions()
+    {
+        //s'assurer d'initialiser tout les parametre du menu d'option pour etre sur qu'il soit appliquer au lancement
+        volumeMusique.SetFloat("Music", PlayerPrefs.GetFloat("Music", 0.6f));
     }
 
     public void LoadScene(string nameScene)
@@ -20,9 +26,10 @@ public class LogicManager : MonoBehaviour
         SceneManager.LoadScene(nameScene);
     }
 
-    public void setVolume(float volume)
+    public void setVolume( float volume)
     {
-        volumeMusique.SetFloat("Volume", volume);
+        volumeMusique.SetFloat("Music", volume);
+        PlayerPrefs.SetFloat("Music", volume);
     }
 
     public void hideGameObject(GameObject objet)
