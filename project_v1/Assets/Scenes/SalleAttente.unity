@@ -588,25 +588,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ScenarioWord1: {fileID: 1713363591550436574, guid: ff8db447e96860343a6ce914214de6cf, type: 3}
-  ScenarioWord2: {fileID: 1512164781}
-  ScenarioWord3: {fileID: 1512164781}
-  ScenarioWord4: {fileID: 1512164781}
-  ScenarioWord5: {fileID: 1512164781}
+  ScenarioWord2: {fileID: 1713363591550436574, guid: ff8db447e96860343a6ce914214de6cf, type: 3}
+  ScenarioWord3: {fileID: 1713363591550436574, guid: ff8db447e96860343a6ce914214de6cf, type: 3}
+  ScenarioWord4: {fileID: 1713363591550436574, guid: ff8db447e96860343a6ce914214de6cf, type: 3}
+  ScenarioWord5: {fileID: 1713363591550436574, guid: ff8db447e96860343a6ce914214de6cf, type: 3}
   ScenarioPicture1: {fileID: 4807293766289442686, guid: 6dacd686c8ade304583f5ea8ef155835, type: 3}
-  ScenarioPicture2: {fileID: 1512164781}
-  ScenarioPicture3: {fileID: 1512164781}
-  ScenarioPicture4: {fileID: 1512164781}
-  ScenarioPicture5: {fileID: 1512164781}
+  ScenarioPicture2: {fileID: 4807293766289442686, guid: 6dacd686c8ade304583f5ea8ef155835, type: 3}
+  ScenarioPicture3: {fileID: 4807293766289442686, guid: 6dacd686c8ade304583f5ea8ef155835, type: 3}
+  ScenarioPicture4: {fileID: 4807293766289442686, guid: 6dacd686c8ade304583f5ea8ef155835, type: 3}
+  ScenarioPicture5: {fileID: 4807293766289442686, guid: 6dacd686c8ade304583f5ea8ef155835, type: 3}
   ScenarioDraw1: {fileID: 5690017791359164225, guid: 884c555381ad29446a6a6de8f7ff63cb, type: 3}
-  ScenarioDraw2: {fileID: 1512164781}
-  ScenarioDraw3: {fileID: 1512164781}
-  ScenarioDraw4: {fileID: 1512164781}
-  ScenarioDraw5: {fileID: 1512164781}
+  ScenarioDraw2: {fileID: 5690017791359164225, guid: 884c555381ad29446a6a6de8f7ff63cb, type: 3}
+  ScenarioDraw3: {fileID: 5690017791359164225, guid: 884c555381ad29446a6a6de8f7ff63cb, type: 3}
+  ScenarioDraw4: {fileID: 5690017791359164225, guid: 884c555381ad29446a6a6de8f7ff63cb, type: 3}
+  ScenarioDraw5: {fileID: 5690017791359164225, guid: 884c555381ad29446a6a6de8f7ff63cb, type: 3}
   ScenarioVideo1: {fileID: 9197212111918497353, guid: cc4cf7fc12f23a04a9e68e67613b14da, type: 3}
-  ScenarioVideo2: {fileID: 1512164781}
-  ScenarioVideo3: {fileID: 1512164781}
-  ScenarioVideo4: {fileID: 1512164781}
-  ScenarioVideo5: {fileID: 1512164781}
+  ScenarioVideo2: {fileID: 9197212111918497353, guid: cc4cf7fc12f23a04a9e68e67613b14da, type: 3}
+  ScenarioVideo3: {fileID: 9197212111918497353, guid: cc4cf7fc12f23a04a9e68e67613b14da, type: 3}
+  ScenarioVideo4: {fileID: 9197212111918497353, guid: cc4cf7fc12f23a04a9e68e67613b14da, type: 3}
+  ScenarioVideo5: {fileID: 9197212111918497353, guid: cc4cf7fc12f23a04a9e68e67613b14da, type: 3}
   ScoreBoard: {fileID: 3592749117260672813, guid: 9bc865348e0b20b4d9288b5f1016f0a7, type: 3}
 --- !u!1 &1125087806
 GameObject:
