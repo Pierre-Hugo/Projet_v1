@@ -19,6 +19,9 @@ public class BaseScenario : MonoBehaviour
     protected Player joueurChoisi;
     public Vector2 postionReponse;
     public Vector2 dimensionReponse;
+    protected float tempsPourRepondre;
+    protected float tempsPourVoter;
+    protected float tempsAfficherReponse;
 
     // Start is called before the first frame update
     void Start()
@@ -31,14 +34,17 @@ public class BaseScenario : MonoBehaviour
         tempsAttente = 10f;
         timer = 0f;
         listScript = FindObjectOfType<Liste>();
+        tempsPourRepondre = 20f;
+        tempsPourVoter = 15f;
+        tempsAfficherReponse = 8f;
     }
 
     // Update is called once per frame
- 
+
 
     public void initialisation(List<Player> Joueurs)
     {
-        
+
         listeJoueurs = Joueurs;
         System.Random rand = new System.Random();
         listeJoueursAleatoire = listeJoueurs.OrderBy(joueur => rand.Next()).ToList();
@@ -80,13 +86,14 @@ public class BaseScenario : MonoBehaviour
     {
 
         timer += Time.deltaTime;
+
         if (timer >= tempsAttente)
         {
             if (!questionAsk)
             {
                 scriptPrincipal.askPlayerToAnswer();
                 questionAsk = true;
-                tempsAttente = 15f;
+                tempsAttente = tempsPourRepondre;
                 timer = 0f;
             }
             else
@@ -99,7 +106,7 @@ public class BaseScenario : MonoBehaviour
                 if (listeJoueurs.Count == playerShow) //affiche tout les réponse et demande au joueurs de voter pour une réponse
                 {
                     afficherReponses();
-                    tempsAttente = 15f;
+                    tempsAttente = tempsPourVoter;
                     timer = 0f;
                 }
                 else if (listeJoueurs.Count <= playerShow) //ajoute les points et met fin au scénario
@@ -136,7 +143,7 @@ public class BaseScenario : MonoBehaviour
                     }
 
 
-                    tempsAttente = 7f;
+                    tempsAttente = tempsAfficherReponse;
 
                 }
 
@@ -145,10 +152,6 @@ public class BaseScenario : MonoBehaviour
         }
 
     }
-
-
-    
-
     protected void OnDestroy()
     {
         PlayingScript scriptJeu = GetComponentInParent<PlayingScript>();

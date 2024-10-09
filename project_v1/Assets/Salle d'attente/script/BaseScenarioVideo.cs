@@ -8,8 +8,6 @@ public class BaseScenarioVideo : BaseScenario
 {
     public RawImage video;
     float videoDuration;
-   
-
     public void initialisation(string vid, List<Player> Joueurs)
     {
         base.initialisation(Joueurs);
@@ -41,7 +39,24 @@ public class BaseScenarioVideo : BaseScenario
         timer += (float)videoPlayer.length;
         // Commencez la lecture de la vidéo
         videoPlayer.Play();
+
+        WaitForVideoReady(videoPlayer);
     }
 
+    private IEnumerator WaitForVideoReady(VideoPlayer videoPlayer)
+    {
+        // Attendez que le VideoPlayer soit prêt
+        while (!videoPlayer.isPrepared)
+        {
+            yield return null;  // Attend jusqu'à ce que le player soit prêt
+        }
+
+        // Une fois prêt, récupérez la durée de la vidéo 
+        videoDuration = (float)videoPlayer.length;
+
+        // Rallonge le premier temps d'attente selon la longeur de la vidéo
+        timer -= (float)videoPlayer.length;
+    }
 
 }
+

@@ -32,6 +32,40 @@ public class LogicManager : MonoBehaviour
         PlayerPrefs.SetFloat("Music", volume);
     }
 
+    public void setLanguage(string language)
+    {
+        PlayerPrefs.SetString("Language", language);
+    }
+    public string getLanguage()
+    {
+        string language = PlayerPrefs.GetString("Language");
+
+        if (language == "") return "English"; // l'anglais devient la langue par défaut
+        return language;
+    }
+
+    public string getText(int ligne)
+    {
+        TextAsset ContenuFichier = Resources.Load<TextAsset>("TextFiles/" + getLanguage());
+
+        if (ContenuFichier != null)
+        {
+            // Utiliser Split pour séparer le texte par les sauts de ligne
+            string[] lines = ContenuFichier.text.Split('\n');
+
+            // Vérifier s'il y a au moins une ligne
+            if (lines.Length > 0)
+            {
+                // Retourner la ligne demandé
+                return lines[ligne-1].Trim();  // Trim() pour supprimer les espaces ou sauts de ligne inutiles
+            }
+          
+        }
+        
+        //devrais pas se rendre la normalement si le fichier existe
+        return null;
+    }
+
     public void hideGameObject(GameObject objet)
     {
         objet.SetActive(false);
