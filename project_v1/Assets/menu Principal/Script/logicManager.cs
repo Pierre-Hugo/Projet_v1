@@ -51,19 +51,14 @@ public class LogicManager : MonoBehaviour
         if (ContenuFichier != null)
         {
             // Utiliser Split pour séparer le texte par les sauts de ligne
-            string[] lines = ContenuFichier.text.Split('\n');
-
-            // Vérifier s'il y a au moins une ligne
-            if (lines.Length > 0)
-            {
-                // Retourner la ligne demandé
-                return lines[ligne-1].Trim();  // Trim() pour supprimer les espaces ou sauts de ligne inutiles
-            }
-          
+            string[] lines = ContenuFichier.text.Split('\n');            
+         
+            // Retourner la ligne demandé
+            return lines[ligne-1].Trim();  // Trim() pour supprimer les espaces ou sauts de ligne inutiles
         }
         
         //devrais pas se rendre la normalement si le fichier existe
-        return null;
+        return "";
     }
 
     public void hideGameObject(GameObject objet)

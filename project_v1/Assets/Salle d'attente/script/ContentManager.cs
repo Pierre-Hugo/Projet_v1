@@ -39,7 +39,7 @@ public class ContentManager : MonoBehaviour
         idConfirmer = false;
         lockObject = new object();
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        boutonStart.interactable = false; // devrais être a false en temps normale
+        boutonStart.interactable = true; // devrais être a false en temps normale
         isGamePlaying = false;
         isPlayerAnswering = false;
         isPlayerVoting = false;

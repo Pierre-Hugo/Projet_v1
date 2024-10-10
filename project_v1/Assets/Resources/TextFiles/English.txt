@@ -2,3 +2,7 @@ Gamma
 Music
 SFX
 Language
+Dialogue
+Resolution
+Full Screen
+What would be the name of the driver of this car

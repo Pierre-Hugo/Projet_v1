@@ -2,3 +2,7 @@ Gamma
 Musique
 Effets Sonores
 Langage
+Dialogue
+Résolution
+Plein écran
+Quel serait le nom du conducteur de cette voiture
