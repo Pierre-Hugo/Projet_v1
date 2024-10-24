@@ -86,7 +86,6 @@ GameObject:
   - component: {fileID: 3752920500557945597}
   - component: {fileID: 1891726435187334063}
   - component: {fileID: 1868291413922627222}
-  - component: {fileID: 8149506914248918582}
   m_Layer: 0
   m_Name: BackgroundD1
   m_TagString: Untagged
@@ -151,27 +150,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &8149506914248918582
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2436490488313232070}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dfb481dbf98198344b798e9224d30021, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4268934018129117504
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,7 +161,6 @@ GameObject:
   - component: {fileID: 2013002946566847759}
   - component: {fileID: 8106345571337464279}
   - component: {fileID: 7590249925462061623}
-  - component: {fileID: 3411728863086141118}
   m_Layer: 0
   m_Name: Background-Question
   m_TagString: Untagged
@@ -249,27 +226,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &3411728863086141118
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4268934018129117504}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e91d419e02092f4419799dbbd698352d, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5690017791359164225
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,7 +237,7 @@ GameObject:
   - component: {fileID: 2109874107555327650}
   - component: {fileID: 7464685009632427535}
   m_Layer: 0
-  m_Name: ScDraw1
+  m_Name: ScDraw2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -406,7 +362,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: What would be the name of the artist
+  m_Text: What would be the name of this painting
 --- !u!114 &6287757159254231837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,7 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67678de24906acf4997a3526ca84183f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ligneRecupere: 9
+  ligneRecupere: 12
 --- !u!1 &8589237652778429405
 GameObject:
   m_ObjectHideFlags: 0

@@ -81,7 +81,7 @@ public class PlayingScript : MonoBehaviour
         {
             JoueurValide = true;
             
-                randomIndex = random.Next(0, listeJoueurs.Count);
+            randomIndex = random.Next(0, listeJoueurs.Count);
             
             int i = 0;
           
@@ -277,6 +277,7 @@ public class PlayingScript : MonoBehaviour
             {
                 contentManager.GetPlayerById(player.vote).nbVote++; // donne un vote au joueurs
                 player.vote = "";
+                
             }
         }
 

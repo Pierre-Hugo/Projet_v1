@@ -6,3 +6,7 @@ Dialogue
 Résolution
 Plein écran
 Quel serait le nom du conducteur de cette voiture
+Quel serait le nom de l'artiste
+Quel serait le nom de cette article de journal
+Quel serait le nom de cette alerte de nouvelle
+Quel serait le nom de cette oeuvre

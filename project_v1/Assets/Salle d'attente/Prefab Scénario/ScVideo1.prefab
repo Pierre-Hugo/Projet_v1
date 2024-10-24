@@ -430,6 +430,7 @@ GameObject:
   - component: {fileID: 1122805204435754750}
   - component: {fileID: 3882806589202513724}
   - component: {fileID: 9209785721169291256}
+  - component: {fileID: 354046613684393265}
   m_Layer: 0
   m_Name: Question
   m_TagString: Untagged
@@ -497,7 +498,20 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: What would be the title of this newspaper article
+  m_Text: What would be the title of this news alert
+--- !u!114 &354046613684393265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6432221773705242693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67678de24906acf4997a3526ca84183f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ligneRecupere: 11
 --- !u!1 &9197212111918497353
 GameObject:
   m_ObjectHideFlags: 0
