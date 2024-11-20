@@ -213,6 +213,85 @@ MonoBehaviour:
   m_Spacing: {x: 20, y: 20}
   m_Constraint: 1
   m_ConstraintCount: 3
+--- !u!1 &2120072279830396806
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8139194762903646803}
+  - component: {fileID: 401400677300293041}
+  - component: {fileID: 6801788878658349703}
+  m_Layer: 0
+  m_Name: Timer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8139194762903646803
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120072279830396806}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4538371498845646511}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 886, y: 459}
+  m_SizeDelta: {x: 120, y: 120}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &401400677300293041
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120072279830396806}
+  m_CullTransparentMesh: 1
+--- !u!114 &6801788878658349703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120072279830396806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: a6a46f37bbdec3448b31c22e21ae0577, type: 3}
+    m_FontSize: 80
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 8
+    m_MaxSize: 80
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 
 --- !u!1 &2440802243435691203
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,6 +567,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4538371498845646511}
   - component: {fileID: 3193251593565953188}
+  - component: {fileID: 1732210545818708402}
   m_Layer: 0
   m_Name: ScPicture1
   m_TagString: Untagged
@@ -511,6 +591,7 @@ RectTransform:
   - {fileID: 3873436278723485159}
   - {fileID: 6767615257287044622}
   - {fileID: 2863665269922224827}
+  - {fileID: 8139194762903646803}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -530,6 +611,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a277e6f651b68349b6cf4b6314ba315, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Timer: {fileID: 6801788878658349703}
+  modeleReponse: {fileID: 5738628036731972725, guid: c38c6a391cbf69d429d6647aceec756e, type: 3}
+  Question: {fileID: 2034794990873745}
+  postionReponse: {x: 0, y: 360}
+  dimensionReponse: {x: 1200, y: 80}
+  affiche: {fileID: 8567529353666642305}
+--- !u!114 &1732210545818708402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4807293766289442686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2c589e43ae5df43906b508049724b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Timer: {fileID: 6801788878658349703}
   modeleReponse: {fileID: 5738628036731972725, guid: c38c6a391cbf69d429d6647aceec756e, type: 3}
   Question: {fileID: 2034794990873745}
   postionReponse: {x: 0, y: 360}

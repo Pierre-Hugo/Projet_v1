@@ -9,6 +9,7 @@ public class BaseScenario : MonoBehaviour
     protected List<Player> listeJoueurs;
     protected List<Player> listeJoueursAleatoire;
     protected ContentManager scriptPrincipal;
+    public Text Timer;
     protected float timer;
     protected float tempsAttente;
     protected bool questionAsk;
@@ -22,6 +23,7 @@ public class BaseScenario : MonoBehaviour
     protected float tempsPourRepondre;
     protected float tempsPourVoter;
     protected float tempsAfficherReponse;
+    protected bool showTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -34,9 +36,10 @@ public class BaseScenario : MonoBehaviour
         tempsAttente = 10f;
         timer = 0f;
         listScript = FindObjectOfType<Liste>();
-        tempsPourRepondre = 20f;
+        tempsPourRepondre = 30f;
         tempsPourVoter = 15f;
         tempsAfficherReponse = 8f;
+        showTimer = false;
     }
 
     // Update is called once per frame
@@ -87,6 +90,15 @@ public class BaseScenario : MonoBehaviour
 
         timer += Time.deltaTime;
 
+        if (showTimer)
+        {
+            int tempsRestant = (int)tempsAttente - (int)timer;
+            if (Timer.text != tempsRestant.ToString())
+            {
+                Timer.text = tempsRestant.ToString();
+            }
+        }
+
         if (timer >= tempsAttente)
         {
             if (!questionAsk)
@@ -95,12 +107,15 @@ public class BaseScenario : MonoBehaviour
                 questionAsk = true;
                 tempsAttente = tempsPourRepondre;
                 timer = 0f;
+                showTimer = true;
             }
             else
             {
                 if (Question != null)
                 {
                     Destroy(Question);
+                    showTimer = false;
+                    Destroy(Timer);
                 }
 
                 if (listeJoueurs.Count == playerShow) //affiche tout les réponse et demande au joueurs de voter pour une réponse
@@ -159,6 +174,11 @@ public class BaseScenario : MonoBehaviour
         {
             scriptJeu.callScoreBoard();
         }
+    }
+
+    protected void startTimer(int temps)
+    {
+
     }
 
 }

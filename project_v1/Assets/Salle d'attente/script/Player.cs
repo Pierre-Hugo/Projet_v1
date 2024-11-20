@@ -19,7 +19,7 @@ public class Player
         Couleur = couleur;
         Points = 0;
         nbVote = 0;
-        answer = string.Empty;
+        answer = "Allo, commment ca va toi, moi ca va bien";//string.Empty;
         isConnected = true;
         vote = "";
 

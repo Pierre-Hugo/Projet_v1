@@ -600,8 +600,8 @@ MonoBehaviour:
   ScenarioDraw1: {fileID: 5690017791359164225, guid: 884c555381ad29446a6a6de8f7ff63cb, type: 3}
   ScenarioDraw2: {fileID: 5690017791359164225, guid: 5d1bf53a5952ff9449b277f4f3e59869, type: 3}
   ScenarioDraw3: {fileID: 5690017791359164225, guid: ea97f4c1b4ffba048a2b6321664f7db8, type: 3}
-  ScenarioDraw4: {fileID: 5690017791359164225, guid: 884c555381ad29446a6a6de8f7ff63cb, type: 3}
-  ScenarioDraw5: {fileID: 5690017791359164225, guid: 5d1bf53a5952ff9449b277f4f3e59869, type: 3}
+  ScenarioDraw4: {fileID: 5690017791359164225, guid: ea97f4c1b4ffba048a2b6321664f7db8, type: 3}
+  ScenarioDraw5: {fileID: 5690017791359164225, guid: ea97f4c1b4ffba048a2b6321664f7db8, type: 3}
   ScenarioVideo1: {fileID: 9197212111918497353, guid: cc4cf7fc12f23a04a9e68e67613b14da, type: 3}
   ScenarioVideo2: {fileID: 9197212111918497353, guid: cc4cf7fc12f23a04a9e68e67613b14da, type: 3}
   ScenarioVideo3: {fileID: 9197212111918497353, guid: cc4cf7fc12f23a04a9e68e67613b14da, type: 3}

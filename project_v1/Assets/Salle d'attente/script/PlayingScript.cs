@@ -121,7 +121,7 @@ public class PlayingScript : MonoBehaviour
 
         do
         {
-            randomIndex = 0;//random.Next(0, nbScenarioParType);
+            randomIndex = random.Next(0, nbScenarioParType);
 
             if (joueurChoisi is PlayerPicture)
             {
@@ -129,9 +129,9 @@ public class PlayingScript : MonoBehaviour
                 PlayerPicture player = joueurChoisi as PlayerPicture;
                 if (player.isDraw)
                 {
-                   // if (!ScenarioDejaJouer[(int)TypeScenario.Draw, randomIndex])
-                  //  {
-                        GameObject scenario;
+                    if (!ScenarioDejaJouer[(int)TypeScenario.Draw, randomIndex])
+                    {
+                        GameObject scenario = null;
                         ScenarioValide = true;
                         PlayerPicture joueurChoisiPicture = (PlayerPicture)joueurChoisi;
                         BaseScenarioPicture scriptScenario = null;
@@ -141,30 +141,31 @@ public class PlayingScript : MonoBehaviour
                         {
                             case 0:
                                 scenario = Instantiate(ScenarioDraw1, transform);
-                                scriptScenario = scenario.GetComponent<ScDraw1Script>();
                                 break;
                             case 1:
-                                //Instantiate(ScenarioDraw2, transform);
+                                scenario = Instantiate(ScenarioDraw2, transform);
                                 break;
                             case 2:
-                                //Instantiate(ScenarioDraw3, transform);
+                                scenario = Instantiate(ScenarioDraw3, transform);
                                 break;
                             case 3:
-                                //Instantiate(ScenarioDraw4, transform);
+                                scenario = Instantiate(ScenarioDraw4, transform);
                                 break;
                             case 4:
-                                //Instantiate(ScenarioDraw5, transform);
+                                scenario = Instantiate(ScenarioDraw5, transform);
+                                
                                 break;
                         }
+                        scriptScenario = scenario.GetComponent<BaseScenarioPicture>();
                         scriptScenario.initialisation(joueurChoisiPicture.img, listeJoueurs);
-                  //  }
+                    }
 
                 }
                 else
                 {
-                    //if (!ScenarioDejaJouer[(int)TypeScenario.Picture, randomIndex])
-                   // {
-                        GameObject scenario;
+                    if (!ScenarioDejaJouer[(int)TypeScenario.Picture, randomIndex])
+                    {
+                        GameObject scenario = null;
                         ScenarioValide = true;
                         PlayerPicture joueurChoisiPicture = (PlayerPicture)joueurChoisi;
                         BaseScenarioPicture scriptScenario = null;
@@ -174,30 +175,31 @@ public class PlayingScript : MonoBehaviour
                         {
                             case 0:
                                 scenario=Instantiate(ScenarioPicture1, transform);
-                                scriptScenario = scenario.GetComponent<ScPicture1Script>();
                                 break;
                             case 1:
-                                //Instantiate(ScenarioPicture2, transform);
+                                scenario = Instantiate(ScenarioPicture2, transform);
                                 break;
                             case 2:
-                                //Instantiate(ScenarioPicture3, transform);
+                                scenario = Instantiate(ScenarioPicture3, transform);
                                 break;
                             case 3:
-                                //Instantiate(ScenarioPicture4, transform);
+                                scenario = Instantiate(ScenarioPicture4, transform);
                                 break;
                             case 4:
-                                //Instantiate(ScenarioPicture5, transform);
+                                scenario = Instantiate(ScenarioPicture5, transform);
+                                
                                 break;
                         }
+                        scriptScenario = scenario.GetComponent<BaseScenarioPicture>();
                         scriptScenario.initialisation(joueurChoisiPicture.img, listeJoueurs);
-                   // }
+                    }
                 }
             }
             else if (joueurChoisi is PlayerVideo)
             {
-              //  if (!ScenarioDejaJouer[(int)TypeScenario.Video, randomIndex])
-              //  {
-                    GameObject scenario;
+                if (!ScenarioDejaJouer[(int)TypeScenario.Video, randomIndex])
+                {
+                    GameObject scenario = null;
                     ScenarioValide = true;
                     PlayerVideo joueurChoisiVideo = (PlayerVideo)joueurChoisi;
                     BaseScenarioVideo scriptScenario = null;
@@ -207,29 +209,29 @@ public class PlayingScript : MonoBehaviour
                     {
                         case 0:
                             scenario= Instantiate(ScenarioVideo1, transform);
-                            scriptScenario = scenario.GetComponent<BaseScenarioVideo>();
                             break;
                         case 1:
-                            //Instantiate(ScenarioVideo2, transform);
+                            scenario = Instantiate(ScenarioVideo2, transform);
                             break;
                         case 2:
-                            //Instantiate(ScenarioVideo3, transform);
+                            scenario = Instantiate(ScenarioVideo3, transform);
                             break;
                         case 3:
-                            //Instantiate(ScenarioVideo4, transform);
+                            scenario = Instantiate(ScenarioVideo4, transform);
                             break;
                         case 4:
-                            //Instantiate(ScenarioVideo5, transform);
+                            scenario = Instantiate(ScenarioVideo5, transform);
                             break;
                     }
+                    scriptScenario = scenario.GetComponent<BaseScenarioVideo>();
                     scriptScenario.initialisation(joueurChoisiVideo.vid, listeJoueurs);
-             //   }
+                }
             }
             else if (joueurChoisi is PlayerWord)
             {
-              //  if (!ScenarioDejaJouer[(int)TypeScenario.Word, randomIndex])
-                //{
-                    GameObject scenario;
+                if (!ScenarioDejaJouer[(int)TypeScenario.Word, randomIndex])
+                {
+                    GameObject scenario = null;
                     ScenarioValide = true;
                     PlayerWord joueurChoisiMot = (PlayerWord)joueurChoisi;
                     BaseScenarioWord scriptScenario = null;
@@ -237,25 +239,24 @@ public class PlayingScript : MonoBehaviour
                     switch (randomIndex)
                     {
                         case 0:
-                            scenario = Instantiate(ScenarioWord1, transform);
-                            scriptScenario = scenario.GetComponent<ScWord1Script>();
-                            
+                            scenario = Instantiate(ScenarioWord1, transform);                            
                             break;
                         case 1:
-                            //Instantiate(ScenarioWord2, transform);
+                            Instantiate(ScenarioWord2, transform);
                             break;
                         case 2:
-                            //Instantiate(ScenarioWord3, transform);
+                            Instantiate(ScenarioWord3, transform);
                             break;
                         case 3:
-                            //Instantiate(ScenarioWord4, transform);
+                            Instantiate(ScenarioWord4, transform);
                             break;
                         case 4:
-                            //Instantiate(ScenarioWord5, transform);
+                            Instantiate(ScenarioWord5, transform);
                             break;
                     }
+                    scriptScenario = scenario.GetComponent<ScWord1Script>();
                     scriptScenario.initialisation(joueurChoisiMot.word,listeJoueurs);
-            //    }
+                }
             }
         } while (!ScenarioValide);
     }
