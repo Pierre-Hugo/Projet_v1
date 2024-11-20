@@ -283,7 +283,7 @@ public class PlayingScript : MonoBehaviour
 
         foreach (Player player in listeJoueurs)
         {
-            switch (player.nbVote)
+            switch (player.nbVote) // nombre de points selon le nombre de vote recu
             {
                 case 1:
                     player.AddPoints(100);

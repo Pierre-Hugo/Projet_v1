@@ -13,7 +13,7 @@ public class ScoreBoardScipt : MonoBehaviour
     private float compteurs;
     void Start()
     {
-        timeToLive = 10f;
+        timeToLive = 13f;
         compteurs = 0f;
         ContentManager contentManager = FindObjectOfType<ContentManager>();
         listeJoueurs = contentManager.getListeJoueurs();

@@ -9,7 +9,6 @@ public class Liste : MonoBehaviour
     private GameObject templateCree;
     public GameObject template;
     public float width;
-    
 
     public void AjouterListe(string contenu, Color couleur)
     {
