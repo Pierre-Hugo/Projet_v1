@@ -54,8 +54,20 @@ public class BaseScenario : MonoBehaviour
     }
     public void afficherReponse(string reponse, Vector2 position, Vector2 dimension)
     {
-        GameObject cadreReponse = GameObject.Find("Background-Reponse(Clone)");
+        GameObject cadreReponse = null;
+        // Trouver tous les GameObjects de type "GameObject" dans la scène
+        GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
 
+        // Rechercher un GameObject dont le nom commence par "Background-Reponse"
+        foreach (GameObject obj in allObjects)
+        {
+            if (obj.name.StartsWith("Background-Reponse"))
+            {
+                // Trouvé le GameObject qui commence par "Background-Reponse"
+                cadreReponse = obj;
+                break;  
+            }
+        }
 
         if (cadreReponse == null)//vérifie si une réponse est déja afficher
         {
@@ -70,13 +82,26 @@ public class BaseScenario : MonoBehaviour
 
     protected void afficherReponses()
     {
-        GameObject cadreReponse = GameObject.Find("Background-Reponse(Clone)");
+        // Trouver tous les GameObjects de type "GameObject" dans la scène
+        GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
 
-        Destroy(cadreReponse);
+        // Rechercher un GameObject dont le nom commence par "Background-Reponse"
+        foreach (GameObject obj in allObjects)
+        {
+            if (obj.name.StartsWith("Background-Reponse"))
+            {
+                // Trouvé le GameObject qui commence par "Background-Reponse"
+                Destroy(obj);
+                break;
+            }
+        }
+
+        
 
         foreach (Player joueur in listeJoueursAleatoire)
         {
             listScript.AjouterListe(joueur.answer, Color.white);
+            joueur.answer = "";
         }
 
 

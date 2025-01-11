@@ -381,7 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Timer: {fileID: 2978530009779621288}
-  modeleReponse: {fileID: 5738628036731972725, guid: c38c6a391cbf69d429d6647aceec756e, type: 3}
+  modeleReponse: {fileID: 5738628036731972725, guid: b0be237101ddc414f9fc4cfce1877dc2, type: 3}
   Question: {fileID: 4268934018129117504}
   postionReponse: {x: 500, y: 330}
   dimensionReponse: {x: 850, y: 70}
@@ -465,7 +465,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: What would be the name of this painting
+  m_Text: What would be the name of the artist
 --- !u!114 &6287757159254231837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,7 +478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67678de24906acf4997a3526ca84183f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ligneRecupere: 12
+  ligneRecupere: 9
 --- !u!1 &8589237652778429405
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,7 +590,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 850, y: 90}
-  m_Spacing: {x: 0, y: 85}
+  m_CellSize: {x: 850, y: 65}
+  m_Spacing: {x: 0, y: 115}
   m_Constraint: 1
   m_ConstraintCount: 1

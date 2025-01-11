@@ -5,8 +5,8 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - ScenarioWord1: {fileID: 1713363591550436574, guid: ff8db447e96860343a6ce914214de6cf, type: 3}
-  - ScenarioWord2: {instanceID: 0}
-  - ScenarioWord3: {instanceID: 0}
+  - ScenarioWord2: {fileID: 1713363591550436574, guid: 109d67a35b4ac9146912d22c39759425, type: 3}
+  - ScenarioWord3: {fileID: 1713363591550436574, guid: 109d67a35b4ac9146912d22c39759425, type: 3}
   - ScenarioWord4: {instanceID: 0}
   - ScenarioWord5: {instanceID: 0}
   - ScenarioPicture1: {instanceID: 0}
@@ -24,6 +24,7 @@ MonoImporter:
   - ScenarioVideo3: {instanceID: 0}
   - ScenarioVideo4: {instanceID: 0}
   - ScenarioVideo5: {instanceID: 0}
+  - ScoreBoard: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
